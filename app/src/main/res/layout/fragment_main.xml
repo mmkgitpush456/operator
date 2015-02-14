@@ -5,11 +5,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-   <TextView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:text="Hello Operator"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
 
-       />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="44dp"
+            android:text="@string/app_name"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="6"
+        >
+
+        <Button
+            android:id="@+id/newGameButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/new_game"
+
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="52dp" />
+
+        <Button
+            android:id="@+id/highScoresButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/newGameButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="52dp"
+            android:text="@string/high_scores"
+            />
+
+        <Button
+            android:id="@+id/instructionsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
+            android:layout_below="@+id/highScoresButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/instructions"
+
+            />
+
+    </RelativeLayout>
+
+
 
 </LinearLayout>
