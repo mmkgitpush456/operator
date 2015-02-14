@@ -39,7 +39,7 @@ public class InstructionsFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_instructions, null);
+        v = inflater.inflate(R.layout.instructions_layout, null);
 
         return v;
     }

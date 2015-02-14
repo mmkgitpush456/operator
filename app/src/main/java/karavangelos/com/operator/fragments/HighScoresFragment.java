@@ -1,8 +1,6 @@
 package karavangelos.com.operator.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +39,7 @@ public class HighScoresFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_high_scores, null);
+        v = inflater.inflate(R.layout.high_scores_layout, null);
 
         return v;
     }

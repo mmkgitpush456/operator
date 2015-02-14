@@ -5,4 +5,11 @@
     <string name="new_game">New Game</string>
     <string name="high_scores">High Scores</string>
     <string name="instructions">Instructions</string>
+    <string name="clock">Clock:</string>
+    <string name="level">Level:</string>
+    <string name="score">Score:</string>
+    <string name="lives_left">Lives Left:</string>
+    <string name="power_up">Power Up:</string>
+    <string name="pause">Pause</string>
+    <string name="inactive">INACTIVE</string>
 </resources>

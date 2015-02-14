@@ -1,5 +1,6 @@
 package karavangelos.com.operator.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import karavangelos.com.operator.GameActivity;
 import karavangelos.com.operator.MainActivity;
 import karavangelos.com.operator.R;
 
@@ -30,7 +32,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        v = inflater.inflate(R.layout.fragment_main, container, false);
+        v = inflater.inflate(R.layout.main_layout, container, false);
         return v;
 
     }//end onCreate view
@@ -42,7 +44,6 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
         renderButtons(v);
         assignListeners();
-
 
     }
 
@@ -60,7 +61,11 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
             case R.id.newGameButton:
 
-                Log.d(TAG, "new game button pressed");
+               // Log.d(TAG, "new game button pressed");
+
+                Intent intent = new Intent(getActivity(), GameActivity.class);
+                getActivity().startActivity(intent);
+
 
                 break;
 
@@ -93,6 +98,8 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         newGameButton = (Button) v.findViewById(R.id.newGameButton);
         highScoresButton = (Button) v.findViewById(R.id.highScoresButton);
         instructionsButton = (Button) v.findViewById(R.id.instructionsButton);
+
+        Log.d(TAG, "loading buttons");
 
     }
 
