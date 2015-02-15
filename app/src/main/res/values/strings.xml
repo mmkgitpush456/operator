@@ -12,4 +12,5 @@
     <string name="power_up">Power Up:</string>
     <string name="pause">Pause</string>
     <string name="inactive">INACTIVE</string>
+    <string name="touch_to_begin">Touch this screen to begin</string>
 </resources>
