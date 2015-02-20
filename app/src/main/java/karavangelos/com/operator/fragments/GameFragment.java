@@ -89,7 +89,7 @@ public class GameFragment extends Fragment{
     }
 
 
-    //established a scaled margin for both the width and the height of the canvas to which the
+    //establishes a scaled margin for both the width and the height of the canvas to which the
     //game takes place.  The post method is utilized to obtain the dimensions of the canvas layout
     //at run time.  Used in the onResume override.
     private void setCanvasMargins(){
@@ -98,25 +98,17 @@ public class GameFragment extends Fragment{
             @Override
             public void run() {
 
-
-
                 int width = canvasLayout.getWidth();
-                int height = canvasLayout.getHeight();
-
                 int canvasMarginWidth = (int) (width * .01);
-                int canvasMarginHeight = (int) (height * .01);
-
 
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) canvasLayout.getLayoutParams();
-                params.setMargins(canvasMarginWidth, canvasMarginHeight, canvasMarginWidth, canvasMarginHeight);
+                params.setMargins(canvasMarginWidth, canvasMarginWidth, canvasMarginWidth, canvasMarginWidth);
                 canvasView.setLayoutParams(params);
 
             }
         });
 
     }
-
-
 
 
 

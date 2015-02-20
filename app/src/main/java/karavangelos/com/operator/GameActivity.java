@@ -10,11 +10,10 @@ import karavangelos.com.operator.fragments.GameFragment;
  * Created by karavangelos on 2/14/15.
  */
 
-//game activity container for the game screen.  Game Fragment falls within this block 
+//game activity container for the game screen.  Game Fragment falls within this block
 public class GameActivity extends ActionBarActivity{
 
     private static final String TAG = "GameActivity";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
