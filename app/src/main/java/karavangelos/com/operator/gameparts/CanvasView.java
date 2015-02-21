@@ -3,8 +3,8 @@ package karavangelos.com.operator.gameparts;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -16,17 +16,43 @@ import karavangelos.com.operator.R;
 public class CanvasView extends View {
 
     private static final String TAG = "CanvasView";
-
-
-    public int width;
-    public int height;
     Context context;
+
+    private int numVerticalIterations;                                                              //helps determine distance between vertical grid lines
+    private int numHorizontalIterations;                                                            //helps determine distance between horizontal grid lines
+    private Paint barPaint;
+
+    private Rect horizontalBar;
+    private Rect verticalBar;
+
+    private int horzBarLeft;                                                                        //coordinates that maintain the horizontal gray bar
+    private int horzBarTop;
+    private int horzBarRight;
+    private int horzBarBottom;
+
+    private int vertBarLeft;                                                                        //coordinates that maintain the vertical gray bar
+    private int vertBarTop;
+    private int vertBarRight;
+    private int vertBarBottom;
+
+    private boolean starterBarsAreSet;
 
 
     //constructor.  Assigns member context variable from inherited parent
     public CanvasView(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
+
+        numVerticalIterations = 7;
+        numHorizontalIterations = 11;
+
+        setBarPaint();
+
+        starterBarsAreSet = false;
+
+        horizontalBar = new Rect();
+        verticalBar = new Rect();
+
     }
 
 
@@ -43,13 +69,14 @@ public class CanvasView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
         canvas.drawColor(context.getResources().getColor(R.color.white));
 
-        drawVerticalLines(canvas);
-        drawHorizontal(canvas);
 
+        setUserBarStartingCoordinates(canvas);
+        drawTheBars(canvas);
+        drawTheLines(canvas);
 
+        invalidate();
     }
 
 
@@ -93,35 +120,33 @@ public class CanvasView extends View {
 
        Paint linePaint = getLinePaint(canvas);
         int canvasWidth = canvas.getWidth();
-        int iterator = (int) (canvasWidth / 6);
+        int iterator = (int) (canvasWidth / numVerticalIterations);
         int verticalLineMarker = iterator;
 
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < numVerticalIterations; i++){
 
-            if(i < 5) {
+            if(i < (numVerticalIterations - 1)) {
 
                 canvas.drawLine(verticalLineMarker, 0, verticalLineMarker, canvas.getHeight(), linePaint);
                 verticalLineMarker += iterator;
-
             }
         }
     }
 
 
-    private void drawHorizontal(Canvas canvas){
+    private void drawHorizontalLines(Canvas canvas){
 
         Paint linePaint = getLinePaint(canvas);
         int canvasHeight = canvas.getHeight();
-        int iterator = (int) (canvasHeight / 11);
+        int iterator = (int) (canvasHeight / numHorizontalIterations);
         int horizontalLineMarker = iterator;
 
-        for(int i = 0; i < 11; i++){
+        for(int i = 0; i < numHorizontalIterations; i++){
 
-            if(i < 10) {
+            if(i < (numHorizontalIterations - 1) ) {
 
                 canvas.drawLine(0, horizontalLineMarker, canvas.getWidth(), horizontalLineMarker, linePaint);
                 horizontalLineMarker += iterator;
-
             }
         }
     }
@@ -147,8 +172,122 @@ public class CanvasView extends View {
         linePaint.setStrokeWidth(getGridStrokeWidth(canvas));
 
         return linePaint;
+    }
+
+    private void drawTheLines(Canvas canvas){
+
+        drawVerticalLines(canvas);
+        drawHorizontalLines(canvas);
 
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //player bar class methods
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void setStartHorizontalBar(Canvas canvas){
+
+        final String whichBar = "HORIZONTAL";
+
+        if(!starterBarsAreSet){
+
+            int startingIncrementer = getStartingIncrementor(numHorizontalIterations);
+            int canvasHeight = canvas.getHeight();
+            int iterator = (int) canvasHeight / numHorizontalIterations;
+            int starterPosition = getStarterPosition(startingIncrementer, iterator);
+            int right = canvas.getWidth();
+            int bottom = (starterPosition + iterator) ;
+
+            horzBarLeft = 0;
+            horzBarTop = starterPosition;
+            horzBarRight = right;
+            horzBarBottom = bottom;
+        }
+
+    }
+
+
+    private void setStartingVerticalBar(Canvas canvas){
+
+
+        if(!starterBarsAreSet) {
+
+            int startingIncrementer = getStartingIncrementor(numVerticalIterations);
+            int canvasWidth = canvas.getWidth();
+            int iterator = (int) canvasWidth / numVerticalIterations;
+            int starterPosition = getStarterPosition(startingIncrementer, iterator);
+            int bottom = canvas.getHeight();
+            int right = (starterPosition + iterator);
+
+            vertBarLeft = starterPosition;
+            vertBarTop = 0;
+            vertBarRight = right;
+            vertBarBottom = bottom;
+
+        }
+
+    }
+
+    private int getStartingIncrementor(int numVerticalIterations){
+
+        int startingIncrementer = 0;
+
+
+        if( (numVerticalIterations % 2) == 0 ){
+
+            startingIncrementer = (numVerticalIterations / 2);
+
+        } else {
+
+            startingIncrementer = ( (numVerticalIterations - 1) / 2 );
+
+        }
+        return startingIncrementer;
+
+    }
+
+
+    private int getStarterPosition(int startingIncrementer, int iterator){
+
+        int starterPosition = 0;
+
+        for(int i = 0; i < startingIncrementer; i++) {
+
+            starterPosition += iterator;
+
+        }
+
+        return starterPosition;
+
+    }
+
+    private void setUserBarStartingCoordinates(Canvas canvas){
+
+
+        setStartHorizontalBar(canvas);
+        setStartingVerticalBar(canvas);
+
+        starterBarsAreSet = true;
+
+    }
+
+    private void drawTheBars(Canvas canvas){
+
+        horizontalBar.set(horzBarLeft, horzBarTop, horzBarRight, horzBarBottom );
+        canvas.drawRect(horizontalBar, barPaint);
+
+        verticalBar.set(vertBarLeft, vertBarTop, vertBarRight , vertBarBottom);
+        canvas.drawRect(verticalBar, barPaint);
+
+    }
+
+    private void setBarPaint(){
+
+        barPaint = new Paint();
+        barPaint.setColor(getResources().getColor(R.color.light_gray));
+        barPaint.setStyle(Paint.Style.FILL);
+
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
