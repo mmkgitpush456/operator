@@ -27,13 +27,24 @@ public class PlayerBars extends View {
     private int horzBarTop;
     private int horzBarRight;
     private int horzBarBottom;
+    private int horzbarheight;
+    private int horzBarDistanceTop;
+    private int horzBarDistanceBottom;
 
     private int vertBarLeft;                                                                        //coordinates that maintain the vertical gray bar
     private int vertBarTop;
     private int vertBarRight;
     private int vertBarBottom;
+    private int vertBarWidth;
+    private int vertTouchDistanceLeft;
+    private int vertTouchDistanceRight;
+
+
 
     private boolean starterBarsAreSet;                                                              //flag that determines if the player bars have been initialized or not.
+    private boolean touchedTheVerticalBar;
+    private boolean touchedTheHorizontalBar;
+
 
 
     public PlayerBars(Context c, AttributeSet attrs){
@@ -41,6 +52,7 @@ public class PlayerBars extends View {
         context = c;
 
         starterBarsAreSet = false;
+        touchedTheVerticalBar = false;
 
 
         horizontalBar = new Rect();
@@ -49,6 +61,24 @@ public class PlayerBars extends View {
     }
 
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public boolean isTouchedTheVerticalBar() {
+        return touchedTheVerticalBar;
+    }
+
+    public void setTouchedTheVerticalBar(boolean touchedTheVerticalBar) {
+        this.touchedTheVerticalBar = touchedTheVerticalBar;
+    }
+
+    public boolean isTouchedTheHorizontalBar() {
+        return touchedTheHorizontalBar;
+    }
+
+    public void setTouchedTheHorizontalBar(boolean touchedTheHorizontalBar) {
+        this.touchedTheHorizontalBar = touchedTheHorizontalBar;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -130,8 +160,11 @@ public class PlayerBars extends View {
             setStartHorizontalBar(canvas, horizontalGridBreaks);
 
             starterBarsAreSet = true;
+            vertBarWidth = getVertBarWidth();
+            horzbarheight = getHorzBarHeight();
 
-            Log.d(TAG, "The bars are being set once and only once");
+        //    Log.d(TAG, "The bars are being set once and only once");
+        //    Log.d(TAG, "The bar width is " + vertBarWidth );
         }
 
 
@@ -159,9 +192,109 @@ public class PlayerBars extends View {
 
 
 
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public boolean touchedTheExactCenter(int xPos, int yPos){
+
+        int left = vertBarLeft;
+        int right =  vertBarRight;
+        int top = horzBarTop;
+        int bottom = horzBarBottom;
+
+        boolean touchedTbeExactCenter = false;
+
+        if( ( (xPos >= left) && (xPos <= right)  )
+
+                &&
+
+           ( (yPos >= top) && (yPos <= bottom) )
+
+                ){
+
+            touchedTbeExactCenter = true;
+
+        }
+
+
+        return touchedTbeExactCenter;
+
+    }
+
+
+    public void touchedTheVerticalBar (int xPos){
+
+
+        int left = vertBarLeft;
+        int right =  vertBarRight ;
+
+
+        if( (xPos >= left) && (xPos <= right)  ){
+
+            setTouchedTheVerticalBar(true);
+            vertTouchDistanceLeft = (xPos - vertBarLeft);
+            vertTouchDistanceRight = (vertBarRight - xPos);
+
+        }
+    }
+
+
+    public void moveTheVerticalBar(int xPos){
 
 
 
+        if(touchedTheVerticalBar) {
+
+            vertBarLeft = (xPos - vertTouchDistanceLeft);
+            vertBarRight = (xPos + vertTouchDistanceRight);
+
+        }
+    }
+
+
+    public void touchedTheHorizontalBar(int yPos){
+
+        int top = horzBarTop;
+        int bottom = horzBarBottom;
+
+
+        if ( (yPos >= top) && (yPos <= bottom)   ) {
+
+            setTouchedTheHorizontalBar(true);
+            horzBarDistanceTop = (yPos - horzBarTop);
+            horzBarDistanceBottom = (horzBarBottom - yPos);
+        }
+    }
+
+    public void moveTheHorizontalBar(int yPos){
+
+
+        if(touchedTheHorizontalBar){
+
+            horzBarTop = (yPos - horzBarDistanceTop);
+            horzBarBottom = (yPos + horzBarDistanceBottom);
+
+        }
+    }
+
+
+
+
+
+
+    private int getVertBarWidth(){
+
+        int verticalBarWidth = (vertBarRight - vertBarLeft);
+        return verticalBarWidth;
+
+    }
+
+    private int getHorzBarHeight(){
+
+        int horzBarHeight = (vertBarBottom - vertBarTop);
+        return horzBarHeight;
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 }

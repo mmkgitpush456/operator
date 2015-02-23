@@ -15,7 +15,8 @@ import karavangelos.com.operator.R;
 public class CanvasView extends View {
 
     private static final String TAG = "CanvasView";
-    Context context;
+    private Context context;
+    private Canvas canvas;
 
     private int verticalGridBreaks;                                                              //helps determine distance between vertical grid lines
     private int horizontalGridBreaks;                                                            //helps determine distance between horizontal grid lines
@@ -78,14 +79,15 @@ public class CanvasView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+
         canvas.drawColor(context.getResources().getColor(R.color.white));
 
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
         playerBars.drawTheBars(canvas);
+     //   playerBars.moveTheVerticalBar();
 
 
-        //setUserBarStartingCoordinates(canvas);
-        //drawTheBars(canvas);
+
         drawTheLines(canvas);
 
         invalidate();
@@ -101,11 +103,36 @@ public class CanvasView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
+                if(!playerBars.touchedTheExactCenter(((int) x), ((int) y))) {
+
+                    playerBars.touchedTheVerticalBar( (int) x );
+                    playerBars.touchedTheHorizontalBar( ( (int) y )  );
+
+                }
+
+
+
+
+
                 break;
             case MotionEvent.ACTION_MOVE:
 
+            //    Log.d(TAG, "X position is " + ( (int) x  ) );
+
+                playerBars.moveTheVerticalBar( (int) x);
+                playerBars.moveTheHorizontalBar( ( (int) y)   );
+
+               // invalidate();
+
+
                 break;
             case MotionEvent.ACTION_UP:
+
+
+                playerBars.setTouchedTheVerticalBar(false);
+                playerBars.setTouchedTheHorizontalBar(false);
+
+           //     Log.d(TAG, "The vertical bar touched is now " + playerBars.isTouchedTheVerticalBar() );
 
                 break;
         }
