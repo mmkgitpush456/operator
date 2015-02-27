@@ -84,8 +84,6 @@ public class CanvasView extends View {
 
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
         playerBars.drawTheBars(canvas);
-     //   playerBars.moveTheVerticalBar();
-
 
 
         drawTheLines(canvas);
@@ -97,32 +95,26 @@ public class CanvasView extends View {
     //On touch events.  User operations all fall within this block of programming.
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
+        int x = (int)  event.getX();
+        int y = (int) event.getY();
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
-                if(!playerBars.touchedTheExactCenter(((int) x), ((int) y))) {
+                if(!playerBars.touchedTheExactCenter(x, y) ) {
 
-                    playerBars.touchedTheVerticalBar( (int) x );
-                    playerBars.touchedTheHorizontalBar( ( (int) y )  );
+                    playerBars.touchedTheVerticalBar(x);
+                    playerBars.touchedTheHorizontalBar(y);
 
                 }
-
-
-
 
 
                 break;
             case MotionEvent.ACTION_MOVE:
 
-            //    Log.d(TAG, "X position is " + ( (int) x  ) );
+                playerBars.moveTheVerticalBar(x);
+                playerBars.moveTheHorizontalBar(y, horizontalGridBreaks);
 
-                playerBars.moveTheVerticalBar( (int) x);
-                playerBars.moveTheHorizontalBar( ( (int) y)   );
-
-               // invalidate();
 
 
                 break;
@@ -132,7 +124,8 @@ public class CanvasView extends View {
                 playerBars.setTouchedTheVerticalBar(false);
                 playerBars.setTouchedTheHorizontalBar(false);
 
-           //     Log.d(TAG, "The vertical bar touched is now " + playerBars.isTouchedTheVerticalBar() );
+                playerBars.moveVerticalBarToRowActionUp();
+                playerBars.moveHorizontalBarToRowActionUp();
 
                 break;
         }
@@ -186,6 +179,7 @@ public class CanvasView extends View {
 
                 canvas.drawLine(0, horizontalLineMarker, canvas.getWidth(), horizontalLineMarker, linePaint);
                 horizontalLineMarker += iterator;
+
             }
         }
     }
