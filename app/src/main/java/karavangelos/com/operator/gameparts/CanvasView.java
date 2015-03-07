@@ -3,7 +3,9 @@ package karavangelos.com.operator.gameparts;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -21,29 +23,10 @@ public class CanvasView extends View {
     private int verticalGridBreaks;                                                              //helps determine distance between vertical grid lines
     private int horizontalGridBreaks;                                                            //helps determine distance between horizontal grid lines
 
-
     private PlayerBars playerBars;
-
-
-    /*
-    private Paint barPaint;
-
-    private Rect horizontalBar;
-    private Rect verticalBar;
-
-    private int horzBarLeft;                                                                        //coordinates that maintain the horizontal gray bar
-    private int horzBarTop;
-    private int horzBarRight;
-    private int horzBarBottom;
-
-    private int vertBarLeft;                                                                        //coordinates that maintain the vertical gray bar
-    private int vertBarTop;
-    private int vertBarRight;
-    private int vertBarBottom;
-
-    private boolean starterBarsAreSet;
-    */
-
+  //  private Operator operator;
+   // private Rect operator;
+   // private Paint red;
 
     //constructor.  Assigns member context variable from inherited parent
     public CanvasView(Context c, AttributeSet attrs) {
@@ -56,15 +39,16 @@ public class CanvasView extends View {
         playerBars = new PlayerBars(c, attrs);
         playerBars.setBarPaint();
 
-       // setBarPaint();
+   //     operator = new Operator(c, attrs);
 
-        //starterBarsAreSet = false;
 
-        //horizontalBar = new Rect();
-        //verticalBar = new Rect();
+     //   operator = new Rect();
+
+     //   red = new Paint();
+     //   red.setColor(getResources().getColor(R.color.red));
+     //   red.setStyle(Paint.Style.FILL);
 
     }
-
 
     // override onSizeChanged
     @Override
@@ -79,16 +63,23 @@ public class CanvasView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-
         canvas.drawColor(context.getResources().getColor(R.color.white));
 
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
         playerBars.drawTheBars(canvas);
 
+    //    int operatorStartX = operator.getStarterPosition(3, playerBars.getVertBarWidth() );
+    //    int operatorStartY = operator.getStarterPosition(5, playerBars.getHorzBarWidth() );
+
+    //    operator.drawOperator(operatorStartX, operatorStartY, playerBars.getVertBarWidth(), playerBars.getHorzBarWidth(), canvas);
+
 
         drawTheLines(canvas);
 
+
+
         invalidate();
+
     }
 
 
@@ -101,31 +92,17 @@ public class CanvasView extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
 
-                if(!playerBars.touchedTheExactCenter(x, y) ) {
-
-                    playerBars.touchedTheVerticalBar(x);
-                    playerBars.touchedTheHorizontalBar(y);
-
-                }
-
+                checkIfTheBarsGotTouched(x, y);
 
                 break;
             case MotionEvent.ACTION_MOVE:
 
-                playerBars.moveTheVerticalBar(x);
-                playerBars.moveTheHorizontalBar(y, horizontalGridBreaks);
-
-
+                moveVerticalOrHorizontalBars(x, y);
 
                 break;
             case MotionEvent.ACTION_UP:
 
-
-                playerBars.setTouchedTheVerticalBar(false);
-                playerBars.setTouchedTheHorizontalBar(false);
-
-                playerBars.moveVerticalBarToRowActionUp();
-                playerBars.moveHorizontalBarToRowActionUp();
+                alignPlayerBarsAndDisableMovements();
 
                 break;
         }
@@ -214,5 +191,37 @@ public class CanvasView extends View {
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //onTouch assistance methods.
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+    private void alignPlayerBarsAndDisableMovements(){
+
+        playerBars.setTouchedTheVerticalBar(false);
+        playerBars.setTouchedTheHorizontalBar(false);
+
+        playerBars.moveVerticalBarToRowActionUp();
+        playerBars.moveHorizontalBarToRowActionUp();
+
+    }
+
+    private void moveVerticalOrHorizontalBars(int x, int y){
+
+        playerBars.moveTheVerticalBar(x);
+        playerBars.moveTheHorizontalBar(y, horizontalGridBreaks);
+
+
+    }
+
+    private void checkIfTheBarsGotTouched(int x, int y){
+
+        if(!playerBars.touchedTheExactCenter(x, y) ) {
+
+            playerBars.touchedTheVerticalBar(x);
+            playerBars.touchedTheHorizontalBar(y);
+        }
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 }

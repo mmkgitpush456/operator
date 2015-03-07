@@ -16,9 +16,13 @@ import karavangelos.com.operator.R;
 public class PlayerBars extends View {
 
     private static final String TAG = "PlayerBars";
+
+    private Operator operator;
+
     private Context context;
 
     private Paint barPaint;
+
 
     private Rect horizontalBar;
     private Rect verticalBar;
@@ -38,8 +42,6 @@ public class PlayerBars extends View {
     private int vertTouchDistanceLeft;
     private int vertTouchDistanceRight;
     private int vertBarWidth;
-
-
 
     private boolean starterBarsAreSet;                                                              //flag that determines if the player bars have been initialized or not.
     private boolean touchedTheVerticalBar;
@@ -61,10 +63,13 @@ public class PlayerBars extends View {
         horizontalBar = new Rect();
         verticalBar = new Rect();
 
+        operator = new Operator(c, attrs);
+
     }
 
 
 
+    //getters and setters
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean isTouchedTheVerticalBar() {
@@ -83,6 +88,22 @@ public class PlayerBars extends View {
         this.touchedTheHorizontalBar = touchedTheHorizontalBar;
     }
 
+    public int getVertBarWidth() {
+        return vertBarWidth;
+    }
+
+    public void setVertBarWidth(int vertBarWidth) {
+        this.vertBarWidth = vertBarWidth;
+    }
+
+    public int getHorzBarWidth() {
+        return horzBarWidth;
+    }
+
+    public void setHorzBarWidth(int horzBarWidth) {
+        this.horzBarWidth = horzBarWidth;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -94,39 +115,45 @@ public class PlayerBars extends View {
     //on any size device.
     private void setStartHorizontalBar(Canvas canvas, int gridBreaks){
 
-            int startingIncrementer = getStartingIncrementor(gridBreaks);
-            int canvasHeight = canvas.getHeight();
-            int iterator = (int) canvasHeight / gridBreaks;
-            int starterPosition = getStarterPosition(startingIncrementer, iterator);
-            int right = canvas.getWidth();
-            int bottom = (starterPosition + iterator) ;
+        int startingIncrementer = getStartingIncrementor(gridBreaks);
+        int canvasHeight = canvas.getHeight();
+        int iterator = (int) canvasHeight / gridBreaks;
+        int starterPosition = getStarterPosition(startingIncrementer, iterator);
+        int right = canvas.getWidth();
+        int bottom = (starterPosition + iterator) ;
 
-            horzBarLeft = 0;
-            horzBarTop = starterPosition;
-            horzBarRight = right;
-            horzBarBottom = bottom;
-            horzBarWidth = getBarWidth(horzBarBottom, horzBarTop);
+        horzBarLeft = 0;
+        horzBarTop = starterPosition;
+        horzBarRight = right;
+        horzBarBottom = bottom;
+        horzBarWidth = getBarWidth(horzBarBottom, horzBarTop);
 
-        Log.d(TAG, "bar width is " + horzBarWidth);
+        operator.setOperatorHeight(horzBarWidth);
+        operator.setOperatorTop(operator.getStarterPosition(5, horzBarWidth) );
+        operator.setOperatorBottom( (operator.getOperatorTop() + horzBarWidth ) );
+      //  Log.d(TAG, "bar width is " + horzBarWidth);
 
     }
 
 
     private void setStartingVerticalBar(Canvas canvas, int gridBreaks){
 
-            int startingIncrementer = getStartingIncrementor(gridBreaks);
-            int canvasWidth = canvas.getWidth();
-            int iterator = (int) canvasWidth / gridBreaks;
-            int starterPosition = getStarterPosition(startingIncrementer, iterator);
-            int bottom = canvas.getHeight();
-            int right = (starterPosition + iterator);
+        int startingIncrementer = getStartingIncrementor(gridBreaks);
+        int canvasWidth = canvas.getWidth();
+        int iterator = (int) canvasWidth / gridBreaks;
+        int starterPosition = getStarterPosition(startingIncrementer, iterator);
+        int bottom = canvas.getHeight();
+        int right = (starterPosition + iterator);
 
-            vertBarLeft = starterPosition;
-            vertBarTop = 0;
-            vertBarRight = right;
-            vertBarBottom = bottom;
-            vertBarWidth = getBarWidth(vertBarRight, vertBarLeft);
+        vertBarLeft = starterPosition;
+        vertBarTop = 0;
+        vertBarRight = right;
+        vertBarBottom = bottom;
+        vertBarWidth = getBarWidth(vertBarRight, vertBarLeft);
 
+        operator.setOperatorWidth(vertBarWidth);
+        operator.setOperatorLeft(operator.getStarterPosition(3, vertBarWidth) );
+        operator.setOperatorRight( (operator.getOperatorLeft() + vertBarWidth) );
 
     }
 
@@ -192,6 +219,7 @@ public class PlayerBars extends View {
         verticalBar.set(vertBarLeft, vertBarTop, vertBarRight , vertBarBottom);
         canvas.drawRect(verticalBar, barPaint);
 
+        operator.drawTheOperator(canvas);
     }
 
     //sets the member paint variable that colors in the player bars
@@ -353,8 +381,6 @@ public class PlayerBars extends View {
         int divide = (int) (vertBarWidth / 2);
         int distanceToGo = 0;
 
-      //  Log.d(TAG, "divide is " + divide);
-
         if(distanceFromRight > divide){
 
 
@@ -376,15 +402,7 @@ public class PlayerBars extends View {
                 distanceToGo --;
 
             }
-
-          //  Log.d(TAG, "the bar is closer to line up to the right");
-
         }
-
-
-       // Log.d(TAG, "distance from right = " + distanceFromRight);
-
-
     }
 
     protected void moveHorizontalBarToRowActionUp(){
