@@ -317,6 +317,10 @@ public class PlayerBars extends View {
               horzBarTop = (horzBarBottom - horzBarWidth) - remainingSpace;
 
           }
+
+            operator.setOperatorTop(horzBarTop);
+            operator.setOperatorBottom( (operator.getOperatorTop() + operator.getOperatorHeight()) );
+
         }
     }
 
@@ -340,6 +344,12 @@ public class PlayerBars extends View {
                 vertBarLeft = (vertBarRight - vertBarWidth);
 
             }
+
+
+            operator.setOperatorLeft(vertBarLeft);
+            operator.setOperatorRight( (operator.getOperatorLeft() + operator.getOperatorWidth()) );
+
+
         }
     }
 
@@ -403,6 +413,10 @@ public class PlayerBars extends View {
 
             }
         }
+
+        operator.setOperatorLeft(vertBarLeft);
+        operator.setOperatorRight( (operator.getOperatorLeft() +  operator.getOperatorWidth()) );
+
     }
 
     protected void moveHorizontalBarToRowActionUp(){
@@ -448,6 +462,8 @@ public class PlayerBars extends View {
 
         }
 
+        operator.setOperatorTop(horzBarTop);
+        operator.setOperatorBottom( (operator.getOperatorTop() + operator.getOperatorHeight()) );
 
         // Log.d(TAG, "distance from right = " + distanceFromRight);
 
