@@ -201,7 +201,7 @@ public class CanvasView extends View {
         playerBars.setTouchedTheHorizontalBar(false);
 
         playerBars.moveVerticalBarToRowActionUp();
-        playerBars.moveHorizontalBarToRowActionUp();
+        playerBars.moveHorizontalBarToRowActionUp(horizontalGridBreaks);
 
     }
 

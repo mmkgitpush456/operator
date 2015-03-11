@@ -316,6 +316,9 @@ public class PlayerBars extends View {
 
               horzBarTop = (horzBarBottom - horzBarWidth) - remainingSpace;
 
+              operator.setOperatorTop(horzBarTop);
+              operator.setOperatorBottom( (operator.getOperatorTop() + operator.getOperatorHeight()) );
+
           }
 
             operator.setOperatorTop(horzBarTop);
@@ -349,7 +352,6 @@ public class PlayerBars extends View {
             operator.setOperatorLeft(vertBarLeft);
             operator.setOperatorRight( (operator.getOperatorLeft() + operator.getOperatorWidth()) );
 
-
         }
     }
 
@@ -379,6 +381,18 @@ public class PlayerBars extends View {
     protected void moveVerticalBarToRowActionUp(){
 
         int leftIteratorPosition = vertBarWidth;
+        leftIteratorPosition = checkWhereTheVerticalBarIs(leftIteratorPosition);
+
+        int rightIteratorPosition = (leftIteratorPosition + vertBarWidth);
+        int distanceFromRight = (rightIteratorPosition - vertBarRight);
+        int divide = (int) (vertBarWidth / 2);
+
+        determineVerticalAlignmentOnRelease(distanceFromRight, divide);
+        operator.moveWithTheVerticalBar(vertBarLeft);
+    }
+
+
+    private int checkWhereTheVerticalBarIs(int leftIteratorPosition){
 
         while(leftIteratorPosition < vertBarLeft){
 
@@ -386,42 +400,98 @@ public class PlayerBars extends View {
 
         }
 
-        int rightIteratorPosition = (leftIteratorPosition + vertBarWidth);
-        int distanceFromRight = (rightIteratorPosition - vertBarRight);
-        int divide = (int) (vertBarWidth / 2);
+        return leftIteratorPosition;
+    }
+
+    private void determineVerticalAlignmentOnRelease(int distanceFromRight, int divide){
+
         int distanceToGo = 0;
 
         if(distanceFromRight > divide){
 
-
             distanceToGo = (vertBarWidth - distanceFromRight);
-            while(distanceToGo > 0){
-
-                vertBarLeft -- ;
-                vertBarRight -- ;
-                distanceToGo --;
-            }
+            alignVerticalBarWithGridLines(distanceToGo, getResources().getString(R.string.left));
 
         } else {
 
             distanceToGo = distanceFromRight;
-            while(distanceToGo > 0){
-
-                vertBarLeft ++;
-                vertBarRight ++;
-                distanceToGo --;
-
-            }
+            alignVerticalBarWithGridLines(distanceToGo, getResources().getString(R.string.right));
         }
 
-        operator.setOperatorLeft(vertBarLeft);
-        operator.setOperatorRight( (operator.getOperatorLeft() +  operator.getOperatorWidth()) );
 
     }
 
-    protected void moveHorizontalBarToRowActionUp(){
+
+    private void alignVerticalBarWithGridLines(int distanceToGo, String leftOrRight){
+
+        int checkRightDistance = (horzBarRight - vertBarRight);
+
+        if(vertBarRight == horzBarRight){
+
+            distanceToGo = 0;
+        }
+
+
+        while(distanceToGo > 0){
+
+            if(leftOrRight.equalsIgnoreCase(getResources().getString(R.string.left) ) ) {
+
+                vertBarLeft -- ;
+                vertBarRight -- ;
+
+            }
+
+
+            if(leftOrRight.equalsIgnoreCase(getResources().getString(R.string.right) ) ) {
+
+                vertBarLeft ++;
+                vertBarRight ++;
+
+
+                if(checkRightDistance < vertBarWidth){
+
+                   vertBarRight = horzBarRight;
+                   vertBarLeft = (vertBarRight - vertBarWidth);
+                   break;
+
+                }
+            }
+
+            distanceToGo --;
+        }
+    }
+
+
+    protected void moveHorizontalBarToRowActionUp(int horizontalGridBreaks){
 
         int topIteratorPosition = horzBarWidth;
+        topIteratorPosition = checkWhereHorizontalBarIs(topIteratorPosition);
+
+
+        int rightIteratorPosition = (topIteratorPosition + horzBarWidth);
+        int distanceFromBottom = (rightIteratorPosition - horzBarBottom);
+        int divide = (int) (horzBarWidth / 2);
+        int distanceToGo = 0;
+
+        determineHorizontalAlignmentOnRelease(distanceFromBottom, divide, horizontalGridBreaks);
+
+        if(horzBarBottom < vertBarBottom){
+
+            operator.setOperatorTop(horzBarTop);
+            operator.setOperatorBottom(horzBarBottom);
+
+        } else {
+
+            operator.setOperatorTop(horzBarTop);
+            operator.setOperatorBottom(horzBarBottom);
+
+        }
+
+
+    }
+
+
+    private int checkWhereHorizontalBarIs(int topIteratorPosition){
 
         while(topIteratorPosition < horzBarTop){
 
@@ -429,44 +499,69 @@ public class PlayerBars extends View {
 
         }
 
-        int rightIteratorPosition = (topIteratorPosition + horzBarWidth);
-        int distanceFromRight = (rightIteratorPosition - horzBarBottom);
-        int divide = (int) (horzBarWidth / 2);
+        return topIteratorPosition;
+
+    }
+
+
+    private void determineHorizontalAlignmentOnRelease(int distanceFromBottom, int divide, int horizontalGridBreaks){
+
         int distanceToGo = 0;
 
-     //   Log.d(TAG, "divide is " + divide);
+        if(distanceFromBottom > divide){
 
-        if(distanceFromRight > divide){
-
-
-            distanceToGo = (horzBarWidth - distanceFromRight);
-            while(distanceToGo > 0){
-
-                horzBarTop -- ;
-                horzBarBottom -- ;
-                distanceToGo --;
-            }
+            distanceToGo = (horzBarWidth - distanceFromBottom);
+            alignHorizontalBarWithGridLines(distanceToGo, getResources().getString(R.string.top), horizontalGridBreaks);
 
         } else {
 
-            distanceToGo = distanceFromRight;
-            while(distanceToGo > 0){
+            distanceToGo = distanceFromBottom;
+            alignHorizontalBarWithGridLines(distanceToGo, getResources().getString(R.string.bottom), horizontalGridBreaks);
+        }
+
+    }
+
+
+    private void alignHorizontalBarWithGridLines(int distanceToGo, String topOrBottom, int horizontalGridBreaks){
+
+        int checkBottomDistance = (vertBarBottom - horzBarBottom);
+
+        if(horzBarBottom == vertBarBottom){
+
+            distanceToGo = 0;
+        }
+
+        while(distanceToGo > 0){
+
+            if(topOrBottom.equalsIgnoreCase(getResources().getString(R.string.top))) {
+
+                horzBarTop -- ;
+                horzBarBottom -- ;
+
+            } else if(topOrBottom.equalsIgnoreCase(getResources().getString(R.string.bottom) ) ){
+
 
                 horzBarTop ++;
                 horzBarBottom ++;
-                distanceToGo --;
 
+                if(checkBottomDistance < horzBarWidth){
+
+                    horzBarBottom = vertBarBottom;
+                    int horizontalBuffer = (horzBarWidth * horizontalGridBreaks);
+                    int remainingSpace = (horzBarBottom - horizontalBuffer);
+
+                    horzBarTop = (horzBarBottom - horzBarWidth) - remainingSpace;
+                    break;
+                }
             }
-
-            //  Log.d(TAG, "the bar is closer to line up to the right");
-
+            distanceToGo --;
         }
 
-        operator.setOperatorTop(horzBarTop);
-        operator.setOperatorBottom( (operator.getOperatorTop() + operator.getOperatorHeight()) );
+        if( ( (horzBarBottom - horzBarTop) > horzBarWidth) && topOrBottom.equalsIgnoreCase(getResources().getString(R.string.top))  ){
 
-        // Log.d(TAG, "distance from right = " + distanceFromRight);
+            horzBarTop = horzBarBottom - horzBarWidth;
 
+        }
 
     }
 

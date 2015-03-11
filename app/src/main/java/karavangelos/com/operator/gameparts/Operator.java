@@ -117,6 +117,18 @@ public class Operator extends View{
     }
 
 
+    protected void moveWithTheVerticalBar(int vertBarLeft){
+
+        setOperatorLeft(vertBarLeft);
+        setOperatorRight( (operatorLeft + operatorWidth) );
+    }
+
+    protected void moveWithHorizontalBar(int horzBarTop){
+
+        setOperatorTop(horzBarTop);
+        setOperatorBottom( (operatorTop + operatorHeight) );
+    }
+
 
 
 

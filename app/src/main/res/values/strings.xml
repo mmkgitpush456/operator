@@ -13,4 +13,8 @@
     <string name="pause">Pause</string>
     <string name="inactive">INACTIVE</string>
     <string name="touch_to_begin">Touch this screen to begin</string>
+    <string name="left">LEFT</string>
+    <string name="right">RIGHT</string>
+    <string name="top">TOP</string>
+    <string name="bottom">BOTTOM</string>
 </resources>
