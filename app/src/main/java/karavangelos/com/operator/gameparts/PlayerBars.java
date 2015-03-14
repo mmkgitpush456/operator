@@ -117,7 +117,7 @@ public class PlayerBars extends View {
 
         int startingIncrementer = getStartingIncrementor(gridBreaks);
         int canvasHeight = canvas.getHeight();
-        int iterator = (int) canvasHeight / gridBreaks;
+        int iterator = getIterator(canvasHeight, gridBreaks);
         int starterPosition = getStarterPosition(startingIncrementer, iterator);
         int right = canvas.getWidth();
         int bottom = (starterPosition + iterator) ;
@@ -140,7 +140,7 @@ public class PlayerBars extends View {
 
         int startingIncrementer = getStartingIncrementor(gridBreaks);
         int canvasWidth = canvas.getWidth();
-        int iterator = (int) canvasWidth / gridBreaks;
+        int iterator = getIterator(canvasWidth, gridBreaks);
         int starterPosition = getStarterPosition(startingIncrementer, iterator);
         int bottom = canvas.getHeight();
         int right = (starterPosition + iterator);
@@ -155,6 +155,23 @@ public class PlayerBars extends View {
         operator.setOperatorLeft(operator.getStarterPosition(3, vertBarWidth) );
         operator.setOperatorRight( (operator.getOperatorLeft() + vertBarWidth) );
 
+    }
+
+
+    private int getIterator(int widthOrHeight, int gridBreaks){
+
+        int iterator = 0;
+        int lWidthOrHeight = widthOrHeight;
+
+        while ( (lWidthOrHeight % gridBreaks) != 0 ){
+
+            lWidthOrHeight --;
+
+        }
+
+        iterator = (lWidthOrHeight / gridBreaks);
+
+        return iterator;
     }
 
 
@@ -417,8 +434,6 @@ public class PlayerBars extends View {
             distanceToGo = distanceFromRight;
             alignVerticalBarWithGridLines(distanceToGo, getResources().getString(R.string.right));
         }
-
-
     }
 
 
@@ -486,8 +501,6 @@ public class PlayerBars extends View {
             operator.setOperatorBottom(horzBarBottom);
 
         }
-
-
     }
 
 
@@ -525,6 +538,9 @@ public class PlayerBars extends View {
     private void alignHorizontalBarWithGridLines(int distanceToGo, String topOrBottom, int horizontalGridBreaks){
 
         int checkBottomDistance = (vertBarBottom - horzBarBottom);
+        int nextToLastHorizontalBarPos = (horzBarWidth * (horizontalGridBreaks - 1) );
+
+     //   Log.d(TAG, "10th location is " + nextToLastHorizontalBarPos);
 
         if(horzBarBottom == vertBarBottom){
 
@@ -535,33 +551,50 @@ public class PlayerBars extends View {
 
             if(topOrBottom.equalsIgnoreCase(getResources().getString(R.string.top))) {
 
+
+                if( ( (horzBarBottom - horzBarTop) > horzBarWidth) ){
+
+                    horzBarTop = horzBarBottom - horzBarWidth;
+                    Log.d(TAG, "bar re-sizing coming from the TOP");
+
+                }
+
+
                 horzBarTop -- ;
                 horzBarBottom -- ;
 
             } else if(topOrBottom.equalsIgnoreCase(getResources().getString(R.string.bottom) ) ){
 
+                if( ( (horzBarBottom - horzBarTop) > horzBarWidth) ){
+
+                    horzBarTop = horzBarBottom - horzBarWidth;
+                    Log.d(TAG, "bar re-sizing coming from the BOTTOM");
+
+                }
+
 
                 horzBarTop ++;
                 horzBarBottom ++;
-
-                if(checkBottomDistance < horzBarWidth){
-
-                    horzBarBottom = vertBarBottom;
-                    int horizontalBuffer = (horzBarWidth * horizontalGridBreaks);
-                    int remainingSpace = (horzBarBottom - horizontalBuffer);
-
-                    horzBarTop = (horzBarBottom - horzBarWidth) - remainingSpace;
-                    break;
-                }
             }
+
             distanceToGo --;
         }
 
-        if( ( (horzBarBottom - horzBarTop) > horzBarWidth) && topOrBottom.equalsIgnoreCase(getResources().getString(R.string.top))  ){
+        if( (horzBarBottom > nextToLastHorizontalBarPos) &&  ( topOrBottom.equalsIgnoreCase(getResources().getString(R.string.bottom) ) ) ) {
 
-            horzBarTop = horzBarBottom - horzBarWidth;
+            Log.d(TAG, "pushing to the final spot");
+
+            horzBarTop = nextToLastHorizontalBarPos;
+            horzBarBottom = vertBarBottom;
+
 
         }
+
+
+
+
+      //  Log.d(TAG, "horizontal bar top is " + horzBarTop);
+        Log.d(TAG, "horizontal bar bottom is " + horzBarBottom);
 
     }
 

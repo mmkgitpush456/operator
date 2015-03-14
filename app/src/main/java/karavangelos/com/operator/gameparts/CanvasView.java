@@ -24,9 +24,7 @@ public class CanvasView extends View {
     private int horizontalGridBreaks;                                                            //helps determine distance between horizontal grid lines
 
     private PlayerBars playerBars;
-  //  private Operator operator;
-   // private Rect operator;
-   // private Paint red;
+
 
     //constructor.  Assigns member context variable from inherited parent
     public CanvasView(Context c, AttributeSet attrs) {
@@ -39,14 +37,6 @@ public class CanvasView extends View {
         playerBars = new PlayerBars(c, attrs);
         playerBars.setBarPaint();
 
-   //     operator = new Operator(c, attrs);
-
-
-     //   operator = new Rect();
-
-     //   red = new Paint();
-     //   red.setColor(getResources().getColor(R.color.red));
-     //   red.setStyle(Paint.Style.FILL);
 
     }
 
@@ -68,17 +58,11 @@ public class CanvasView extends View {
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
         playerBars.drawTheBars(canvas);
 
-    //    int operatorStartX = operator.getStarterPosition(3, playerBars.getVertBarWidth() );
-    //    int operatorStartY = operator.getStarterPosition(5, playerBars.getHorzBarWidth() );
-
-    //    operator.drawOperator(operatorStartX, operatorStartY, playerBars.getVertBarWidth(), playerBars.getHorzBarWidth(), canvas);
-
 
         drawTheLines(canvas);
-
-
-
         invalidate();
+
+       // Log.d(TAG, "canvas height is " + canvas.getHeight());
 
     }
 
@@ -129,7 +113,11 @@ public class CanvasView extends View {
 
        Paint linePaint = getLinePaint(canvas);
         int canvasWidth = canvas.getWidth();
-        int iterator = (int) (canvasWidth / verticalGridBreaks);
+        int iterator = getIterator(canvasWidth, verticalGridBreaks);
+
+
+        //Log.d(TAG, "the iterator for this device on vertical lines is " + iterator);
+
         int verticalLineMarker = iterator;
 
         for(int i = 0; i < verticalGridBreaks; i++){
@@ -147,10 +135,12 @@ public class CanvasView extends View {
 
         Paint linePaint = getLinePaint(canvas);
         int canvasHeight = canvas.getHeight();
-        int iterator = (int) (canvasHeight / horizontalGridBreaks);
+        int iterator = getIterator(canvasHeight, horizontalGridBreaks);
         int horizontalLineMarker = iterator;
 
         for(int i = 0; i < horizontalGridBreaks; i++){
+
+          //  Log.d(TAG, "Horizontal tag " + (i + 1) + " = " + horizontalLineMarker);
 
             if(i < (horizontalGridBreaks - 1) ) {
 
@@ -158,8 +148,29 @@ public class CanvasView extends View {
                 horizontalLineMarker += iterator;
 
             }
+
+
+
         }
     }
+
+
+    private int getIterator(int widthOrHeight, int gridBreaks){
+
+        int iterator = 0;
+        int lWidthOrHeight = widthOrHeight;
+
+        while ( (lWidthOrHeight % gridBreaks) != 0 ){
+
+            lWidthOrHeight --;
+
+        }
+
+        iterator = (lWidthOrHeight / gridBreaks);
+
+        return iterator;
+    }
+
 
     //determines the width of the grid lines based
     //on the width of the canvas on the screen.
