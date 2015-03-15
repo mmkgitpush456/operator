@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import karavangelos.com.operator.R;
@@ -389,16 +388,21 @@ public class PlayerBars extends View {
     }
 
 
+
+    //helper method that gets the width of both the horizontal and vertical bars.
+    //used when configuring the sizes of both the horizontal and vertical bars at run time.
     protected int getBarWidth(int rightOrBottom, int leftOrTop){
 
         return (rightOrBottom - leftOrTop);
 
     }
 
+
+    //the logic below produces the actions of the vertical bar when the player releases their
+    //finger from its hold.  All helper methods are explained in detail.
     protected void moveVerticalBarToRowActionUp(){
 
-        int leftIteratorPosition = vertBarWidth;
-        leftIteratorPosition = checkWhereTheVerticalBarIs(leftIteratorPosition);
+        int leftIteratorPosition = checkWhereTheVerticalBarIs();
 
         int rightIteratorPosition = (leftIteratorPosition + vertBarWidth);
         int distanceFromRight = (rightIteratorPosition - vertBarRight);
@@ -408,8 +412,11 @@ public class PlayerBars extends View {
         operator.moveWithTheVerticalBar(vertBarLeft);
     }
 
+    //helper methods that checks where the vertical bar's location is on the canvas after
+    //the player has released their movement from it.
+    private int checkWhereTheVerticalBarIs(){
 
-    private int checkWhereTheVerticalBarIs(int leftIteratorPosition){
+        int leftIteratorPosition = vertBarWidth;
 
         while(leftIteratorPosition < vertBarLeft){
 
@@ -420,6 +427,10 @@ public class PlayerBars extends View {
         return leftIteratorPosition;
     }
 
+
+    //checks whether the vertical bar should be shifted to the left or the right depending on
+    //which set of vertical grid lines it is closest to.  The divide is half the distance of the
+    //vertical bar as determined from the host method.  used in moveVerticalBarToRowActionUp
     private void determineVerticalAlignmentOnRelease(int distanceFromRight, int divide){
 
         int distanceToGo = 0;
@@ -437,6 +448,13 @@ public class PlayerBars extends View {
     }
 
 
+    //method that does all of the dirty work.  First checks if the vertical line is at the right end
+    //of the canvas.  If it is, then the distance to go is set to zero and thus, nothing essentialy happens.
+    //if the distance is greater than 0, then the vertical bar is shifted to either the left or the right
+    //depending on which grid line it is closest to.  There is an additional conditional within the
+    //right conditional logic that checks if the vertical bar is supposed to settle into the final (right)
+    //column.  If it is, then some extra measurements are made to ensure that it fits within the
+    //final column of the canvas.
     private void alignVerticalBarWithGridLines(int distanceToGo, String leftOrRight){
 
         int checkRightDistance = (horzBarRight - vertBarRight);
@@ -462,7 +480,6 @@ public class PlayerBars extends View {
                 vertBarLeft ++;
                 vertBarRight ++;
 
-
                 if(checkRightDistance < vertBarWidth){
 
                    vertBarRight = horzBarRight;
@@ -477,46 +494,50 @@ public class PlayerBars extends View {
     }
 
 
+
+
+
+
+    //settle down for this set.  The following logic moves the horizontal bar between the nearest
+    //set of horizontal bars after they have released their finger hold on it.  Each method is explained
+    //in detail as to it compliments the process.
     protected void moveHorizontalBarToRowActionUp(int horizontalGridBreaks){
 
-        int topIteratorPosition = horzBarWidth;
-        topIteratorPosition = checkWhereHorizontalBarIs(topIteratorPosition);
+        int topIteratorPosition = checkWhereHorizontalBarIs();
 
-
-        int rightIteratorPosition = (topIteratorPosition + horzBarWidth);
-        int distanceFromBottom = (rightIteratorPosition - horzBarBottom);
+        int bottomIteratorPosition = (topIteratorPosition + horzBarWidth);
+        int distanceFromBottom = (bottomIteratorPosition - horzBarBottom);
         int divide = (int) (horzBarWidth / 2);
-        int distanceToGo = 0;
 
         determineHorizontalAlignmentOnRelease(distanceFromBottom, divide, horizontalGridBreaks);
 
-        if(horzBarBottom < vertBarBottom){
+        operator.setOperatorTop(horzBarTop);
+        operator.setOperatorBottom(horzBarBottom);
 
-            operator.setOperatorTop(horzBarTop);
-            operator.setOperatorBottom(horzBarBottom);
-
-        } else {
-
-            operator.setOperatorTop(horzBarTop);
-            operator.setOperatorBottom(horzBarBottom);
-
-        }
     }
 
 
-    private int checkWhereHorizontalBarIs(int topIteratorPosition){
+    //this method returns an integer value that helps find where the horizontal bar is on the screen
+    //It is used to help determine whether the bar should shift upwards or downwards depending on
+    //which distance is closer.
+    private int checkWhereHorizontalBarIs(){
+
+        int topIteratorPosition = horzBarWidth;
 
         while(topIteratorPosition < horzBarTop){
 
             topIteratorPosition += horzBarWidth;
 
         }
-
         return topIteratorPosition;
 
     }
 
 
+    //Delegates whether to push the horizontal bar upwards or downwards.  This is done using the divide
+    //variable.  The divide is half of the size of the horizontal bar width.  Thus, it determines
+    //whether the horizontal bar should travel up or down by measuring itself against the distanceFromBottom
+    //variable, which is pulled in from the main host method (moveHorizontalBarToRowActionUp)
     private void determineHorizontalAlignmentOnRelease(int distanceFromBottom, int divide, int horizontalGridBreaks){
 
         int distanceToGo = 0;
@@ -535,66 +556,74 @@ public class PlayerBars extends View {
     }
 
 
+    //moves the horizontal bar up or down depending on whether it's closer to the nearest horizontal
+    //grid line above or below it.  This is configured in the makeTheAppropriateAdjustmentsOnTheHorizontalBar
+    //method and counts down the distance to go on the positioning after every iteration to prevent an
+    //infinite loop.  The method at the bottom aligns the horizontal bar with the bottom if it released within
+    //the majority of the bottom row.
     private void alignHorizontalBarWithGridLines(int distanceToGo, String topOrBottom, int horizontalGridBreaks){
 
-        int checkBottomDistance = (vertBarBottom - horzBarBottom);
         int nextToLastHorizontalBarPos = (horzBarWidth * (horizontalGridBreaks - 1) );
-
-     //   Log.d(TAG, "10th location is " + nextToLastHorizontalBarPos);
-
-        if(horzBarBottom == vertBarBottom){
-
-            distanceToGo = 0;
-        }
 
         while(distanceToGo > 0){
 
-            if(topOrBottom.equalsIgnoreCase(getResources().getString(R.string.top))) {
-
-
-                if( ( (horzBarBottom - horzBarTop) > horzBarWidth) ){
-
-                    horzBarTop = horzBarBottom - horzBarWidth;
-                    Log.d(TAG, "bar re-sizing coming from the TOP");
-
-                }
-
-
-                horzBarTop -- ;
-                horzBarBottom -- ;
-
-            } else if(topOrBottom.equalsIgnoreCase(getResources().getString(R.string.bottom) ) ){
-
-                if( ( (horzBarBottom - horzBarTop) > horzBarWidth) ){
-
-                    horzBarTop = horzBarBottom - horzBarWidth;
-                    Log.d(TAG, "bar re-sizing coming from the BOTTOM");
-
-                }
-
-
-                horzBarTop ++;
-                horzBarBottom ++;
-            }
-
+            makeTheAppropriateAdjustmentsOnTheHorizontalBar(topOrBottom);
             distanceToGo --;
         }
 
-        if( (horzBarBottom > nextToLastHorizontalBarPos) &&  ( topOrBottom.equalsIgnoreCase(getResources().getString(R.string.bottom) ) ) ) {
+        adjustHorizontalBarToTheBottomIfReleasedThere(nextToLastHorizontalBarPos, topOrBottom);
+    }
 
-            Log.d(TAG, "pushing to the final spot");
+
+    //convenience method that makes contains 2 helper methods shown below.
+    private void makeTheAppropriateAdjustmentsOnTheHorizontalBar(String topOrBottom){
+
+            resizeTheHorizontalBarIfOff();
+            moveTheHorizontalBarIntoPosition(topOrBottom);
+
+    }
+
+
+    //helper method that adjusts the size of the horizontal bar so that it fits correctly within
+    //the grid lines.  This method is here in case there is movement from the bottom row since the
+    //bottom row is slightly larger than every other row due to calculations with the canvas height.
+    private void resizeTheHorizontalBarIfOff(){
+
+        if( ( (horzBarBottom - horzBarTop) > horzBarWidth) ){
+
+            horzBarTop = horzBarBottom - horzBarWidth;
+
+        }
+    }
+
+    //pushes the horizontal bar up or down depending on whether it's closer to the nearest top or bottom
+    //gridline.  The top or bottom string variable is determined in the determineHorizontalAlignmentOnRelease
+    //listed above.
+    private void moveTheHorizontalBarIntoPosition(String topOrBottom){
+
+        if(topOrBottom.equalsIgnoreCase(getResources().getString(R.string.top))) {
+
+            horzBarTop -- ;
+            horzBarBottom -- ;
+        }
+
+        if(topOrBottom.equalsIgnoreCase(getResources().getString(R.string.bottom))){
+
+            horzBarTop ++;
+            horzBarBottom ++;
+        }
+
+    }
+
+    //aligns the horizontal bar with the bottom row.  This method is only used in the instance that the horizontal
+    //bar is supposed to fit at the very bottom of the canvas.
+    private void adjustHorizontalBarToTheBottomIfReleasedThere(int nextToLastHorizontalBarPos, String topOrBottom){
+
+        if( (horzBarBottom > nextToLastHorizontalBarPos) &&  ( topOrBottom.equalsIgnoreCase(getResources().getString(R.string.bottom) ) ) ) {
 
             horzBarTop = nextToLastHorizontalBarPos;
             horzBarBottom = vertBarBottom;
-
-
         }
-
-
-
-
-      //  Log.d(TAG, "horizontal bar top is " + horzBarTop);
-        Log.d(TAG, "horizontal bar bottom is " + horzBarBottom);
 
     }
 
