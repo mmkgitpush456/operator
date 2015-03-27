@@ -29,12 +29,12 @@ public class CanvasView extends View {
 
     private PlayerBars playerBars;                                                                  //player bars object which interacts with the canvas.
 
-    private Rect slider;
     private int sliderLeft;
     private int sliderTop;
     private int sliderRight;
     private int sliderBottom;
     private boolean sliderIsSet;
+    private Slider slider;
 
 
     //constructor.  Assigns member context variable from inherited parent
@@ -48,12 +48,8 @@ public class CanvasView extends View {
         playerBars = new PlayerBars(c, attrs);
         playerBars.setBarPaint();
 
-        sliderIsSet = false;
-        slider = new Rect();
-        sliderLeft = 0;
-        sliderTop = 0;
-       // sliderRight = 100;
-       // sliderBottom = 100;
+        slider = new Slider(c, attrs);
+
 
     }
 
@@ -75,19 +71,7 @@ public class CanvasView extends View {
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
         playerBars.drawTheBars(canvas);
 
-        if(!sliderIsSet){
-
-            sliderRight = getSliderRight(canvas);
-            sliderBottom = getSliderBottom(canvas);
-
-            sliderIsSet = true;
-
-        }
-
-
-        slider.set(sliderLeft,sliderTop,sliderRight,sliderBottom);
-        canvas.drawRect(slider, getLinePaint(canvas));
-    //    moveSliderToTheRight();
+        slider.drawTheSlider(canvas);
 
         drawTheLines(canvas);
         invalidate();
