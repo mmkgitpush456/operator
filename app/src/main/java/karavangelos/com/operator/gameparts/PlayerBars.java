@@ -130,7 +130,6 @@ public class PlayerBars extends View {
         operator.setOperatorHeight(horzBarWidth);
         operator.setOperatorTop(operator.getStarterPosition(5, horzBarWidth) );
         operator.setOperatorBottom( (operator.getOperatorTop() + horzBarWidth ) );
-      //  Log.d(TAG, "bar width is " + horzBarWidth);
 
     }
 
@@ -253,6 +252,21 @@ public class PlayerBars extends View {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //helper method that returns a flag if the player has touched within the boundaries
+    //of one of the player bars.  Used within numerous methods across the player bars class.
+    private boolean touchedTheCrossing(int position, int leftOrTop, int rightOrBottom){
+
+        boolean touchedVerticalCrossing = false;
+
+        if ( (position >= leftOrTop) && (position <= rightOrBottom)  ){
+
+            touchedVerticalCrossing = true;
+        }
+
+        return touchedVerticalCrossing;
+    }
+
+
     //returns a true or false flag depending on whether the player touches the exact intersections
     //between the vertical and horizontal bars.  Used in the onTouch method (ACTION_DOWN) in the
     //CanvasView
@@ -373,19 +387,7 @@ public class PlayerBars extends View {
 
 
 
-    //helper method that returns a flag if the player has touched within the boundaries
-    //of one of the player bars.  Used within numerous methods across the player bars class.
-    private boolean touchedTheCrossing(int position, int leftOrTop, int rightOrBottom){
 
-        boolean touchedVerticalCrossing = false;
-
-        if ( (position >= leftOrTop) && (position <= rightOrBottom)  ){
-
-            touchedVerticalCrossing = true;
-        }
-
-        return touchedVerticalCrossing;
-    }
 
 
 

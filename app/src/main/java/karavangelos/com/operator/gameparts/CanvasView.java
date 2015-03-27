@@ -3,11 +3,15 @@ package karavangelos.com.operator.gameparts;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.Random;
 
 import karavangelos.com.operator.R;
 
@@ -20,10 +24,17 @@ public class CanvasView extends View {
     private Context context;
 
 
-    private int verticalGridBreaks;                                                              //helps determine distance between vertical grid lines
-    private int horizontalGridBreaks;                                                            //helps determine distance between horizontal grid lines
+    private int verticalGridBreaks;                                                                 //helps determine distance between vertical grid lines
+    private int horizontalGridBreaks;                                                               //helps determine distance between horizontal grid lines
 
-    private PlayerBars playerBars;
+    private PlayerBars playerBars;                                                                  //player bars object which interacts with the canvas.
+
+    private Rect slider;
+    private int sliderLeft;
+    private int sliderTop;
+    private int sliderRight;
+    private int sliderBottom;
+    private boolean sliderIsSet;
 
 
     //constructor.  Assigns member context variable from inherited parent
@@ -37,6 +48,12 @@ public class CanvasView extends View {
         playerBars = new PlayerBars(c, attrs);
         playerBars.setBarPaint();
 
+        sliderIsSet = false;
+        slider = new Rect();
+        sliderLeft = 0;
+        sliderTop = 0;
+       // sliderRight = 100;
+       // sliderBottom = 100;
 
     }
 
@@ -58,22 +75,33 @@ public class CanvasView extends View {
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
         playerBars.drawTheBars(canvas);
 
+        if(!sliderIsSet){
+
+            sliderRight = getSliderRight(canvas);
+            sliderBottom = getSliderBottom(canvas);
+
+            sliderIsSet = true;
+
+        }
+
+
+        slider.set(sliderLeft,sliderTop,sliderRight,sliderBottom);
+        canvas.drawRect(slider, getLinePaint(canvas));
+    //    moveSliderToTheRight();
 
         drawTheLines(canvas);
         invalidate();
-
-       // Log.d(TAG, "canvas height is " + canvas.getHeight());
-
     }
 
 
-    //On touch events.  User operations all fall within this block of programming.
+    //On touch events.  Player operations all fall within this block of programming.
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         int x = (int)  event.getX();
         int y = (int) event.getY();
 
-        switch (event.getAction()) {
+        switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
 
                 checkIfTheBarsGotTouched(x, y);
@@ -105,6 +133,26 @@ public class CanvasView extends View {
     //drawing specific methods
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+
+
+
+
+
+    private int getSliderRight(Canvas canvas){
+
+        return getIterator(canvas.getWidth(), verticalGridBreaks);
+
+
+    }
+
+    private int getSliderBottom(Canvas canvas){
+
+        return getIterator(canvas.getHeight(), horizontalGridBreaks);
+    }
+
+
+
     //The following 2 methods draw the vertical and horizontal lines on the canvas by measuring the canvas size and making 5 drawing
     //iterations across the canvas.  Distance of drawing the lines is determined by grabbing the canvas
     //size and dividing it by 6.  Set up of the method allows for it to scale correctly regardless of
@@ -114,11 +162,9 @@ public class CanvasView extends View {
        Paint linePaint = getLinePaint(canvas);
         int canvasWidth = canvas.getWidth();
         int iterator = getIterator(canvasWidth, verticalGridBreaks);
-
-
-        //Log.d(TAG, "the iterator for this device on vertical lines is " + iterator);
-
         int verticalLineMarker = iterator;
+
+     //   sliderRight = iterator;
 
         for(int i = 0; i < verticalGridBreaks; i++){
 
@@ -138,9 +184,9 @@ public class CanvasView extends View {
         int iterator = getIterator(canvasHeight, horizontalGridBreaks);
         int horizontalLineMarker = iterator;
 
-        for(int i = 0; i < horizontalGridBreaks; i++){
+      //  sliderBottom = iterator;
 
-          //  Log.d(TAG, "Horizontal tag " + (i + 1) + " = " + horizontalLineMarker);
+        for(int i = 0; i < horizontalGridBreaks; i++){
 
             if(i < (horizontalGridBreaks - 1) ) {
 
@@ -148,13 +194,12 @@ public class CanvasView extends View {
                 horizontalLineMarker += iterator;
 
             }
-
-
-
         }
     }
 
 
+    //gets a full integer number to create both the width of the horizontal and vertical bars, and
+    //also measures the space between rows/columns on the canvas.
     private int getIterator(int widthOrHeight, int gridBreaks){
 
         int iterator = 0;
@@ -206,6 +251,34 @@ public class CanvasView extends View {
 
     //onTouch assistance methods.
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    //checks whether the horizontal and/or vertical bars have been touched down.
+    //also checks whether the player has attempted to touch the cross-path between the 2.
+    //if that's the case, then the touch movements are completely ignored
+    private void checkIfTheBarsGotTouched(int x, int y){
+
+        if(!playerBars.touchedTheExactCenter(x, y) ) {
+
+            playerBars.touchedTheVerticalBar(x);
+            playerBars.touchedTheHorizontalBar(y);
+        }
+    }
+
+
+    //moves the vertical and horizontal bars if they have been touched down by the player
+    private void moveVerticalOrHorizontalBars(int x, int y){
+
+        playerBars.moveTheVerticalBar(x);
+        playerBars.moveTheHorizontalBar(y, horizontalGridBreaks);
+
+
+    }
+
+
+    //sets the on-touch recognition on both player bars to false and puts aligns them to their respective
+    //positions based on their current location on the canvas.  See commentary on the Player Bars class
+    //for more detail on how these methods work.
     private void alignPlayerBarsAndDisableMovements(){
 
         playerBars.setTouchedTheVerticalBar(false);
@@ -215,24 +288,5 @@ public class CanvasView extends View {
         playerBars.moveHorizontalBarToRowActionUp(horizontalGridBreaks);
 
     }
-
-    private void moveVerticalOrHorizontalBars(int x, int y){
-
-        playerBars.moveTheVerticalBar(x);
-        playerBars.moveTheHorizontalBar(y, horizontalGridBreaks);
-
-
-    }
-
-    private void checkIfTheBarsGotTouched(int x, int y){
-
-        if(!playerBars.touchedTheExactCenter(x, y) ) {
-
-            playerBars.touchedTheVerticalBar(x);
-            playerBars.touchedTheHorizontalBar(y);
-        }
-    }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 }
