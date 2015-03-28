@@ -141,7 +141,7 @@ public class Slider extends View{
 
     }
 
-    protected void setSliderCoordinates(PlayerBars playerBars){
+    protected void setSliderCoordinates(PlayerBars playerBars, Canvas canvas){
 
         if(!startingPositionsEstablished){
 
@@ -155,15 +155,33 @@ public class Slider extends View{
                 sliderBottom = (sliderTop + sliderHeight);
                 sliderLeft = (sliderRight - sliderWidth);
 
-            } else {
+            }
 
+            if(quadrantKey == 2){
+
+                sliderBottom = 0;
+                sliderTop = (sliderBottom - sliderHeight);
                 sliderLeft = 0;
+                sliderRight = (sliderLeft + sliderWidth);
+            }
+
+            if(quadrantKey == 3) {
+
+                sliderLeft = canvas.getWidth();
+                sliderRight = (sliderLeft + sliderWidth);
                 sliderTop = 0;
-                sliderRight = 100;
-                sliderBottom = 100;
+                sliderBottom = (sliderTop + sliderHeight);
 
             }
 
+            if(quadrantKey == 4){
+
+                sliderTop = canvas.getHeight();
+                sliderBottom = (sliderTop + sliderHeight);
+                sliderLeft = 0;
+                sliderRight = (sliderLeft + sliderWidth);
+
+            }
 
               Log.d(TAG, "quadrant position: " + quadrantKey);
               Log.d(TAG, "left position: " + sliderLeft);
@@ -201,6 +219,31 @@ public class Slider extends View{
         //   Log.d(TAG, "The Random number between " + min + " and " + max + " is " + randomNumber);
 
         return randomNumber;
+    }
+
+    protected void moveTheSliderBasedOnQuadrant(){
+
+        if(quadrantKey == 1){
+
+            moveSliderToTheRight();
+        }
+
+        if(quadrantKey == 2){
+
+            moveSliderDown();
+        }
+
+        if(quadrantKey == 3){
+
+            moveSliderToTheLeft();
+        }
+
+        if(quadrantKey == 4){
+
+            moveSliderUp();
+
+        }
+
     }
 
 

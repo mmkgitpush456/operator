@@ -68,7 +68,7 @@ public class CanvasView extends View {
      //   Log.d(TAG, "bar width = " + playerBars.getVertBarWidth() );
 
 
-        slider.setSliderCoordinates(playerBars);
+        slider.setSliderCoordinates(playerBars, canvas);
         slider.drawTheSlider(canvas);
 
         drawTheLines(canvas);
@@ -92,7 +92,8 @@ public class CanvasView extends View {
             case MotionEvent.ACTION_MOVE:
 
                 moveVerticalOrHorizontalBars(x, y);
-                slider.moveSliderToTheRight();
+             //   slider.moveSliderToTheRight();
+                slider.moveTheSliderBasedOnQuadrant();
 
 
                 break;
