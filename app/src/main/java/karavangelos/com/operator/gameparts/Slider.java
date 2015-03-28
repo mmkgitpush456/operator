@@ -49,23 +49,7 @@ public class Slider extends View{
 
         setthePaint();
         quadrantKey = getRandomNumber(1, 4);
-
-        if(quadrantKey == 1 || quadrantKey == 3){
-
-            vectorKey = getRandomNumber(1, 11);
-
-        }
-
-        if(quadrantKey == 2 || quadrantKey == 4){
-
-            vectorKey = getRandomNumber(1, 7);
-        }
-
-
-       // setSliderCoordinates();
-
-      //  Log.d(TAG, "the random number for the quadrant key is " + quadrantKey );
-
+        setVectorAccordingToQuadrant();
 
     }
 
@@ -145,14 +129,38 @@ public class Slider extends View{
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
+    //public method that updates and draws the slider object on the canvas.
     public void drawTheSlider(Canvas canvas){
 
 
         theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
         canvas.drawRect(theSlider, sliderPaint);
+    }
+
+    //generates a random number to be used as a vector coordinate for initial positioning of
+    //the slider.  If the quadrant is 1 or 3 (Left of Right of canvas), then the quadrant can
+    //be any number between 1 and 11.  Otherwise, for 2 and 4 (top and bottom of canvas),
+    //the quadrant can have a max value of 7.
+    private void setVectorAccordingToQuadrant(){
+
+        if(quadrantKey == 1 || quadrantKey == 3){
+
+            vectorKey = getRandomNumber(1, 11);
+
+        }
+
+        if(quadrantKey == 2 || quadrantKey == 4){
+
+            vectorKey = getRandomNumber(1, 7);
+        }
 
     }
 
+    //helper method that sets the starting location of the slider based on the
+    //random quadrant and vector variables set from the constructor.  In each case,
+    //the location coordinates are generated so that the slider object is just outside of visibility
+    //of the canvas.  This method is also only run once since the startingPositionsEstablished
+    //flag is flipped to true after the positioning has run its course.
     protected void setSliderCoordinates(PlayerBars playerBars, Canvas canvas){
 
         if(!startingPositionsEstablished){
@@ -160,10 +168,9 @@ public class Slider extends View{
             sliderWidth = playerBars.getVertBarWidth();
             sliderHeight = playerBars.getHorzBarWidth();
 
-
             switch(quadrantKey){
 
-                case 1:
+                case 1: //LEFT
 
                     sliderRight = 0;
                     sliderBottom = (vectorKey * sliderHeight);
@@ -171,7 +178,7 @@ public class Slider extends View{
                     sliderLeft = (sliderRight - sliderWidth);
                     break;
 
-                case 2:
+                case 2: //TOP
 
                     sliderBottom = 0;
                     sliderTop = (sliderBottom - sliderHeight);
@@ -179,7 +186,7 @@ public class Slider extends View{
                     sliderLeft = (sliderRight - sliderWidth);
                     break;
 
-                case 3:
+                case 3: //RIGHT
 
                     sliderLeft = canvas.getWidth();
                     sliderRight = (sliderLeft + sliderWidth);
@@ -188,7 +195,7 @@ public class Slider extends View{
 
                     break;
 
-                case 4:
+                case 4: //BOTTOM
 
                     sliderTop = canvas.getHeight();
                     sliderBottom = (sliderTop + sliderHeight);
@@ -214,6 +221,7 @@ public class Slider extends View{
     }
 
 
+    //sets the color of the slider object.
     private void setthePaint(){
 
         sliderPaint = new Paint();
@@ -238,32 +246,38 @@ public class Slider extends View{
         return randomNumber;
     }
 
+    //moves the slider object depending on the value of the quadrant
     protected void moveTheSliderBasedOnQuadrant(){
 
-        if(quadrantKey == 1){
+        switch (quadrantKey){
 
-            moveSliderToTheRight();
+            case 1: //LEFT
+
+                moveSliderToTheRight();
+                break;
+
+
+            case 2: //TOP
+
+                moveSliderDown();
+                break;
+
+
+            case 3: //RIGHT
+
+                moveSliderToTheLeft();
+                break;
+
+            case 4: //BOTTOM
+
+                moveSliderUp();
+                break;
+
         }
-
-        if(quadrantKey == 2){
-
-            moveSliderDown();
-        }
-
-        if(quadrantKey == 3){
-
-            moveSliderToTheLeft();
-        }
-
-        if(quadrantKey == 4){
-
-            moveSliderUp();
-
-        }
-
     }
 
 
+    //the methods below move the slider in the specified directions
     protected void moveSliderToTheRight(){
 
         sliderLeft ++;
@@ -290,6 +304,5 @@ public class Slider extends View{
         sliderTop--;
         sliderBottom--;
     }
-
 
 }
