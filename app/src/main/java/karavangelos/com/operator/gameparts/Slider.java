@@ -28,25 +28,32 @@ public class Slider extends View{
     private int sliderTop;                                                                          //slider top coordinate
     private int sliderRight;                                                                        //slider right coordinate
     private int sliderBottom;                                                                       //slider bottom coordinate
+    private int sliderWidth;
+    private int sliderHeight;
+
     private int quadrantKey;                                                                        //integer key that decides where to manifest the slider rectangle from.  1 for left, 2 for top, 3 for right, 4 for bottom.
     private int lineKey;                                                                            //integer key that determines where to draw the new slider according to the grid lines
     private int paintKey;                                                                           //integer key that determines what color to paint the slider with.
     private int sliderSpeed;                                                                        //speed of the slider object.  Determined according to numerous factors.
-
     private Paint sliderPaint;                                                                      //paint that will color the slider rectangle.
 
     private boolean startingPositionsEstablished;                                                   //flag that tells whether or not the starting positions of the slider have been defined.
-
     private Context context;                                                                        //member variant of global context
+
 
     public Slider(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
-
         theSlider = new Rect();
+        startingPositionsEstablished = false;
 
         setthePaint();
-        setSliderCoordinates();
+        quadrantKey = getRandomNumber(1, 4);
+
+       // setSliderCoordinates();
+
+      //  Log.d(TAG, "the random number for the quadrant key is " + quadrantKey );
+
 
     }
 
@@ -106,6 +113,23 @@ public class Slider extends View{
     public void setQuadrantKey(int quadrantKey) {
         this.quadrantKey = quadrantKey;
     }
+
+    public int getSliderWidth() {
+        return sliderWidth;
+    }
+
+    public void setSliderWidth(int sliderWidth) {
+        this.sliderWidth = sliderWidth;
+    }
+
+    public int getSliderHeight() {
+        return sliderHeight;
+    }
+
+    public void setSliderHeight(int sliderHeight) {
+        this.sliderHeight = sliderHeight;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -117,16 +141,37 @@ public class Slider extends View{
 
     }
 
-    private void setSliderCoordinates(){
+    protected void setSliderCoordinates(PlayerBars playerBars){
 
         if(!startingPositionsEstablished){
 
-            sliderLeft = 0;
-            sliderTop = 0;
-            sliderRight = 100;
-            sliderBottom = 100;
+            sliderWidth = playerBars.getVertBarWidth();
+            sliderHeight = playerBars.getHorzBarWidth();
 
-            Log.d(TAG, "The starting coordinates have been set");
+            if(quadrantKey == 1){
+
+                sliderRight = 0;
+                sliderTop = 0;
+                sliderBottom = (sliderTop + sliderHeight);
+                sliderLeft = (sliderRight - sliderWidth);
+
+            } else {
+
+                sliderLeft = 0;
+                sliderTop = 0;
+                sliderRight = 100;
+                sliderBottom = 100;
+
+            }
+
+
+              Log.d(TAG, "quadrant position: " + quadrantKey);
+              Log.d(TAG, "left position: " + sliderLeft);
+              Log.d(TAG, "top position: " + sliderTop);
+              Log.d(TAG, "right position: " + sliderRight);
+              Log.d(TAG, "bottom position: " + sliderBottom);
+              Log.d(TAG, "width: " + sliderWidth);
+              Log.d(TAG, "height: " + sliderHeight);
 
 
             startingPositionsEstablished = true;
@@ -147,7 +192,7 @@ public class Slider extends View{
     //method used to obtain a random number between the min and max arguments.  Min being the lowest
     //number that can be obtained, and max being the highest number that can be obtained.  This method
     //is used for a number of contributing factors across the Slider class.
-    private void getRandomNumber(int min, int max){
+    private int getRandomNumber(int min, int max){
 
         Random random = new Random();
 
@@ -155,31 +200,32 @@ public class Slider extends View{
 
         //   Log.d(TAG, "The Random number between " + min + " and " + max + " is " + randomNumber);
 
+        return randomNumber;
     }
 
 
-    private void moveSliderToTheRight(){
+    protected void moveSliderToTheRight(){
 
         sliderLeft ++;
         sliderRight ++;
 
     }
 
-    private void moveSliderToTheLeft(){
+    protected void moveSliderToTheLeft(){
 
         sliderLeft--;
         sliderRight--;
 
     }
 
-    private void moveSliderDown(){
+    protected void moveSliderDown(){
 
         sliderTop++;
         sliderBottom++;
 
     }
 
-    private void moveSliderUp(){
+    protected void moveSliderUp(){
 
         sliderTop--;
         sliderBottom--;

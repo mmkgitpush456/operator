@@ -28,12 +28,6 @@ public class CanvasView extends View {
     private int horizontalGridBreaks;                                                               //helps determine distance between horizontal grid lines
 
     private PlayerBars playerBars;                                                                  //player bars object which interacts with the canvas.
-
-    private int sliderLeft;
-    private int sliderTop;
-    private int sliderRight;
-    private int sliderBottom;
-    private boolean sliderIsSet;
     private Slider slider;
 
 
@@ -71,6 +65,10 @@ public class CanvasView extends View {
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
         playerBars.drawTheBars(canvas);
 
+     //   Log.d(TAG, "bar width = " + playerBars.getVertBarWidth() );
+
+
+        slider.setSliderCoordinates(playerBars);
         slider.drawTheSlider(canvas);
 
         drawTheLines(canvas);
@@ -94,6 +92,8 @@ public class CanvasView extends View {
             case MotionEvent.ACTION_MOVE:
 
                 moveVerticalOrHorizontalBars(x, y);
+                slider.moveSliderToTheRight();
+
 
                 break;
             case MotionEvent.ACTION_UP:
