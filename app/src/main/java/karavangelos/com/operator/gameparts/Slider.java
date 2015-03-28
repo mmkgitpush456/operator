@@ -32,7 +32,7 @@ public class Slider extends View{
     private int sliderHeight;
 
     private int quadrantKey;                                                                        //integer key that decides where to manifest the slider rectangle from.  1 for left, 2 for top, 3 for right, 4 for bottom.
-    private int lineKey;                                                                            //integer key that determines where to draw the new slider according to the grid lines
+    private int vectorKey;                                                                            //integer key that determines where to draw the new slider according to the grid lines
     private int paintKey;                                                                           //integer key that determines what color to paint the slider with.
     private int sliderSpeed;                                                                        //speed of the slider object.  Determined according to numerous factors.
     private Paint sliderPaint;                                                                      //paint that will color the slider rectangle.
@@ -49,6 +49,18 @@ public class Slider extends View{
 
         setthePaint();
         quadrantKey = getRandomNumber(1, 4);
+
+        if(quadrantKey == 1 || quadrantKey == 3){
+
+            vectorKey = getRandomNumber(1, 11);
+
+        }
+
+        if(quadrantKey == 2 || quadrantKey == 4){
+
+            vectorKey = getRandomNumber(1, 7);
+        }
+
 
        // setSliderCoordinates();
 
@@ -101,11 +113,11 @@ public class Slider extends View{
     public void setPaintKey(int paintKey) {
         this.paintKey = paintKey;
     }
-    public int getLineKey() {
-        return lineKey;
+    public int getVectorKey() {
+        return vectorKey;
     }
-    public void setLineKey(int lineKey) {
-        this.lineKey = lineKey;
+    public void setVectorKey(int vectorKey) {
+        this.vectorKey = vectorKey;
     }
     public int getQuadrantKey() {
         return quadrantKey;
@@ -148,49 +160,54 @@ public class Slider extends View{
             sliderWidth = playerBars.getVertBarWidth();
             sliderHeight = playerBars.getHorzBarWidth();
 
-            if(quadrantKey == 1){
 
-                sliderRight = 0;
-                sliderTop = 0;
-                sliderBottom = (sliderTop + sliderHeight);
-                sliderLeft = (sliderRight - sliderWidth);
+            switch(quadrantKey){
 
+                case 1:
+
+                    sliderRight = 0;
+                    sliderBottom = (vectorKey * sliderHeight);
+                    sliderTop = (sliderBottom - sliderHeight);
+                    sliderLeft = (sliderRight - sliderWidth);
+                    break;
+
+                case 2:
+
+                    sliderBottom = 0;
+                    sliderTop = (sliderBottom - sliderHeight);
+                    sliderRight = (sliderWidth * vectorKey);
+                    sliderLeft = (sliderRight - sliderWidth);
+                    break;
+
+                case 3:
+
+                    sliderLeft = canvas.getWidth();
+                    sliderRight = (sliderLeft + sliderWidth);
+                    sliderBottom = (sliderHeight * vectorKey);
+                    sliderTop = (sliderBottom - sliderHeight);
+
+                    break;
+
+                case 4:
+
+                    sliderTop = canvas.getHeight();
+                    sliderBottom = (sliderTop + sliderHeight);
+                    sliderRight = (sliderWidth * vectorKey);
+                    sliderLeft = (sliderRight - sliderWidth);
+
+                    break;
             }
 
-            if(quadrantKey == 2){
-
-                sliderBottom = 0;
-                sliderTop = (sliderBottom - sliderHeight);
-                sliderLeft = 0;
-                sliderRight = (sliderLeft + sliderWidth);
-            }
-
-            if(quadrantKey == 3) {
-
-                sliderLeft = canvas.getWidth();
-                sliderRight = (sliderLeft + sliderWidth);
-                sliderTop = 0;
-                sliderBottom = (sliderTop + sliderHeight);
-
-            }
-
-            if(quadrantKey == 4){
-
-                sliderTop = canvas.getHeight();
-                sliderBottom = (sliderTop + sliderHeight);
-                sliderLeft = 0;
-                sliderRight = (sliderLeft + sliderWidth);
-
-            }
-
+            /*
               Log.d(TAG, "quadrant position: " + quadrantKey);
+              Log.d(TAG, "vector key: " + vectorKey);
               Log.d(TAG, "left position: " + sliderLeft);
               Log.d(TAG, "top position: " + sliderTop);
               Log.d(TAG, "right position: " + sliderRight);
               Log.d(TAG, "bottom position: " + sliderBottom);
               Log.d(TAG, "width: " + sliderWidth);
               Log.d(TAG, "height: " + sliderHeight);
-
+            */
 
             startingPositionsEstablished = true;
         }
