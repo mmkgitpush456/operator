@@ -3,15 +3,9 @@ package karavangelos.com.operator.gameparts;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.PointF;
-import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.util.SparseArray;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.util.Random;
 
 import karavangelos.com.operator.R;
 
@@ -87,6 +81,8 @@ public class CanvasView extends View {
             case MotionEvent.ACTION_DOWN:
 
                 checkIfTheBarsGotTouched(x, y);
+                slider.setOperatorPositions(playerBars);
+
 
                 break;
             case MotionEvent.ACTION_MOVE:

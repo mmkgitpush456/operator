@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import karavangelos.com.operator.R;
@@ -411,7 +412,7 @@ public class PlayerBars extends View {
         int divide = (int) (vertBarWidth / 2);
 
         determineVerticalAlignmentOnRelease(distanceFromRight, divide);
-        operator.moveWithTheVerticalBar(vertBarLeft);
+        operator.moveWithTheVerticalBar(vertBarRight, vertBarLeft);
     }
 
     //helper methods that checks where the vertical bar's location is on the canvas after
@@ -513,8 +514,9 @@ public class PlayerBars extends View {
 
         determineHorizontalAlignmentOnRelease(distanceFromBottom, divide, horizontalGridBreaks);
 
-        operator.setOperatorTop(horzBarTop);
-        operator.setOperatorBottom(horzBarBottom);
+       // operator.setOperatorTop(horzBarTop);
+       // operator.setOperatorBottom(horzBarBottom);
+        operator.moveWithHorizontalBar(horzBarBottom, horzBarTop);
 
     }
 
@@ -626,8 +628,36 @@ public class PlayerBars extends View {
             horzBarTop = nextToLastHorizontalBarPos;
             horzBarBottom = vertBarBottom;
         }
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    protected int obtainOperatorPosition(String whichCoordinate){
+
+        int whichPosition = 0;
+
+        if(whichCoordinate.equalsIgnoreCase(context.getString(R.string.left)) ){
+
+            whichPosition = operator.getOperatorLeft();
+        }
+
+        if(whichCoordinate.equalsIgnoreCase(context.getString(R.string.top)) ){
+
+            whichPosition = operator.getOperatorTop();
+        }
+
+        if(whichCoordinate.equalsIgnoreCase(context.getString(R.string.right)) ){
+
+            whichPosition = operator.getOperatorRight();
+        }
+
+        if(whichCoordinate.equalsIgnoreCase(context.getString(R.string.bottom)) ){
+
+            whichPosition = operator.getOperatorBottom();
+        }
+
+        return whichPosition;
+    }
+
 }

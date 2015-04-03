@@ -17,7 +17,7 @@ import karavangelos.com.operator.R;
  */
 
 //the slider class controls all the boxes that move across, up, and down the canvas and which may
-    //collide with the operator object.
+// collide with the operator object.
 public class Slider extends View{
 
     private static final String TAG = "Slider";
@@ -28,11 +28,16 @@ public class Slider extends View{
     private int sliderTop;                                                                          //slider top coordinate
     private int sliderRight;                                                                        //slider right coordinate
     private int sliderBottom;                                                                       //slider bottom coordinate
-    private int sliderWidth;
-    private int sliderHeight;
+    private int sliderWidth;                                                                        //width of the slider object
+    private int sliderHeight;                                                                       //height of the slider object
+
+    private int operatorLeft;
+    private int operatorTop;
+    private int operatorRight;
+    private int operatorBottom;
 
     private int quadrantKey;                                                                        //integer key that decides where to manifest the slider rectangle from.  1 for left, 2 for top, 3 for right, 4 for bottom.
-    private int vectorKey;                                                                            //integer key that determines where to draw the new slider according to the grid lines
+    private int vectorKey;                                                                          //integer key that determines where to draw the new slider according to the grid lines
     private int paintKey;                                                                           //integer key that determines what color to paint the slider with.
     private int sliderSpeed;                                                                        //speed of the slider object.  Determined according to numerous factors.
     private Paint sliderPaint;                                                                      //paint that will color the slider rectangle.
@@ -44,13 +49,8 @@ public class Slider extends View{
     public Slider(Context c, AttributeSet attrs) {
         super(c, attrs);
         context = c;
-        theSlider = new Rect();
-        startingPositionsEstablished = false;
 
-        setthePaint();
-        quadrantKey = getRandomNumber(1, 4);
-        setVectorAccordingToQuadrant();
-
+        setConstructorProtocol();
     }
 
     //getters and setters
@@ -128,6 +128,18 @@ public class Slider extends View{
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+    //assigns where the slider will start on the canvas, what color it will be,
+    //and which direction on the grid it will be traveling.  Used on the constructor.
+    private void setConstructorProtocol(){
+
+        theSlider = new Rect();
+        startingPositionsEstablished = false;
+        setthePaint();
+        quadrantKey = getRandomNumber(1, 4);
+        setVectorAccordingToQuadrant();
+
+    }
 
     //public method that updates and draws the slider object on the canvas.
     public void drawTheSlider(Canvas canvas){
@@ -304,5 +316,28 @@ public class Slider extends View{
         sliderTop--;
         sliderBottom--;
     }
+
+
+    //the following methods provide interaction with the operator object.
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //convenience method that obtains the current position of the
+    public void setOperatorPositions(PlayerBars playerBars){
+
+         operatorLeft =  playerBars.obtainOperatorPosition(context.getString(R.string.left) );
+         operatorTop = playerBars.obtainOperatorPosition(context.getString(R.string.top) );
+         operatorRight = playerBars.obtainOperatorPosition(context.getString(R.string.right) );
+         operatorBottom = playerBars.obtainOperatorPosition(context.getString(R.string.bottom) );
+
+      //  Log.d(TAG, whichCoordinate + " position: " + selectedPosition);
+
+        /*
+        Log.d(TAG, "LEFT: " + operatorLeft);
+        Log.d(TAG, "RIGHT: " + operatorRight);
+        Log.d(TAG, "TOP: " + operatorTop);
+        Log.d(TAG, "BOTTOM: " + operatorBottom);
+        */
+    }
+
 
 }
