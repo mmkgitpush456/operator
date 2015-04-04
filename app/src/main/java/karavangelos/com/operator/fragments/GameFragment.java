@@ -51,7 +51,7 @@ public class GameFragment extends Fragment{
         super.onResume();
 
         defineViews(v);
-        setCanvasMargins();
+       // setCanvasMargins();
 
     }
 

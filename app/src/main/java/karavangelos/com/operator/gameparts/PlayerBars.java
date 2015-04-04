@@ -132,6 +132,10 @@ public class PlayerBars extends View {
         operator.setOperatorTop(operator.getStarterPosition(5, horzBarWidth) );
         operator.setOperatorBottom( (operator.getOperatorTop() + horzBarWidth ) );
 
+
+        Log.d(TAG, "canvas width = " + canvas.getWidth() );
+        Log.d(TAG, "horizontal bar right = " + horzBarRight );
+
     }
 
 

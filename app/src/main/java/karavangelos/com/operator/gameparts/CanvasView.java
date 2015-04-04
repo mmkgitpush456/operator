@@ -81,7 +81,7 @@ public class CanvasView extends View {
             case MotionEvent.ACTION_DOWN:
 
                 checkIfTheBarsGotTouched(x, y);
-                slider.setOperatorPositions(playerBars);
+
 
 
                 break;
@@ -90,6 +90,8 @@ public class CanvasView extends View {
                 moveVerticalOrHorizontalBars(x, y);
              //   slider.moveSliderToTheRight();
                 slider.moveTheSliderBasedOnQuadrant();
+                slider.setOperatorPositions(playerBars);
+                slider.testCollisions();
 
 
                 break;
@@ -114,23 +116,6 @@ public class CanvasView extends View {
     //drawing specific methods
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-    private int getSliderRight(Canvas canvas){
-
-        return getIterator(canvas.getWidth(), verticalGridBreaks);
-
-
-    }
-
-    private int getSliderBottom(Canvas canvas){
-
-        return getIterator(canvas.getHeight(), horizontalGridBreaks);
-    }
 
 
 

@@ -135,7 +135,7 @@ public class Slider extends View{
 
         theSlider = new Rect();
         startingPositionsEstablished = false;
-        setthePaint();
+        setThePaint();
         quadrantKey = getRandomNumber(1, 4);
         setVectorAccordingToQuadrant();
 
@@ -234,7 +234,7 @@ public class Slider extends View{
 
 
     //sets the color of the slider object.
-    private void setthePaint(){
+    private void setThePaint(){
 
         sliderPaint = new Paint();
         sliderPaint.setColor(getResources().getColor(R.color.red));
@@ -337,6 +337,119 @@ public class Slider extends View{
         Log.d(TAG, "TOP: " + operatorTop);
         Log.d(TAG, "BOTTOM: " + operatorBottom);
         */
+    }
+
+    public boolean testingCollisionFromTop(){
+
+        boolean testingCollision = false;
+
+        if(operatorTop > sliderTop && operatorTop < sliderBottom){
+
+            testingCollision = true;
+        }
+
+        return testingCollision;
+
+    }
+
+    public boolean testingCollisionFromBottom(){
+
+        boolean testingCollision = false;
+
+        if(operatorBottom > sliderTop && operatorBottom < sliderBottom){
+
+            testingCollision = true;
+
+        }
+
+        return testingCollision;
+
+    }
+
+    public boolean testingCollisionFromLeft(){
+
+        boolean testingCollision = false;
+
+        if(operatorLeft > sliderLeft && operatorLeft < sliderRight){
+
+            testingCollision = true;
+
+        }
+
+        return testingCollision;
+
+    }
+
+    public boolean testingCollisionFromRight(){
+
+        boolean testingCollision = false;
+
+        if(operatorRight > sliderLeft && operatorRight < sliderRight){
+
+            testingCollision = true;
+
+        }
+
+        return testingCollision;
+    }
+
+
+
+    public boolean isVerticalCollision(){
+
+        boolean isVerticalCollision = false;
+
+        if(testingCollisionFromTop() || testingCollisionFromBottom() ){
+
+            isVerticalCollision = true;
+
+        }
+
+        return isVerticalCollision;
+    }
+
+    public boolean isHorizontalCollision(){
+
+        boolean isHorizontalCollision = false;
+
+        if(testingCollisionFromLeft() || testingCollisionFromRight() ){
+
+            isHorizontalCollision = true;
+
+        }
+
+        return isHorizontalCollision;
+
+    }
+
+
+    public void testVerticalCollision(){
+
+        if(isVerticalCollision() ){
+
+            Log.d(TAG, "vertical collision occured.");
+
+        }
+
+    }
+
+    public void testHorizontalCollision(){
+
+        if(isHorizontalCollision() ){
+
+            Log.d(TAG, "Horizontal Collision occurred");
+        }
+
+    }
+
+    public void testCollisions(){
+
+        if(isVerticalCollision() && isHorizontalCollision() ){
+
+            Log.d(TAG, "FULL ON collision has occurred");
+
+        }
+
     }
 
 
