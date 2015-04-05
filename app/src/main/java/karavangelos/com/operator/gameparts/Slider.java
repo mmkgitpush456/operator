@@ -44,6 +44,7 @@ public class Slider extends View{
 
     private boolean startingPositionsEstablished;                                                   //flag that tells whether or not the starting positions of the slider have been defined.
     private Context context;                                                                        //member variant of global context
+    private boolean hasCollided;
 
 
     public Slider(Context c, AttributeSet attrs) {
@@ -139,6 +140,8 @@ public class Slider extends View{
         quadrantKey = getRandomNumber(1, 4);
         setVectorAccordingToQuadrant();
 
+        hasCollided = false;
+
     }
 
     //public method that updates and draws the slider object on the canvas.
@@ -233,12 +236,59 @@ public class Slider extends View{
     }
 
 
-    //sets the color of the slider object.
+    //sets the color of the slider object through the assistance of the key encoder.
+    //from the sliderPaintColor method.
     private void setThePaint(){
 
         sliderPaint = new Paint();
-        sliderPaint.setColor(getResources().getColor(R.color.red));
-        sliderPaint.setStyle(Paint.Style.FILL);
+
+        int paintColorCode = getRandomNumber(1, 4);
+        setSliderPaintColor(paintColorCode);
+
+     //   Log.d(TAG, "The paint's color code is " + paintColorCode);
+
+    }
+
+
+    //convenience method that sets the paint color of the slider object based on the number key
+    //passed in from the argument.
+    //1 FOR RED
+    //2 FOR GREEN
+    //3 FOR BLUE
+    //4 FOR PINK
+    private void setSliderPaintColor(int paintColorCode){
+
+        switch (paintColorCode){
+
+            case 1:
+
+                sliderPaint.setColor(getResources().getColor(R.color.red));
+                sliderPaint.setStyle(Paint.Style.FILL);
+                break;
+
+
+            case 2:
+
+                sliderPaint.setColor(getResources().getColor(R.color.green));
+                sliderPaint.setStyle(Paint.Style.FILL);
+                break;
+
+
+
+            case 3:
+
+                sliderPaint.setColor(getResources().getColor(R.color.blue));
+                sliderPaint.setStyle(Paint.Style.FILL);
+                break;
+
+
+            case 4:
+
+                sliderPaint.setColor(getResources().getColor(R.color.pink));
+                sliderPaint.setStyle(Paint.Style.FILL);
+                break;
+
+        }
 
     }
 
@@ -339,118 +389,66 @@ public class Slider extends View{
         */
     }
 
-    public boolean testingCollisionFromTop(){
 
-        boolean testingCollision = false;
+    //convenience method that sets the rules for collision detection between the slider and the operator.
+    //if the operator position (left, top, right, or bottom) goes within the listed boudaries of the slider, then
+    //a flag is returned signalling that a successful collision has occured.  The process goes through numerous steps
+    //of flags to check for a correct geographic collision.
+    private boolean isElligibleForCollision(int operatorPosition, int sliderTopOrLeft, int sliderBottomOrRight){
 
-        if(operatorTop > sliderTop && operatorTop < sliderBottom){
+        boolean isElligible = false;
 
-            testingCollision = true;
+        if( (operatorPosition > sliderTopOrLeft) && (operatorPosition < sliderBottomOrRight) ){
+
+            isElligible = true;
         }
 
-        return testingCollision;
-
-    }
-
-    public boolean testingCollisionFromBottom(){
-
-        boolean testingCollision = false;
-
-        if(operatorBottom > sliderTop && operatorBottom < sliderBottom){
-
-            testingCollision = true;
-
-        }
-
-        return testingCollision;
-
-    }
-
-    public boolean testingCollisionFromLeft(){
-
-        boolean testingCollision = false;
-
-        if(operatorLeft > sliderLeft && operatorLeft < sliderRight){
-
-            testingCollision = true;
-
-        }
-
-        return testingCollision;
-
-    }
-
-    public boolean testingCollisionFromRight(){
-
-        boolean testingCollision = false;
-
-        if(operatorRight > sliderLeft && operatorRight < sliderRight){
-
-            testingCollision = true;
-
-        }
-
-        return testingCollision;
+        return isElligible;
     }
 
 
+    //checks to see whether the vertical boundaries of the operator and the slider are eligible for a collision.
+    private boolean verticalCollideIsElligible(){
 
-    public boolean isVerticalCollision(){
+        boolean isElligible = false;
 
-        boolean isVerticalCollision = false;
+        if(isElligibleForCollision(operatorTop, sliderTop, sliderBottom) || isElligibleForCollision(operatorBottom, sliderTop, sliderBottom)  ) {
 
-        if(testingCollisionFromTop() || testingCollisionFromBottom() ){
-
-            isVerticalCollision = true;
-
-        }
-
-        return isVerticalCollision;
-    }
-
-    public boolean isHorizontalCollision(){
-
-        boolean isHorizontalCollision = false;
-
-        if(testingCollisionFromLeft() || testingCollisionFromRight() ){
-
-            isHorizontalCollision = true;
+            isElligible = true;
 
         }
 
-        return isHorizontalCollision;
-
+        return isElligible;
     }
 
 
-    public void testVerticalCollision(){
+    //checks to see whether the horizontal boundaries of the operator and the slide are eligible for collision.
+    private boolean horizontalCollideIsElligible(){
 
-        if(isVerticalCollision() ){
+        boolean isElligible = false;
 
-            Log.d(TAG, "vertical collision occured.");
 
+        if(isElligibleForCollision(operatorLeft, sliderLeft, sliderRight) || isElligibleForCollision(operatorRight, sliderLeft, sliderRight) ) {
+
+            isElligible = true;
         }
 
+        return isElligible;
+
     }
 
-    public void testHorizontalCollision(){
+    //if both the vertical and horizontal boundaries have reached a point of eligibility for collision
+    //(the operator and slider have collided), then a flag is returned which signals that a collision has occurred.
+    public boolean checkForCollision(){
 
-        if(isHorizontalCollision() ){
+        boolean hasCollided = false;
 
-            Log.d(TAG, "Horizontal Collision occurred");
+        if(verticalCollideIsElligible() && horizontalCollideIsElligible() ){
+
+            hasCollided = true;
         }
 
+        return hasCollided;
     }
-
-    public void testCollisions(){
-
-        if(isVerticalCollision() && isHorizontalCollision() ){
-
-            Log.d(TAG, "FULL ON collision has occurred");
-
-        }
-
-    }
-
 
 }

@@ -82,8 +82,6 @@ public class CanvasView extends View {
 
                 checkIfTheBarsGotTouched(x, y);
 
-
-
                 break;
             case MotionEvent.ACTION_MOVE:
 
@@ -91,8 +89,7 @@ public class CanvasView extends View {
              //   slider.moveSliderToTheRight();
                 slider.moveTheSliderBasedOnQuadrant();
                 slider.setOperatorPositions(playerBars);
-                slider.testCollisions();
-
+               // slider.checkForCollision();
 
                 break;
             case MotionEvent.ACTION_UP:
