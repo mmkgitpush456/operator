@@ -17,4 +17,13 @@
     <string name="right">RIGHT</string>
     <string name="top">TOP</string>
     <string name="bottom">BOTTOM</string>
+
+    <!-- Color String Keys -->
+
+    <string name="red">RED</string>
+    <string name="green">GREEN</string>
+    <string name="blue">BLUE</string>
+    <string name="pink">PINK</string>
+
+    <!-- -->
 </resources>

@@ -150,6 +150,86 @@ public class Slider extends View{
 
         theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
         canvas.drawRect(theSlider, sliderPaint);
+        switchCollisionFlagIfCollides();
+        moveTheSliderBasedOnQuadrant();
+
+
+        if(hasCollided){
+
+            switch (quadrantKey){
+
+                case 1:
+
+                    if(sliderRight > sliderLeft){
+
+                        sliderRight -= 4;
+
+                    }
+
+                    if(sliderBottom > sliderTop){
+
+                        sliderBottom-= 3;
+                        sliderTop+=3;
+
+                    }
+
+                    break;
+
+                case 2:
+
+                    if(sliderRight > sliderLeft){
+
+                        sliderRight -= 2;
+                        sliderLeft += 2;
+
+                    }
+
+                    if(sliderBottom > sliderTop){
+
+                        sliderBottom -= 6;
+
+                    }
+
+                    break;
+
+                case 3:
+
+                    if(sliderRight > sliderLeft){
+
+                        sliderLeft += 4;
+
+                    }
+
+                    if(sliderBottom > sliderTop){
+
+                        sliderBottom-= 3;
+                        sliderTop+=3;
+
+                    }
+
+                    break;
+
+                case 4:
+
+                    if(sliderRight > sliderLeft){
+
+                        sliderRight -= 2;
+                        sliderLeft += 2;
+
+                    }
+
+                    if(sliderBottom > sliderTop){
+
+                        sliderTop += 6;
+
+                    }
+
+                    break;
+
+            }
+
+
+        }
     }
 
     //generates a random number to be used as a vector coordinate for initial positioning of
@@ -398,7 +478,7 @@ public class Slider extends View{
 
         boolean isElligible = false;
 
-        if( (operatorPosition > sliderTopOrLeft) && (operatorPosition < sliderBottomOrRight) ){
+        if( (operatorPosition >= sliderTopOrLeft) && (operatorPosition <= sliderBottomOrRight) ){
 
             isElligible = true;
         }
@@ -439,16 +519,46 @@ public class Slider extends View{
 
     //if both the vertical and horizontal boundaries have reached a point of eligibility for collision
     //(the operator and slider have collided), then a flag is returned which signals that a collision has occurred.
-    public boolean checkForCollision(){
+    public void checkForCollision(){
 
-        boolean hasCollided = false;
+
 
         if(verticalCollideIsElligible() && horizontalCollideIsElligible() ){
 
             hasCollided = true;
+//            logAllCoordinatesForDebugging();
+
         }
 
-        return hasCollided;
+      //  return hasCollided;
+    }
+
+    private void switchCollisionFlagIfCollides(){
+
+        if(!hasCollided){
+
+          //  Log.d(TAG, "awaiting collision");
+            checkForCollision();
+
+        }
+    }
+
+
+    private void logAllCoordinatesForDebugging(){
+
+        Log.d(TAG, "the collision has occurred");
+
+        Log.d(TAG, "operatorleft: " + operatorLeft);
+        Log.d(TAG, "sliderLeft: " + sliderLeft);
+
+        Log.d(TAG, "operatorTop: " + operatorTop);
+        Log.d(TAG, "sliderTop: " + sliderTop);
+
+        Log.d(TAG, "operatorRight: " + operatorRight);
+        Log.d(TAG, "sliderRight: " + sliderRight);
+
+        Log.d(TAG, "operatorBottom: " + operatorBottom);
+        Log.d(TAG, "sliderBottom: " + sliderBottom);
     }
 
 }

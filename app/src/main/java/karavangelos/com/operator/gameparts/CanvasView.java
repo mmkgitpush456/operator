@@ -64,6 +64,7 @@ public class CanvasView extends View {
 
         slider.setSliderCoordinates(playerBars, canvas);
         slider.drawTheSlider(canvas);
+        slider.setOperatorPositions(playerBars);
 
         drawTheLines(canvas);
         invalidate();
@@ -87,9 +88,9 @@ public class CanvasView extends View {
 
                 moveVerticalOrHorizontalBars(x, y);
              //   slider.moveSliderToTheRight();
-                slider.moveTheSliderBasedOnQuadrant();
-                slider.setOperatorPositions(playerBars);
-               // slider.checkForCollision();
+               // slider.moveTheSliderBasedOnQuadrant();
+               // slider.setOperatorPositions(playerBars);
+            //    slider.checkForCollision();
 
                 break;
             case MotionEvent.ACTION_UP:
