@@ -35,6 +35,8 @@ public class PlayerBars extends View {
     private int horzBarDistanceBottom;
     public int horzBarWidth;
 
+    private int colorKey;
+
     private int vertBarLeft;                                                                        //coordinates that maintain the vertical gray bar
     private int vertBarTop;
     private int vertBarRight;
@@ -65,6 +67,7 @@ public class PlayerBars extends View {
 
         operator = new Operator(c, attrs);
 
+        colorKey = operator.getPaintKey();
     }
 
 
@@ -102,6 +105,14 @@ public class PlayerBars extends View {
 
     public void setHorzBarWidth(int horzBarWidth) {
         this.horzBarWidth = horzBarWidth;
+    }
+
+    public int getColorKey() {
+        return colorKey;
+    }
+
+    public void setColorKey(int colorKey) {
+        this.colorKey = colorKey;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

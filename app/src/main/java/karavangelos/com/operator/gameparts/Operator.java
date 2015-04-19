@@ -8,6 +8,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
+import java.util.Random;
+
 import karavangelos.com.operator.R;
 
 /**
@@ -29,15 +31,17 @@ public class Operator extends View{
     private int operatorBottom;                                                                     //operator's bottom coordinate
     private int operatorWidth;                                                                      //width of the operator
     private int operatorHeight;                                                                     //height of the operator
+    private int paintKey;                                                                           //key that tells what color the operator object will be.
 
 
     //constructor sets the color of the operator and declares the operator rectangle
     public Operator(Context c, AttributeSet attrs){
         super (c, attrs);
 
+        paintKey = getRandomNumber(1, 4);
+
         operatorPaint = new Paint();
-        operatorPaint.setStyle(Paint.Style.FILL);
-        operatorPaint.setColor(getResources().getColor(R.color.red));
+        setOperatorPaintColor(paintKey);
 
         operatorRect = new Rect();
     }
@@ -92,6 +96,15 @@ public class Operator extends View{
     public void setOperatorHeight(int operatorHeight) {
         this.operatorHeight = operatorHeight;
     }
+
+    public int getPaintKey() {
+        return paintKey;
+    }
+
+    public void setPaintKey(int paintKey) {
+        this.paintKey = paintKey;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -111,6 +124,62 @@ public class Operator extends View{
         }
 
         return starterPosition;
+    }
+
+
+    //method used to obtain a random number between the min and max arguments.  Min being the lowest
+    //number that can be obtained, and max being the highest number that can be obtained.  This method
+    //is used for a number of contributing factors across the Slider class.
+    private int getRandomNumber(int min, int max){
+
+        Random random = new Random();
+
+        int randomNumber = random.nextInt(max) + min;
+
+        //   Log.d(TAG, "The Random number between " + min + " and " + max + " is " + randomNumber);
+
+        return randomNumber;
+    }
+
+    //convenience method that sets the paint color of the slider object based on the number key
+    //passed in from the argument.
+    //1 FOR RED
+    //2 FOR GREEN
+    //3 FOR BLUE
+    //4 FOR PINK
+    private void setOperatorPaintColor(int paintColorCode){
+
+        switch (paintColorCode){
+
+            case 1:
+
+                operatorPaint.setColor(getResources().getColor(R.color.red));
+                operatorPaint.setStyle(Paint.Style.FILL);
+                break;
+
+
+            case 2:
+
+                operatorPaint.setColor(getResources().getColor(R.color.green));
+                operatorPaint.setStyle(Paint.Style.FILL);
+                break;
+
+
+
+            case 3:
+
+                operatorPaint.setColor(getResources().getColor(R.color.blue));
+                operatorPaint.setStyle(Paint.Style.FILL);
+                break;
+
+
+            case 4:
+
+                operatorPaint.setColor(getResources().getColor(R.color.pink));
+                operatorPaint.setStyle(Paint.Style.FILL);
+                break;
+
+        }
     }
 
 

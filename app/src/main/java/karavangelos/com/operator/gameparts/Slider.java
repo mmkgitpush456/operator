@@ -46,6 +46,7 @@ public class Slider extends View{
     private Context context;                                                                        //member variant of global context
     private boolean hasCollided;
     private boolean isDissolved;
+    private boolean colorsMatch;
 
 
     public Slider(Context c, AttributeSet attrs) {
@@ -171,23 +172,30 @@ public class Slider extends View{
         switchCollisionFlagIfCollides();
         moveTheSliderBasedOnQuadrant();
 
-
         if(hasCollided){
 
-            checkIfTheSliderIsDissolved();
+            if(colorsMatch) {
 
-            if(!isDissolved) {
+                checkIfTheSliderIsDissolved();
+                wipeSliderClean();
+                /*
+                if (!isDissolved) {
 
-                dissolveTheSlider();
+                    dissolveTheSlider();
+
+                } else {
+
+                    // Log.d(TAG, "the slider has been dissolved");
+                    theSlider = null;
+
+                }
+                */
 
             } else {
 
-               // Log.d(TAG, "the slider has been dissolved");
-                theSlider = null;
+                Log.d(TAG, "The colors don't match.  You lost a life");
 
             }
-
-
         }
     }
 
@@ -255,6 +263,20 @@ public class Slider extends View{
                 }
                 break;
         }//end of the switch and case
+    }
+
+    private void wipeSliderClean(){
+
+        if (!isDissolved) {
+
+            dissolveTheSlider();
+
+        } else {
+
+            // Log.d(TAG, "the slider has been dissolved");
+            theSlider = null;
+
+        }
 
     }
 
@@ -349,8 +371,8 @@ public class Slider extends View{
 
         sliderPaint = new Paint();
 
-        int paintColorCode = getRandomNumber(1, 4);
-        setSliderPaintColor(paintColorCode);
+        paintKey = getRandomNumber(1, 4);
+        setSliderPaintColor(paintKey);
 
      //   Log.d(TAG, "The paint's color code is " + paintColorCode);
 
@@ -396,7 +418,6 @@ public class Slider extends View{
                 break;
 
         }
-
     }
 
 
@@ -546,9 +567,7 @@ public class Slider extends View{
 
     //if both the vertical and horizontal boundaries have reached a point of eligibility for collision
     //(the operator and slider have collided), then a flag is returned which signals that a collision has occurred.
-    public void checkForCollision(){
-
-
+    private void checkForCollision(){
 
         if(verticalCollideIsElligible() && horizontalCollideIsElligible() ){
 
@@ -570,6 +589,23 @@ public class Slider extends View{
 
             isDissolved = true;
         }
+    }
+
+    public void checkIfColorMatchesOperatorColor(PlayerBars playerBars){
+
+     //   Log.d(TAG, "paint key is " + paintKey);
+     //   Log.d(TAG, "operator color key is " + playerBars.getColorKey() );
+
+        if(paintKey == playerBars.getColorKey()) {
+
+            colorsMatch = true;
+
+        } else {
+
+            colorsMatch = false;
+
+        }
+
     }
 
 

@@ -63,27 +63,6 @@ public class CanvasView extends View {
 
         performSliderActivities(canvas);
 
-        /*
-        if(slider != null) {
-
-            slider.setSliderCoordinates(playerBars, canvas);
-            slider.drawTheSlider(canvas);
-            slider.setOperatorPositions(playerBars);
-
-            if(slider.isDissolved() ) {
-
-                slider = null;
-                Log.d(TAG, "nullifying the slider");
-
-            }
-
-        } else {
-
-            Log.d(TAG, "the slider is dead");
-
-        }
-        */
-
 
         drawTheLines(canvas);
         invalidate();
@@ -94,7 +73,7 @@ public class CanvasView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        int x = (int)  event.getX();
+        int x = (int) event.getX();
         int y = (int) event.getY();
 
         switch (event.getActionMasked()) {
@@ -279,6 +258,7 @@ public class CanvasView extends View {
             slider.setSliderCoordinates(playerBars, canvas);
             slider.drawTheSlider(canvas);
             slider.setOperatorPositions(playerBars);
+            slider.checkIfColorMatchesOperatorColor(playerBars);
 
             if(slider.isDissolved() ) {
 
