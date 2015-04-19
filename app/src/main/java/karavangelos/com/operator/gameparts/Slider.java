@@ -44,9 +44,9 @@ public class Slider extends View{
 
     private boolean startingPositionsEstablished;                                                   //flag that tells whether or not the starting positions of the slider have been defined.
     private Context context;                                                                        //member variant of global context
-    private boolean hasCollided;
-    private boolean isDissolved;
-    private boolean colorsMatch;
+    private boolean hasCollided;                                                                    //helper flag that tells whether the operator and this slider have collided.
+    private boolean colorsMatch;                                                                    //helper flag that tells whether the operator and this Slider's colors match
+    private boolean isDissolved;                                                                    //checks to tell if and when this slider has been visibly dissolved from the screen.
 
 
     public Slider(Context c, AttributeSet attrs) {
@@ -178,18 +178,6 @@ public class Slider extends View{
 
                 checkIfTheSliderIsDissolved();
                 wipeSliderClean();
-                /*
-                if (!isDissolved) {
-
-                    dissolveTheSlider();
-
-                } else {
-
-                    // Log.d(TAG, "the slider has been dissolved");
-                    theSlider = null;
-
-                }
-                */
 
             } else {
 
@@ -470,29 +458,29 @@ public class Slider extends View{
     //the methods below move the slider in the specified directions
     protected void moveSliderToTheRight(){
 
-        sliderLeft ++;
-        sliderRight ++;
+        sliderLeft += 3;
+        sliderRight += 3;
 
     }
 
     protected void moveSliderToTheLeft(){
 
-        sliderLeft--;
-        sliderRight--;
+        sliderLeft -= 3;
+        sliderRight -= 3;
 
     }
 
     protected void moveSliderDown(){
 
-        sliderTop++;
-        sliderBottom++;
+        sliderTop += 3;
+        sliderBottom += 3;
 
     }
 
     protected void moveSliderUp(){
 
-        sliderTop--;
-        sliderBottom--;
+        sliderTop -= 3;
+        sliderBottom -= 3;
     }
 
 
@@ -583,6 +571,9 @@ public class Slider extends View{
         }
     }
 
+    //When the slider rectangle has completely disappeared from the canvas in terms of visibility,
+    //the flag isDissolved is fliopped to true.  The flag assists with nullifying the object and helping
+    //with garbage collection.
     private void checkIfTheSliderIsDissolved(){
 
         if( (sliderLeft > sliderRight) && (sliderTop > sliderBottom) ) {
@@ -591,6 +582,9 @@ public class Slider extends View{
         }
     }
 
+    //simple process which constantly checks to make sure that the slider and the operator have matching
+    //colors.  The corresponding flag is set accordingly.  This method is run constantly since the operator
+    //can change colors over periods of time or through potential power-ups.
     public void checkIfColorMatchesOperatorColor(PlayerBars playerBars){
 
      //   Log.d(TAG, "paint key is " + paintKey);
@@ -605,6 +599,39 @@ public class Slider extends View{
             colorsMatch = false;
 
         }
+
+    }
+
+    //helper method that checks to see if the slider has left the visible canvas.
+    //If it does, then the same process goes into effect to nullify the slider object.
+    public void checkIfTheSliderHasPassedTheCanvas(Canvas canvas){
+
+        if(sliderLeft >  (canvas.getWidth() + 10) ){
+
+            isDissolved = true;
+            Log.d(TAG, "slider has disappeared left to right");
+        }
+
+        if(sliderTop > (canvas.getHeight() + 10) ) {
+
+            isDissolved = true;
+            Log.d(TAG, "slider has disappeared top to bottom");
+        }
+
+        if(sliderRight < -10){
+
+            isDissolved = true;
+            Log.d(TAG, "slider has disappeared right to left");
+
+        }
+
+        if(sliderBottom < -10){
+
+            isDissolved = true;
+            Log.d(TAG, "slider has disappeared bottom to top");
+
+        }
+
 
     }
 

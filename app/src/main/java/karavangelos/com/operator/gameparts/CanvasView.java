@@ -251,6 +251,10 @@ public class CanvasView extends View {
 
 
 
+    //Set of processes that are run on the slider object to maintain its status.
+    //Should a slider be elligible to be killed off, it will dissolve with the help of its own methods.
+    //Once the flag returns that is has been dissolved, the slider nullifies itself and will never
+    //be reached with the help of the conditional flow.  Aids in garbage collection process.
     private void performSliderActivities(Canvas canvas){
 
         if(slider != null) {
@@ -259,6 +263,7 @@ public class CanvasView extends View {
             slider.drawTheSlider(canvas);
             slider.setOperatorPositions(playerBars);
             slider.checkIfColorMatchesOperatorColor(playerBars);
+            slider.checkIfTheSliderHasPassedTheCanvas(canvas);
 
             if(slider.isDissolved() ) {
 
@@ -270,9 +275,6 @@ public class CanvasView extends View {
         } else {
 
            // Log.d(TAG, "the slider is dead");
-
         }
-
     }
-
 }

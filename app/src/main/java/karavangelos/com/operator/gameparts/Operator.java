@@ -141,7 +141,7 @@ public class Operator extends View{
         return randomNumber;
     }
 
-    //convenience method that sets the paint color of the slider object based on the number key
+    //convenience method that sets the paint color of the operator object based on the number key
     //passed in from the argument.
     //1 FOR RED
     //2 FOR GREEN
@@ -208,12 +208,5 @@ public class Operator extends View{
         setOperatorBottom(horzBarBottom);
         setOperatorTop(horzBarTop);
     }
-
-
-
-
-
-
-
 
 }
