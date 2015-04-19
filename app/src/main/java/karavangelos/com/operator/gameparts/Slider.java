@@ -45,6 +45,7 @@ public class Slider extends View{
     private boolean startingPositionsEstablished;                                                   //flag that tells whether or not the starting positions of the slider have been defined.
     private Context context;                                                                        //member variant of global context
     private boolean hasCollided;
+    private boolean isDissolved;
 
 
     public Slider(Context c, AttributeSet attrs) {
@@ -127,6 +128,22 @@ public class Slider extends View{
         this.sliderHeight = sliderHeight;
     }
 
+    public boolean isHasCollided() {
+        return hasCollided;
+    }
+
+    public void setHasCollided(boolean hasCollided) {
+        this.hasCollided = hasCollided;
+    }
+
+    public boolean isDissolved() {
+        return isDissolved;
+    }
+
+    public void setIsDissolved(boolean isDissolved) {
+        this.isDissolved = isDissolved;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -141,6 +158,7 @@ public class Slider extends View{
         setVectorAccordingToQuadrant();
 
         hasCollided = false;
+        isDissolved = false;
 
     }
 
@@ -156,81 +174,90 @@ public class Slider extends View{
 
         if(hasCollided){
 
-            switch (quadrantKey){
+            checkIfTheSliderIsDissolved();
 
-                case 1:
+            if(!isDissolved) {
 
-                    if(sliderRight > sliderLeft){
+                dissolveTheSlider();
 
-                        sliderRight -= 4;
+            } else {
 
-                    }
-
-                    if(sliderBottom > sliderTop){
-
-                        sliderBottom-= 3;
-                        sliderTop+=3;
-
-                    }
-
-                    break;
-
-                case 2:
-
-                    if(sliderRight > sliderLeft){
-
-                        sliderRight -= 2;
-                        sliderLeft += 2;
-
-                    }
-
-                    if(sliderBottom > sliderTop){
-
-                        sliderBottom -= 6;
-
-                    }
-
-                    break;
-
-                case 3:
-
-                    if(sliderRight > sliderLeft){
-
-                        sliderLeft += 4;
-
-                    }
-
-                    if(sliderBottom > sliderTop){
-
-                        sliderBottom-= 3;
-                        sliderTop+=3;
-
-                    }
-
-                    break;
-
-                case 4:
-
-                    if(sliderRight > sliderLeft){
-
-                        sliderRight -= 2;
-                        sliderLeft += 2;
-
-                    }
-
-                    if(sliderBottom > sliderTop){
-
-                        sliderTop += 6;
-
-                    }
-
-                    break;
+               // Log.d(TAG, "the slider has been dissolved");
+                theSlider = null;
 
             }
 
 
         }
     }
+
+    //process for killing off the slider object on the screen.
+    private void dissolveTheSlider(){
+
+        switch (quadrantKey){
+
+            case 1:
+
+                if(sliderRight > sliderLeft){
+
+                    sliderRight -= 4;
+                }
+
+                if(sliderBottom > sliderTop){
+
+                    sliderBottom-= 3;
+                    sliderTop+=3;
+                }
+
+                break;
+
+            case 2:
+
+                if(sliderRight > sliderLeft){
+
+                    sliderRight -= 2;
+                    sliderLeft += 2;
+                }
+
+                if(sliderBottom > sliderTop){
+
+                    sliderBottom -= 6;
+                }
+
+                break;
+
+            case 3:
+
+                if(sliderRight > sliderLeft){
+
+                    sliderLeft += 4;
+                }
+
+                if(sliderBottom > sliderTop){
+
+                    sliderBottom-= 3;
+                    sliderTop+=3;
+                }
+
+                break;
+
+            case 4:
+
+                if(sliderRight > sliderLeft){
+
+                    sliderRight -= 2;
+                    sliderLeft += 2;
+                }
+
+                if(sliderBottom > sliderTop){
+
+                    sliderTop += 6;
+                }
+                break;
+        }//end of the switch and case
+
+    }
+
 
     //generates a random number to be used as a vector coordinate for initial positioning of
     //the slider.  If the quadrant is 1 or 3 (Left of Right of canvas), then the quadrant can
@@ -526,22 +553,25 @@ public class Slider extends View{
         if(verticalCollideIsElligible() && horizontalCollideIsElligible() ){
 
             hasCollided = true;
-//            logAllCoordinatesForDebugging();
-
         }
-
-      //  return hasCollided;
     }
 
     private void switchCollisionFlagIfCollides(){
 
         if(!hasCollided){
 
-          //  Log.d(TAG, "awaiting collision");
             checkForCollision();
-
         }
     }
+
+    private void checkIfTheSliderIsDissolved(){
+
+        if( (sliderLeft > sliderRight) && (sliderTop > sliderBottom) ) {
+
+            isDissolved = true;
+        }
+    }
+
 
 
     private void logAllCoordinatesForDebugging(){

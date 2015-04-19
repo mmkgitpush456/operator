@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -59,12 +60,30 @@ public class CanvasView extends View {
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
         playerBars.drawTheBars(canvas);
 
-     //   Log.d(TAG, "bar width = " + playerBars.getVertBarWidth() );
 
+        performSliderActivities(canvas);
 
-        slider.setSliderCoordinates(playerBars, canvas);
-        slider.drawTheSlider(canvas);
-        slider.setOperatorPositions(playerBars);
+        /*
+        if(slider != null) {
+
+            slider.setSliderCoordinates(playerBars, canvas);
+            slider.drawTheSlider(canvas);
+            slider.setOperatorPositions(playerBars);
+
+            if(slider.isDissolved() ) {
+
+                slider = null;
+                Log.d(TAG, "nullifying the slider");
+
+            }
+
+        } else {
+
+            Log.d(TAG, "the slider is dead");
+
+        }
+        */
+
 
         drawTheLines(canvas);
         invalidate();
@@ -87,10 +106,7 @@ public class CanvasView extends View {
             case MotionEvent.ACTION_MOVE:
 
                 moveVerticalOrHorizontalBars(x, y);
-             //   slider.moveSliderToTheRight();
-               // slider.moveTheSliderBasedOnQuadrant();
-               // slider.setOperatorPositions(playerBars);
-            //    slider.checkForCollision();
+
 
                 break;
             case MotionEvent.ACTION_UP:
@@ -253,4 +269,30 @@ public class CanvasView extends View {
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+    private void performSliderActivities(Canvas canvas){
+
+        if(slider != null) {
+
+            slider.setSliderCoordinates(playerBars, canvas);
+            slider.drawTheSlider(canvas);
+            slider.setOperatorPositions(playerBars);
+
+            if(slider.isDissolved() ) {
+
+                slider = null;
+             //   Log.d(TAG, "nullifying the slider");
+
+            }
+
+        } else {
+
+           // Log.d(TAG, "the slider is dead");
+
+        }
+
+    }
+
 }
