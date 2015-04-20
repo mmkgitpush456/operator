@@ -217,11 +217,11 @@ public class CanvasView extends View {
     //if that's the case, then the touch movements are completely ignored
     private void checkIfTheBarsGotTouched(int x, int y){
 
-        if(!playerBars.touchedTheExactCenter(x, y) ) {
+      //  if(!playerBars.touchedTheExactCenter(x, y) ) {
 
             playerBars.touchedTheVerticalBar(x);
             playerBars.touchedTheHorizontalBar(y);
-        }
+     //   }
     }
 
 

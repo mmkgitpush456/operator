@@ -514,7 +514,7 @@ public class Slider extends View{
 
         boolean isElligible = false;
 
-        if( (operatorPosition >= sliderTopOrLeft) && (operatorPosition <= sliderBottomOrRight) ){
+        if( (operatorPosition > sliderTopOrLeft) && (operatorPosition < sliderBottomOrRight) ){
 
             isElligible = true;
         }

@@ -290,14 +290,14 @@ public class PlayerBars extends View {
 
         boolean touchedVerticalCrossing = touchedTheCrossing(xPos, vertBarLeft, vertBarRight);
         boolean touchedHorizontalCrossing = touchedTheCrossing(yPos, horzBarTop, horzBarBottom);
-        boolean touchedTbeExactCenter = false;
+        boolean touchedTheExactCenter = false;
 
         if(  touchedVerticalCrossing && touchedHorizontalCrossing){
 
-            touchedTbeExactCenter = true;
+            touchedTheExactCenter = true;
         }
 
-        return touchedTbeExactCenter;
+        return touchedTheExactCenter;
     }
 
 
