@@ -73,28 +73,47 @@ public class CanvasView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        int x = (int) event.getX();
-        int y = (int) event.getY();
+        int pointerCount = event.getPointerCount();
+        int thePointer = event.getPointerId(pointerCount - 1);
 
-        switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-
-                checkIfTheBarsGotTouched(x, y);
-
-                break;
-            case MotionEvent.ACTION_MOVE:
-
-                moveVerticalOrHorizontalBars(x, y);
+        int x = 0;
+        int y = 0;
 
 
-                break;
-            case MotionEvent.ACTION_UP:
+        if(thePointer == 0) {
 
-                alignPlayerBarsAndDisableMovements();
-
-                break;
+            y = (int) event.getY();
+            x = (int) event.getX();
         }
-        return true;
+
+        if( thePointer == 0) {
+
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+
+
+                        checkIfTheBarsGotTouched(x, y);
+
+                    break;
+                case MotionEvent.ACTION_MOVE:
+
+
+                        moveVerticalOrHorizontalBars(x, y);
+
+                    break;
+                case MotionEvent.ACTION_UP:
+
+                    alignPlayerBarsAndDisableMovements();
+                    break;
+            }
+
+            return true;
+
+        }
+
+        alignPlayerBarsAndDisableMovements();
+      //  Log.d(TAG, "dropped down on touch, pointer count is " + pointerCount);
+        return false;
     }
 
     //end override methods.
@@ -245,6 +264,17 @@ public class CanvasView extends View {
 
         playerBars.moveVerticalBarToRowActionUp();
         playerBars.moveHorizontalBarToRowActionUp(horizontalGridBreaks);
+
+    }
+
+    private boolean checkForOneTouch(int pointerCount){
+
+        if(pointerCount == 1){
+
+            return true;
+        }
+
+        return false;
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
