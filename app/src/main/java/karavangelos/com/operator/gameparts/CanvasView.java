@@ -18,7 +18,6 @@ public class CanvasView extends View {
     private static final String TAG = "CanvasView";
     private Context context;
 
-
     private int verticalGridBreaks;                                                                 //helps determine distance between vertical grid lines
     private int horizontalGridBreaks;                                                               //helps determine distance between horizontal grid lines
 

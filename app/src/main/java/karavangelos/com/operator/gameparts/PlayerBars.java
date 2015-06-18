@@ -483,13 +483,12 @@ public class PlayerBars extends View {
         }
 
 
-        while(distanceToGo > 0){
+        if(distanceToGo > 0){
 
             if(leftOrRight.equalsIgnoreCase(getResources().getString(R.string.left) ) ) {
 
                 vertBarLeft -- ;
                 vertBarRight -- ;
-
             }
 
 
@@ -502,12 +501,15 @@ public class PlayerBars extends View {
 
                    vertBarRight = horzBarRight;
                    vertBarLeft = (vertBarRight - vertBarWidth);
-                   break;
-
                 }
             }
 
             distanceToGo --;
+        }
+
+        if(distanceToGo > 0){
+
+            alignVerticalBarWithGridLines(distanceToGo, leftOrRight);
         }
     }
 

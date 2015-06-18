@@ -174,14 +174,17 @@ public class Slider extends View{
 
         if(hasCollided){
 
+        //    Log.d(TAG, "collided");
+
             if(colorsMatch) {
 
-                checkIfTheSliderIsDissolved();
-                wipeSliderClean();
+          //      Log.d(TAG, "colors match");
+             //   wipeSliderClean();
 
             } else {
 
-                Log.d(TAG, "The colors don't match.  You lost a life");
+               // wipeSliderClean();
+            //    Log.d(TAG, "The colors don't match.  You lost a life");
 
             }
         }
@@ -251,6 +254,8 @@ public class Slider extends View{
                 }
                 break;
         }//end of the switch and case
+
+        checkIfTheSliderIsDissolved();
     }
 
     private void wipeSliderClean(){
@@ -506,6 +511,20 @@ public class Slider extends View{
     }
 
 
+    /*
+    private boolean topLeftHit(){
+
+        if(isElligibleForCollision(operatorLeft, sliderLeft, sliderRight) && isElligibleForCollision(operatorTop, sliderTop, sliderBottom) ){
+
+            return true;
+
+        }
+
+        return false;
+
+    }
+    */
+
     //convenience method that sets the rules for collision detection between the slider and the operator.
     //if the operator position (left, top, right, or bottom) goes within the listed boudaries of the slider, then
     //a flag is returned signalling that a successful collision has occured.  The process goes through numerous steps
@@ -533,6 +552,7 @@ public class Slider extends View{
             isElligible = true;
 
         }
+     //   Log.d(TAG, "vertical collide is eligible: " + isElligible);
 
         return isElligible;
     }
@@ -544,22 +564,54 @@ public class Slider extends View{
         boolean isElligible = false;
 
 
-        if(isElligibleForCollision(operatorLeft, sliderLeft, sliderRight) || isElligibleForCollision(operatorRight, sliderLeft, sliderRight) ) {
+        if(isElligibleForCollision(operatorLeft, sliderLeft, sliderRight) || isElligibleForCollision(operatorRight, sliderLeft, sliderRight)  ) {
 
             isElligible = true;
         }
 
         return isElligible;
+    }
+
+    private boolean linearCollideVertical(){
+
+        if(verticalCollideIsElligible() && (operatorLeft == sliderLeft) ) {
+
+            return true;
+        }
+        return false;
+    }
+
+    private boolean linearCollideHorizontal(){
+
+        if(horizontalCollideIsElligible() && operatorTop == sliderTop){
+
+            return true;
+
+        }
+
+        return false;
 
     }
+
+
+
+
 
     //if both the vertical and horizontal boundaries have reached a point of eligibility for collision
     //(the operator and slider have collided), then a flag is returned which signals that a collision has occurred.
     private void checkForCollision(){
 
-        if(verticalCollideIsElligible() && horizontalCollideIsElligible() ){
+
+     //   Log.d(TAG, "checking for collision");
+
+
+        if( (verticalCollideIsElligible() && horizontalCollideIsElligible() ) || (linearCollideVertical() || linearCollideHorizontal())  ){
 
             hasCollided = true;
+
+            Log.d(TAG, "collision occured");
+            logAllCoordinatesForDebugging();
+
         }
     }
 
@@ -579,6 +631,7 @@ public class Slider extends View{
         if( (sliderLeft > sliderRight) && (sliderTop > sliderBottom) ) {
 
             isDissolved = true;
+            Log.d(TAG, "the slider has been dissolved");
         }
     }
 
@@ -639,7 +692,7 @@ public class Slider extends View{
 
     private void logAllCoordinatesForDebugging(){
 
-        Log.d(TAG, "the collision has occurred");
+      //  Log.d(TAG, "the collision has occurred");
 
         Log.d(TAG, "operatorleft: " + operatorLeft);
         Log.d(TAG, "sliderLeft: " + sliderLeft);
