@@ -179,12 +179,7 @@ public class Slider extends View{
             if(colorsMatch) {
 
           //      Log.d(TAG, "colors match");
-             //   wipeSliderClean();
-
-            } else {
-
-               // wipeSliderClean();
-            //    Log.d(TAG, "The colors don't match.  You lost a life");
+                wipeSliderClean();
 
             }
         }
@@ -610,7 +605,7 @@ public class Slider extends View{
             hasCollided = true;
 
             Log.d(TAG, "collision occured");
-            logAllCoordinatesForDebugging();
+           // logAllCoordinatesForDebugging();
 
         }
     }
@@ -632,6 +627,7 @@ public class Slider extends View{
 
             isDissolved = true;
             Log.d(TAG, "the slider has been dissolved");
+            killTheSlider();
         }
     }
 
@@ -662,30 +658,32 @@ public class Slider extends View{
         if(sliderLeft >  (canvas.getWidth() + 10) ){
 
             isDissolved = true;
-            Log.d(TAG, "slider has disappeared left to right");
+          //  Log.d(TAG, "slider has disappeared left to right");
         }
 
         if(sliderTop > (canvas.getHeight() + 10) ) {
 
             isDissolved = true;
-            Log.d(TAG, "slider has disappeared top to bottom");
+         //   Log.d(TAG, "slider has disappeared top to bottom");
         }
 
         if(sliderRight < -10){
 
             isDissolved = true;
-            Log.d(TAG, "slider has disappeared right to left");
+         //   Log.d(TAG, "slider has disappeared right to left");
 
         }
 
         if(sliderBottom < -10){
 
             isDissolved = true;
-            Log.d(TAG, "slider has disappeared bottom to top");
+         //   Log.d(TAG, "slider has disappeared bottom to top");
 
         }
 
 
+
+        killTheSlider();
     }
 
 
@@ -705,6 +703,16 @@ public class Slider extends View{
 
         Log.d(TAG, "operatorBottom: " + operatorBottom);
         Log.d(TAG, "sliderBottom: " + sliderBottom);
+    }
+
+    private void killTheSlider(){
+
+        if(isDissolved){
+
+            theSlider = null;
+
+        }
+
     }
 
 }

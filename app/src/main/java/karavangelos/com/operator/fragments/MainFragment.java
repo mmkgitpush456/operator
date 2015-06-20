@@ -99,7 +99,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         highScoresButton = (Button) v.findViewById(R.id.highScoresButton);
         instructionsButton = (Button) v.findViewById(R.id.instructionsButton);
 
-        Log.d(TAG, "loading buttons");
+     //   Log.d(TAG, "loading buttons");
 
     }
 
