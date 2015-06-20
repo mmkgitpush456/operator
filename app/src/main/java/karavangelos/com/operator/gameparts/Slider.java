@@ -49,11 +49,12 @@ public class Slider extends View{
     private boolean isDissolved;                                                                    //checks to tell if and when this slider has been visibly dissolved from the screen.
 
 
-    public Slider(Context c, AttributeSet attrs) {
+    public Slider(Context c, AttributeSet attrs, int quadrantKey, int vectorKey) {
         super(c, attrs);
         context = c;
 
-        setConstructorProtocol();
+
+        setConstructorProtocol(quadrantKey, vectorKey);
     }
 
     //getters and setters
@@ -150,13 +151,15 @@ public class Slider extends View{
 
     //assigns where the slider will start on the canvas, what color it will be,
     //and which direction on the grid it will be traveling.  Used on the constructor.
-    private void setConstructorProtocol(){
+    private void setConstructorProtocol(int quadrantKey, int vectorKey){
 
         theSlider = new Rect();
         startingPositionsEstablished = false;
         setThePaint();
-        quadrantKey = getRandomNumber(1, 4);
-        setVectorAccordingToQuadrant();
+       // quadrantKey = getRandomNumber(1, 4);
+        this.quadrantKey = quadrantKey;
+        this.vectorKey = vectorKey;
+        //setVectorAccordingToQuadrant();
 
         hasCollided = false;
         isDissolved = false;
@@ -293,6 +296,7 @@ public class Slider extends View{
     //the location coordinates are generated so that the slider object is just outside of visibility
     //of the canvas.  This method is also only run once since the startingPositionsEstablished
     //flag is flipped to true after the positioning has run its course.
+
     protected void setSliderCoordinates(PlayerBars playerBars, Canvas canvas){
 
         if(!startingPositionsEstablished){
@@ -351,6 +355,7 @@ public class Slider extends View{
             startingPositionsEstablished = true;
         }
     }
+
 
 
     //sets the color of the slider object through the assistance of the key encoder.
@@ -627,7 +632,7 @@ public class Slider extends View{
 
             isDissolved = true;
             Log.d(TAG, "the slider has been dissolved");
-            killTheSlider();
+        //    killTheSlider();
         }
     }
 
@@ -683,7 +688,7 @@ public class Slider extends View{
 
 
 
-        killTheSlider();
+      //  killTheSlider();
     }
 
 
@@ -705,6 +710,7 @@ public class Slider extends View{
         Log.d(TAG, "sliderBottom: " + sliderBottom);
     }
 
+    /*
     private void killTheSlider(){
 
         if(isDissolved){
@@ -714,5 +720,6 @@ public class Slider extends View{
         }
 
     }
+    */
 
 }

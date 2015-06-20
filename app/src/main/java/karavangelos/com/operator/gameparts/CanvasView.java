@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,7 +21,9 @@ public class CanvasView extends View {
     private int horizontalGridBreaks;                                                               //helps determine distance between horizontal grid lines
 
     private PlayerBars playerBars;                                                                  //player bars object which interacts with the canvas.
-    private Slider slider;
+   // private Slider slider;
+
+    private Quadrant quadrant1;
 
 
     //constructor.  Assigns member context variable from inherited parent
@@ -36,7 +37,9 @@ public class CanvasView extends View {
         playerBars = new PlayerBars(c, attrs);
         playerBars.setBarPaint();
 
-        slider = new Slider(c, attrs);
+        quadrant1 = new Quadrant(c, attrs);
+
+   //     slider = new Slider(c, attrs);
 
 
     }
@@ -60,7 +63,9 @@ public class CanvasView extends View {
         playerBars.drawTheBars(canvas);
 
 
-        performSliderActivities(canvas);
+        //performSliderActivities(canvas);
+
+        quadrant1.performSliderActivities(canvas, playerBars);
 
 
         drawTheLines(canvas);
@@ -284,6 +289,8 @@ public class CanvasView extends View {
     //Should a slider be elligible to be killed off, it will dissolve with the help of its own methods.
     //Once the flag returns that is has been dissolved, the slider nullifies itself and will never
     //be reached with the help of the conditional flow.  Aids in garbage collection process.
+
+    /*
     private void performSliderActivities(Canvas canvas){
 
         if(slider != null) {
@@ -306,4 +313,5 @@ public class CanvasView extends View {
            // Log.d(TAG, "the slider is dead");
         }
     }
+    */
 }
