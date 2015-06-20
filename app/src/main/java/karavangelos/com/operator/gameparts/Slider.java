@@ -341,17 +341,6 @@ public class Slider extends View{
                     break;
             }
 
-            /*
-              Log.d(TAG, "quadrant position: " + quadrantKey);
-              Log.d(TAG, "vector key: " + vectorKey);
-              Log.d(TAG, "left position: " + sliderLeft);
-              Log.d(TAG, "top position: " + sliderTop);
-              Log.d(TAG, "right position: " + sliderRight);
-              Log.d(TAG, "bottom position: " + sliderBottom);
-              Log.d(TAG, "width: " + sliderWidth);
-              Log.d(TAG, "height: " + sliderHeight);
-            */
-
             startingPositionsEstablished = true;
         }
     }
@@ -685,13 +674,8 @@ public class Slider extends View{
          //   Log.d(TAG, "slider has disappeared bottom to top");
 
         }
-
-
-
       //  killTheSlider();
     }
-
-
 
     private void logAllCoordinatesForDebugging(){
 
@@ -710,16 +694,35 @@ public class Slider extends View{
         Log.d(TAG, "sliderBottom: " + sliderBottom);
     }
 
-    /*
-    private void killTheSlider(){
 
-        if(isDissolved){
+    protected void moveTheSlider(Canvas canvas, PlayerBars playerBars){
 
-            theSlider = null;
-
-        }
+        setSliderCoordinates(playerBars, canvas);
+        drawTheSlider(canvas);
+        setOperatorPositions(playerBars);
+        checkIfColorMatchesOperatorColor(playerBars);
+        checkIfTheSliderHasPassedTheCanvas(canvas);
 
     }
-    */
+
+    protected void resetTheSlider(){
+
+        setHasCollided(false);
+        setStartingPositionsEstablished(false);
+        setIsDissolved(false);
+
+        setThePaint();
+        rebootVector(1, 11);
+
+
+
+    }
+
+    protected void rebootVector(int min, int max){
+
+        vectorKey = getRandomNumber(min, max);
+    }
+
+
 
 }

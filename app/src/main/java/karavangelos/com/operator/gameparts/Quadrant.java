@@ -30,7 +30,6 @@ public class Quadrant {
         quadrantKey = 1;
         maxNumSliders = 11;
         slidersContainer = new ArrayList<Slider>();
-
         setDummySlidersForVector();
 
     }
@@ -51,18 +50,12 @@ public class Quadrant {
 
             if(!slidersContainer.get(i).isDissolved() ) {
 
-                slidersContainer.get(i).setSliderCoordinates(playerBars, canvas);
-                slidersContainer.get(i).drawTheSlider(canvas);
-                slidersContainer.get(i).setOperatorPositions(playerBars);
-                slidersContainer.get(i).checkIfColorMatchesOperatorColor(playerBars);
-                slidersContainer.get(i).checkIfTheSliderHasPassedTheCanvas(canvas);
+                slidersContainer.get(i).moveTheSlider(canvas, playerBars);
 
             } else {
 
-                slidersContainer.get(i).setHasCollided(false);
-                slidersContainer.get(i).setStartingPositionsEstablished(false);
-                slidersContainer.get(i).setIsDissolved(false);
-                //slidersContainer.get(i).setSliderCoordinates(playerBars, canvas);
+                slidersContainer.get(i).resetTheSlider();
+
             }
         }
     }
