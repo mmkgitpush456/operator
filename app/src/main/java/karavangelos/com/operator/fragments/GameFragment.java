@@ -66,6 +66,7 @@ public class GameFragment extends Fragment{
     public void onStop() {
         super.onStop();
 
+        canvasView.freezeTheGame();
     }
 
     @Override
@@ -73,6 +74,7 @@ public class GameFragment extends Fragment{
         super.onDestroy();
 
     }
+
 
 
 

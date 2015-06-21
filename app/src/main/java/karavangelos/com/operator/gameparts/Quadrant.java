@@ -20,9 +20,10 @@ public class Quadrant {
 
     private int quadrantKey;
     private int maxNumSliders;
+    private int sliderQueueKey;
 
     private ArrayList<Slider> slidersContainer;
-    private ArrayList<Integer> activeSliders;
+  //  private ArrayList<Integer> activeSliders;
 
     private android.os.Handler handler;
     private Runnable runnable;
@@ -35,8 +36,10 @@ public class Quadrant {
 
         quadrantKey = 1;
         maxNumSliders = 11;
+        sliderQueueKey = 0;
+
         slidersContainer = new ArrayList<Slider>();
-        activeSliders = new ArrayList<Integer>();
+     //   activeSliders = new ArrayList<Integer>();
         setDummySlidersForQuadrant();
 
         handler = new android.os.Handler();
@@ -61,6 +64,15 @@ public class Quadrant {
             public void run() {
                 
                 activateRandomSlider();
+                sliderQueueKey++;
+
+                if(sliderQueueKey == maxNumSliders){
+
+                    sliderQueueKey = 0;
+                    Log.d(TAG, "reset the slider queue key to 0");
+
+                }
+
                 handler.postDelayed(this, 5000);
             }
         };
@@ -71,45 +83,7 @@ public class Quadrant {
 
     protected void performSliderActivities(Canvas canvas, PlayerBars playerBars){
 
-        for(int i = 0; i < activeSliders.size(); i++){
-
-            int whichSlider = (activeSliders.get(i));
-
-            if(!slidersContainer.get(whichSlider).isDissolved() ) {
-
-                slidersContainer.get(whichSlider).moveTheSlider(canvas, playerBars);
-
-            } else {
-
-                /*
-                for(int j = 0; j < slidersContainer.size(); j++){
-
-                    if(activeSliders.get(j) == whichSlider){
-
-                        activeSliders.remove(j);
-
-                    }
-                }
-                */
-
-
-
-                    Log.d(TAG, "resetting slider # " + activeSliders.get(i));
-                    activeSliders.remove(i);
-                    Log.d(TAG, "size of the active sliders is " + activeSliders.size() );
-
-
-
-
-                slidersContainer.get(whichSlider).resetTheSlider();
-
-
-            }
-        }
-
-
-        /*
-        for(int i = 0; i < maxNumSliders; i++){
+        for(int i = 0; i < slidersContainer.size(); i++){
 
             if(!slidersContainer.get(i).isDissolved() ) {
 
@@ -121,25 +95,21 @@ public class Quadrant {
 
             }
         }
-        */
     }
 
     protected void activateRandomSlider(){
 
-        Random random = new Random();
-        int randomNumber = random.nextInt(9) + 1;
-
-        slidersContainer.get(randomNumber).setIsDissolved(false);
-        activeSliders.add(randomNumber);
-
-
-       // Log.d(TAG, "added " + randomNumber + " to the activeSliders ");
-
-
+        slidersContainer.get(sliderQueueKey).setIsDissolved(false);
+        Log.d(TAG, "made slider # " + sliderQueueKey + " active ");
 
     }
 
 
+    protected void stopTheHandlerAndRunnable(){
+
+        handler.removeCallbacks(runnable);
+
+    }
 
 
 }

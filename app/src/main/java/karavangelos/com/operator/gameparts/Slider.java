@@ -161,6 +161,8 @@ public class Slider extends View{
         this.vectorKey = vectorKey;
         //setVectorAccordingToQuadrant();
 
+        sliderSpeed = getRandomNumber(3, 10);
+
         hasCollided = false;
         isDissolved = true;
     }
@@ -296,7 +298,7 @@ public class Slider extends View{
     //helper method that sets the starting location of the slider based on the
     //random quadrant and vector variables set from the constructor.  In each case,
     //the location coordinates are generated so that the slider object is just outside of visibility
-    //of the canvas.  This method is also only run once since the startingPositionsEstablished
+    //of the canvas.  This method is run once per slider cycle since the startingPositionsEstablished
     //flag is flipped to true after the positioning has run its course.
 
     protected void setSliderCoordinates(PlayerBars playerBars, Canvas canvas){
@@ -455,29 +457,29 @@ public class Slider extends View{
     //the methods below move the slider in the specified directions
     protected void moveSliderToTheRight(){
 
-        sliderLeft += 3;
-        sliderRight += 3;
+        sliderLeft += sliderSpeed;
+        sliderRight += sliderSpeed;
 
     }
 
     protected void moveSliderToTheLeft(){
 
-        sliderLeft -= 3;
-        sliderRight -= 3;
+        sliderLeft -= sliderSpeed;
+        sliderRight -= sliderSpeed;
 
     }
 
     protected void moveSliderDown(){
 
-        sliderTop += 3;
-        sliderBottom += 3;
+        sliderTop += sliderSpeed;
+        sliderBottom += sliderSpeed;
 
     }
 
     protected void moveSliderUp(){
 
-        sliderTop -= 3;
-        sliderBottom -= 3;
+        sliderTop -= sliderSpeed;
+        sliderBottom -= sliderSpeed;
     }
 
 
@@ -492,30 +494,8 @@ public class Slider extends View{
          operatorRight = playerBars.obtainOperatorPosition(context.getString(R.string.right) );
          operatorBottom = playerBars.obtainOperatorPosition(context.getString(R.string.bottom) );
 
-      //  Log.d(TAG, whichCoordinate + " position: " + selectedPosition);
-
-        /*
-        Log.d(TAG, "LEFT: " + operatorLeft);
-        Log.d(TAG, "RIGHT: " + operatorRight);
-        Log.d(TAG, "TOP: " + operatorTop);
-        Log.d(TAG, "BOTTOM: " + operatorBottom);
-        */
     }
 
-
-    /*
-    private boolean topLeftHit(){
-
-        if(isElligibleForCollision(operatorLeft, sliderLeft, sliderRight) && isElligibleForCollision(operatorTop, sliderTop, sliderBottom) ){
-
-            return true;
-
-        }
-
-        return false;
-
-    }
-    */
 
     //convenience method that sets the rules for collision detection between the slider and the operator.
     //if the operator position (left, top, right, or bottom) goes within the listed boudaries of the slider, then
@@ -544,7 +524,6 @@ public class Slider extends View{
             isElligible = true;
 
         }
-     //   Log.d(TAG, "vertical collide is eligible: " + isElligible);
 
         return isElligible;
     }
@@ -593,16 +572,11 @@ public class Slider extends View{
     //(the operator and slider have collided), then a flag is returned which signals that a collision has occurred.
     private void checkForCollision(){
 
-
-     //   Log.d(TAG, "checking for collision");
-
-
         if( (verticalCollideIsElligible() && horizontalCollideIsElligible() ) || (linearCollideVertical() || linearCollideHorizontal())  ){
 
             hasCollided = true;
 
-            Log.d(TAG, "collision occured");
-           // logAllCoordinatesForDebugging();
+//            Log.d(TAG, "collision occured");
 
         }
     }
@@ -655,29 +629,23 @@ public class Slider extends View{
         if(sliderLeft >  (canvas.getWidth() + 10) ){
 
             isDissolved = true;
-          //  Log.d(TAG, "slider has disappeared left to right");
         }
 
         if(sliderTop > (canvas.getHeight() + 10) ) {
 
             isDissolved = true;
-         //   Log.d(TAG, "slider has disappeared top to bottom");
         }
 
         if(sliderRight < -10){
 
             isDissolved = true;
-         //   Log.d(TAG, "slider has disappeared right to left");
 
         }
 
         if(sliderBottom < -10){
 
             isDissolved = true;
-         //   Log.d(TAG, "slider has disappeared bottom to top");
-
         }
-      //  killTheSlider();
     }
 
     private void logAllCoordinatesForDebugging(){
@@ -712,7 +680,9 @@ public class Slider extends View{
 
         setHasCollided(false);
         setStartingPositionsEstablished(false);
-        setIsDissolved(false);
+        setIsDissolved(true);
+
+        sliderSpeed = getRandomNumber(3, 10);
 
         setThePaint();
         rebootVector(1, 11);
