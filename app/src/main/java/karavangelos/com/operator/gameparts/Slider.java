@@ -49,12 +49,24 @@ public class Slider extends View{
     private boolean isDissolved;                                                                    //checks to tell if and when this slider has been visibly dissolved from the screen.
 
 
-    public Slider(Context c, AttributeSet attrs, int quadrantKey, int vectorKey) {
+    public Slider(Context c, AttributeSet attrs, int quadrantKey) {
         super(c, attrs);
         context = c;
 
+        if(quadrantKey == 1 || quadrantKey == 3){
 
-        setConstructorProtocol(quadrantKey, vectorKey);
+            setVectorKey(getRandomNumber(1, 11));
+
+        }
+
+        if(quadrantKey == 2 || quadrantKey == 4){
+
+            setVectorKey(getRandomNumber(1, 7));
+        }
+
+
+
+        setConstructorProtocol(quadrantKey);
     }
 
     //getters and setters
@@ -151,15 +163,12 @@ public class Slider extends View{
 
     //assigns where the slider will start on the canvas, what color it will be,
     //and which direction on the grid it will be traveling.  Used on the constructor.
-    private void setConstructorProtocol(int quadrantKey, int vectorKey){
+    private void setConstructorProtocol(int quadrantKey){
 
         theSlider = new Rect();
         startingPositionsEstablished = false;
         setThePaint();
-       // quadrantKey = getRandomNumber(1, 4);
         this.quadrantKey = quadrantKey;
-        this.vectorKey = vectorKey;
-        //setVectorAccordingToQuadrant();
 
         sliderSpeed = getRandomNumber(3, 10);
 
@@ -178,12 +187,14 @@ public class Slider extends View{
 
         if(hasCollided){
 
-        //    Log.d(TAG, "collided");
 
             if(colorsMatch) {
 
-          //      Log.d(TAG, "colors match");
                 wipeSliderClean();
+
+            } else {
+
+                //run logic here for when operator runs into a slider of a different color.
 
             }
         }
@@ -271,29 +282,6 @@ public class Slider extends View{
         }
 
     }
-
-
-    //generates a random number to be used as a vector coordinate for initial positioning of
-    //the slider.  If the quadrant is 1 or 3 (Left of Right of canvas), then the quadrant can
-    //be any number between 1 and 11.  Otherwise, for 2 and 4 (top and bottom of canvas),
-    //the quadrant can have a max value of 7.
-
-    /*
-    private void setVectorAccordingToQuadrant(){
-
-        if(quadrantKey == 1 || quadrantKey == 3){
-
-            vectorKey = getRandomNumber(1, 11);
-
-        }
-
-        if(quadrantKey == 2 || quadrantKey == 4){
-
-            vectorKey = getRandomNumber(1, 7);
-        }
-
-    }
-    */
 
     //helper method that sets the starting location of the slider based on the
     //random quadrant and vector variables set from the constructor.  In each case,
@@ -416,9 +404,6 @@ public class Slider extends View{
         Random random = new Random();
 
         int randomNumber = random.nextInt(max) + min;
-
-        //   Log.d(TAG, "The Random number between " + min + " and " + max + " is " + randomNumber);
-
         return randomNumber;
     }
 
@@ -493,7 +478,6 @@ public class Slider extends View{
          operatorTop = playerBars.obtainOperatorPosition(context.getString(R.string.top) );
          operatorRight = playerBars.obtainOperatorPosition(context.getString(R.string.right) );
          operatorBottom = playerBars.obtainOperatorPosition(context.getString(R.string.bottom) );
-
     }
 
 
@@ -543,19 +527,28 @@ public class Slider extends View{
         return isElligible;
     }
 
+
+    //helper method that checks for a slider/operator collision
+    //if the operator and slider are within the same vector and collide from top down or bottom up
     private boolean linearCollideVertical(){
 
         if(verticalCollideIsElligible() && (operatorLeft == sliderLeft) ) {
+            Log.d(TAG, "VERTICAL COLLIDE");
 
             return true;
         }
         return false;
     }
 
+
+
+    //helper method that checks for a slider/operator collision
+    //if the operator and slider are within the same vector and collide from left to right or right to left
     private boolean linearCollideHorizontal(){
 
         if(horizontalCollideIsElligible() && operatorTop == sliderTop){
 
+            Log.d(TAG, "HORIZONTAL COLLIDE");
             return true;
 
         }
@@ -575,9 +568,6 @@ public class Slider extends View{
         if( (verticalCollideIsElligible() && horizontalCollideIsElligible() ) || (linearCollideVertical() || linearCollideHorizontal())  ){
 
             hasCollided = true;
-
-//            Log.d(TAG, "collision occured");
-
         }
     }
 
@@ -666,6 +656,11 @@ public class Slider extends View{
     }
 
 
+    //method that maintains all of the slider's movements across the canvas view.
+    //the slider's position is assigned first, then it is moved across the canvas
+    //based on the quadrant it is set to.
+    //Finally, all of the conditional logic is checked to update the slider's status
+    //on the game board.
     protected void moveTheSlider(Canvas canvas, PlayerBars playerBars){
 
         setSliderCoordinates(playerBars, canvas);
@@ -673,24 +668,31 @@ public class Slider extends View{
         setOperatorPositions(playerBars);
         checkIfColorMatchesOperatorColor(playerBars);
         checkIfTheSliderHasPassedTheCanvas(canvas);
-
     }
 
-    protected void resetTheSlider(){
+    //When a slider makes it across the canvas, or has been
+    //dissolved by a matching color operator, it's starting flags are reset.
+    //Then, its speed, color, and position on the canvas are updated
+    //for the next time it is queued.
+    protected void resetTheSlider(int max){
+
+        int one = 1;
 
         setHasCollided(false);
         setStartingPositionsEstablished(false);
         setIsDissolved(true);
 
-        sliderSpeed = getRandomNumber(3, 10);
+        sliderSpeed = getRandomNumber(one, 10);
 
         setThePaint();
-        rebootVector(1, 11);
+        rebootVector(one, max);
 
 
 
     }
 
+    //sets the position on the quadrant that the slider will be moving across.
+    //used withing the resetTheSlider method.
     protected void rebootVector(int min, int max){
 
         vectorKey = getRandomNumber(min, max);

@@ -7,6 +7,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.ArrayList;
+
 import karavangelos.com.operator.R;
 
 /**
@@ -21,9 +23,7 @@ public class CanvasView extends View {
     private int horizontalGridBreaks;                                                               //helps determine distance between horizontal grid lines
 
     private PlayerBars playerBars;                                                                  //player bars object which interacts with the canvas.
-   // private Slider slider;
-
-    private Quadrant quadrant1;
+    private ArrayList<Quadrant> quadrants;                                                          //container of quadrants
 
 
     //constructor.  Assigns member context variable from inherited parent
@@ -37,12 +37,7 @@ public class CanvasView extends View {
         playerBars = new PlayerBars(c, attrs);
         playerBars.setBarPaint();
 
-        quadrant1 = new Quadrant(c, attrs);
-        quadrant1.runProcessForCallingSliders();
-
-   //     slider = new Slider(c, attrs);
-
-
+        setUpTheQuadrants(c, attrs);
     }
 
     // override onSizeChanged
@@ -64,9 +59,15 @@ public class CanvasView extends View {
         playerBars.drawTheBars(canvas);
 
 
+        for(int i = 0; i < quadrants.size(); i++){
+
+            quadrants.get(i).performSliderActivities(canvas, playerBars);
+
+        }
+
         //performSliderActivities(canvas);
 
-        quadrant1.performSliderActivities(canvas, playerBars);
+       // quadrant1.performSliderActivities(canvas, playerBars);
 
 
         drawTheLines(canvas);
@@ -136,6 +137,21 @@ public class CanvasView extends View {
 
     //drawing specific methods
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void setUpTheQuadrants(Context c, AttributeSet attrs){
+
+        quadrants = new ArrayList<Quadrant>();
+
+        for(int i = 1; i < 5; i ++){
+
+            Quadrant quadrant = new Quadrant(c, attrs, i);
+            quadrant.runProcessForCallingSliders();
+
+            quadrants.add(quadrant);
+
+        }
+
+    }
 
 
 
@@ -291,7 +307,10 @@ public class CanvasView extends View {
 
     public void freezeTheGame(){
 
-        quadrant1.stopTheHandlerAndRunnable();
+        for(int i = 0; i < quadrants.size(); i++){
+
+            quadrants.get(i).stopTheHandlerAndRunnable();
+        }
 
 
     }
