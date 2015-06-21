@@ -162,8 +162,7 @@ public class Slider extends View{
         //setVectorAccordingToQuadrant();
 
         hasCollided = false;
-        isDissolved = false;
-
+        isDissolved = true;
     }
 
     //public method that updates and draws the slider object on the canvas.
@@ -276,6 +275,8 @@ public class Slider extends View{
     //the slider.  If the quadrant is 1 or 3 (Left of Right of canvas), then the quadrant can
     //be any number between 1 and 11.  Otherwise, for 2 and 4 (top and bottom of canvas),
     //the quadrant can have a max value of 7.
+
+    /*
     private void setVectorAccordingToQuadrant(){
 
         if(quadrantKey == 1 || quadrantKey == 3){
@@ -290,6 +291,7 @@ public class Slider extends View{
         }
 
     }
+    */
 
     //helper method that sets the starting location of the slider based on the
     //random quadrant and vector variables set from the constructor.  In each case,
@@ -407,7 +409,7 @@ public class Slider extends View{
     //method used to obtain a random number between the min and max arguments.  Min being the lowest
     //number that can be obtained, and max being the highest number that can be obtained.  This method
     //is used for a number of contributing factors across the Slider class.
-    private int getRandomNumber(int min, int max){
+    protected int getRandomNumber(int min, int max){
 
         Random random = new Random();
 
@@ -417,6 +419,7 @@ public class Slider extends View{
 
         return randomNumber;
     }
+
 
     //moves the slider object depending on the value of the quadrant
     protected void moveTheSliderBasedOnQuadrant(){

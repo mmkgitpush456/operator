@@ -38,6 +38,7 @@ public class CanvasView extends View {
         playerBars.setBarPaint();
 
         quadrant1 = new Quadrant(c, attrs);
+        quadrant1.runProcessForCallingSliders();
 
    //     slider = new Slider(c, attrs);
 
