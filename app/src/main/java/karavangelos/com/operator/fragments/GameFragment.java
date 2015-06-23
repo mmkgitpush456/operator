@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -28,6 +29,9 @@ public class GameFragment extends Fragment{
 
     private CanvasView canvasView;
     private TextView scoreTextView;
+    private TextView livesTextView;
+    private Button powerUpButton;
+    private Button pauseButton;
 
 
 
@@ -89,8 +93,14 @@ public class GameFragment extends Fragment{
         canvasView = (CanvasView) v.findViewById(R.id.canvasView);
       //  canvasView.setContext(getActivity());
         scoreTextView = (TextView) v.findViewById(R.id.scoreTextView);
+        livesTextView = (TextView) v.findViewById(R.id.livesTextView);
+        powerUpButton = (Button) v.findViewById(R.id.powerButton);
+        pauseButton = (Button) v.findViewById(R.id.pauseButton);
 
         canvasView.setScoreTextView(scoreTextView);
+        canvasView.setLivesTextView(livesTextView);
+        canvasView.setPowerUpButton(powerUpButton);
+        canvasView.setPauseButton(pauseButton);
 
 
     }

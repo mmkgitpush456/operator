@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ import karavangelos.com.operator.R;
 /**
  * Created by karavangelos on 2/14/15.
  */
-public class CanvasView extends View {
+public class CanvasView extends View implements View.OnClickListener{
 
     private static final String TAG = "CanvasView";
     private Context context;
@@ -30,6 +31,9 @@ public class CanvasView extends View {
     private ArrayList<Quadrant> quadrants;                                                          //container of quadrants
 
     private TextView scoreTextView;
+    private TextView livesTextView;
+    private Button powerUpButton;
+    private Button pauseButton;
 
     private Player player;
 
@@ -81,6 +85,8 @@ public class CanvasView extends View {
         invalidate();
 
         setTheScore();
+        setTheLives();
+        setPowerUp();
     }
 
 
@@ -131,8 +137,23 @@ public class CanvasView extends View {
         return false;
     }
 
+    @Override
+    public void onClick(View v) {
+
+        if(v == powerUpButton){
+
+            Log.d(TAG, "pushed the power up button");
+
+        }
+
+        if(v == pauseButton){
+
+            Log.d(TAG, "pushed the pause button");
+
+        }
 
 
+    }
 
 
     //end override methods.
@@ -152,6 +173,34 @@ public class CanvasView extends View {
 
     public void setScoreTextView(TextView scoreTextView) {
         this.scoreTextView = scoreTextView;
+    }
+
+    public TextView getLivesTextView() {
+        return livesTextView;
+    }
+
+    public void setLivesTextView(TextView livesTextView) {
+        this.livesTextView = livesTextView;
+    }
+
+    public Button getPowerUpButton() {
+        return powerUpButton;
+    }
+
+    public void setPowerUpButton(Button powerUpButton) {
+        this.powerUpButton = powerUpButton;
+
+        this.powerUpButton.setOnClickListener(this);
+    }
+
+    public Button getPauseButton() {
+        return pauseButton;
+    }
+
+    public void setPauseButton(Button pauseButton) {
+        this.pauseButton = pauseButton;
+
+        this.pauseButton.setOnClickListener(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -335,10 +384,19 @@ public class CanvasView extends View {
         }
     }
 
-
     private void setTheScore(){
 
         scoreTextView.setText("" + player.getScore());
+    }
+
+    private void setTheLives(){
+
+        livesTextView.setText("" + player.getLivesLeft());
+    }
+
+    private void setPowerUp(){
+
+        powerUpButton.setText(context.getString(R.string.none));
     }
     
 }
