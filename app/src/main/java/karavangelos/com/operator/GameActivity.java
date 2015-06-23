@@ -3,6 +3,7 @@ package karavangelos.com.operator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import karavangelos.com.operator.fragments.GameFragment;
 
@@ -49,6 +50,12 @@ public class GameActivity extends ActionBarActivity{
                     .add(R.id.fragmentContainer, fragment)
                     .commit();
         }
+    }
+
+    public void doStuff(){
+
+        Log.d(TAG, "hi, I am actually from the activity");
+
     }
 
 }

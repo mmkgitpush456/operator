@@ -1,14 +1,18 @@
 package karavangelos.com.operator.gameparts;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import karavangelos.com.operator.GameActivity;
 import karavangelos.com.operator.R;
 
 /**
@@ -25,6 +29,7 @@ public class CanvasView extends View {
     private PlayerBars playerBars;                                                                  //player bars object which interacts with the canvas.
     private ArrayList<Quadrant> quadrants;                                                          //container of quadrants
 
+    private TextView scoreTextView;
 
     //constructor.  Assigns member context variable from inherited parent
     public CanvasView(Context c, AttributeSet attrs) {
@@ -38,6 +43,7 @@ public class CanvasView extends View {
         playerBars.setBarPaint();
 
         setUpTheQuadrants(c, attrs);
+
     }
 
     // override onSizeChanged
@@ -65,13 +71,12 @@ public class CanvasView extends View {
 
         }
 
-        //performSliderActivities(canvas);
-
-       // quadrant1.performSliderActivities(canvas, playerBars);
 
 
         drawTheLines(canvas);
         invalidate();
+
+        setTheScore();
     }
 
 
@@ -131,6 +136,19 @@ public class CanvasView extends View {
 
     //getters and setters
     ////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    public TextView getScoreTextView() {
+        return scoreTextView;
+    }
+
+    public void setScoreTextView(TextView scoreTextView) {
+        this.scoreTextView = scoreTextView;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -311,11 +329,12 @@ public class CanvasView extends View {
 
             quadrants.get(i).stopTheHandlerAndRunnable();
         }
-
-
     }
 
 
+    private void setTheScore(){
 
-
+        scoreTextView.setText("THE SHOW MUST GO ON!!");
+    }
+    
 }
