@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import karavangelos.com.operator.fragments.MainFragment;
+import karavangelos.com.operator.gameparts.Player;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,6 +23,7 @@ public class MainActivity extends ActionBarActivity {
 
         stackCount = 0;
         establishTheMainFragment();
+        Player player = Player.newInstance();
 
     }
 

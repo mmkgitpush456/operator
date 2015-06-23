@@ -31,6 +31,8 @@ public class CanvasView extends View {
 
     private TextView scoreTextView;
 
+    private Player player;
+
     //constructor.  Assigns member context variable from inherited parent
     public CanvasView(Context c, AttributeSet attrs) {
         super(c, attrs);
@@ -43,6 +45,8 @@ public class CanvasView extends View {
         playerBars.setBarPaint();
 
         setUpTheQuadrants(c, attrs);
+
+        player = Player.newInstance();
 
     }
 
@@ -334,7 +338,7 @@ public class CanvasView extends View {
 
     private void setTheScore(){
 
-        scoreTextView.setText("THE SHOW MUST GO ON!!");
+        scoreTextView.setText("" + player.getScore());
     }
     
 }

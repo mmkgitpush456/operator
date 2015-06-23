@@ -590,7 +590,8 @@ public class Slider extends View{
 
             isDissolved = true;
             Log.d(TAG, "the slider has been dissolved");
-        //    killTheSlider();
+            Player.newInstance().incrementScore(2);
+
         }
     }
 
