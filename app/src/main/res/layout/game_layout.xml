@@ -104,7 +104,17 @@
             android:layout_weight="1"
             />
 
-        </LinearLayout>
+        <Button
+            android:id="@+id/gameButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="@string/start"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
 
 
 </LinearLayout>

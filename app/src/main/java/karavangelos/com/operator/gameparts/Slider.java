@@ -49,6 +49,7 @@ public class Slider extends View{
     private boolean hasCollided;                                                                    //helper flag that tells whether the operator and this slider have collided.
     private boolean colorsMatch;                                                                    //helper flag that tells whether the operator and this Slider's colors match
     private boolean isDissolved;                                                                    //checks to tell if and when this slider has been visibly dissolved from the screen.
+    private boolean isMismatch;
 
 
     public Slider(Context c, AttributeSet attrs, int quadrantKey) {
@@ -160,6 +161,14 @@ public class Slider extends View{
         this.isDissolved = isDissolved;
     }
 
+    public boolean isMismatch() {
+        return isMismatch;
+    }
+
+    public void setIsMismatch(boolean isMismatch) {
+        this.isMismatch = isMismatch;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -176,6 +185,7 @@ public class Slider extends View{
 
         hasCollided = false;
         isDissolved = true;
+        isMismatch = false;
     }
 
     //public method that updates and draws the slider object on the canvas.
@@ -197,9 +207,36 @@ public class Slider extends View{
             } else {
 
                 Player.newInstance().setHitWrongSlider(true);
+                setIsMismatch(true);
 
             }
         }
+    }
+
+    public void drawLivelostSequence(Canvas canvas){
+
+        if(isMismatch){
+
+            sliderLeft -=25 ;
+            sliderTop -=25 ;
+            sliderRight += 25;
+            sliderBottom += 25;
+
+
+            theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
+            canvas.drawRect(theSlider, sliderPaint);
+
+        }
+
+        if(sliderLeft < 0 && sliderTop < 0 && sliderRight > canvas.getWidth() && sliderBottom > canvas.getHeight() && isMismatch ){
+
+            setIsMismatch(false);
+            theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
+            canvas.drawRect(theSlider, sliderPaint);
+
+        }
+
+
     }
 
     //process for killing off the slider object on the screen.
@@ -667,10 +704,23 @@ public class Slider extends View{
     protected void moveTheSlider(Canvas canvas, PlayerBars playerBars){
 
         setSliderCoordinates(playerBars, canvas);
-        drawTheSlider(canvas);
-        setOperatorPositions(playerBars);
-        checkIfColorMatchesOperatorColor(playerBars);
-        checkIfTheSliderHasPassedTheCanvas(canvas);
+
+        if(!isMismatch) {
+
+            drawTheSlider(canvas);
+            setOperatorPositions(playerBars);
+            checkIfColorMatchesOperatorColor(playerBars);
+            checkIfTheSliderHasPassedTheCanvas(canvas);
+
+        } else {
+
+            drawLivelostSequence(canvas);
+        }
+
+
+
+
+
     }
 
     //When a slider makes it across the canvas, or has been

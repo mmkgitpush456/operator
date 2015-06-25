@@ -74,10 +74,11 @@ public class CanvasView extends View implements View.OnClickListener{
         if( player.isHitWrongSlider() ) {
 
 
+
             playerBars.drawTheBars(canvas);
             drawTheLines(canvas);
+            runTheQuadrants(canvas, playerBars);
             invalidate();
-
 
 
         } else {
@@ -370,8 +371,10 @@ public class CanvasView extends View implements View.OnClickListener{
             quadrants.get(i).performSliderActivities(canvas, playerBars);
 
         }
-
     }
+
+
+
 
     private void runTheGame(Canvas canvas, PlayerBars playerBars){
 

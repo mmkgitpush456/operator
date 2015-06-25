@@ -15,6 +15,7 @@ public class Player {
     private boolean hasPowerUp;                                                                     //flag that tells whether the player is elligible for a power up
     private boolean pausesGame;                                                                     //flag that tells whether the game is currently paused
     private boolean hitWrongSlider;                                                                 //tells whether the player has hit a mis-matching slider object.
+    private boolean levelRebooted;                                                                  //states whether a level has been properly prepared for launch.
 
     private static Player sPlayer;                                                                  //static player instance.  Ensures only one player object will be created throughout the app
 
@@ -98,6 +99,16 @@ public class Player {
     public void setHitWrongSlider(boolean hitWrongSlider) {
         this.hitWrongSlider = hitWrongSlider;
     }
+
+    public boolean isLevelRebooted() {
+        return levelRebooted;
+    }
+
+    public void setLevelRebooted(boolean levelRebooted) {
+        this.levelRebooted = levelRebooted;
+    }
+
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //set the defaults before a new game.
@@ -115,6 +126,7 @@ public class Player {
         setHasPowerUp(false);
         setPausesGame(false);
         setHitWrongSlider(false);
+        setLevelRebooted(true);
 
     }
 
