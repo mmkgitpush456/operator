@@ -196,7 +196,7 @@ public class Slider extends View{
 
             } else {
 
-                //run logic here for when operator runs into a slider of a different color.
+                Player.newInstance().setHitWrongSlider(true);
 
             }
         }

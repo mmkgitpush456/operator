@@ -5,18 +5,22 @@ package karavangelos.com.operator.gameparts;
  */
 public class Player {
 
-    private static final String TAG = "player";
+    private static final String TAG = "player";                                                     //logging tag
 
 
-    private int score;
-    private int livesLeft;
-    private int level;
-    private float timeLeft;
-    private boolean hasPowerUp;
-    private boolean pausesGame;
+    private int score;                                                                              //player score
+    private int livesLeft;                                                                          //number of lives a player has left
+    private int level;                                                                              //player's current level
+    private float timeLeft;                                                                         //time left on the current level until it is cleared
+    private boolean hasPowerUp;                                                                     //flag that tells whether the player is elligible for a power up
+    private boolean pausesGame;                                                                     //flag that tells whether the game is currently paused
+    private boolean hitWrongSlider;                                                                 //tells whether the player has hit a mis-matching slider object.
 
-    private static Player sPlayer;
+    private static Player sPlayer;                                                                  //static player instance.  Ensures only one player object will be created throughout the app
 
+    //constructor.  When a player object is created,
+    //the default attributes will be set so a new game is
+    //ready to begin.
     private Player(){
 
         setAttributesToDefault();
@@ -24,6 +28,7 @@ public class Player {
     }
 
 
+    //Singleton instance of the player object
     public static Player newInstance(){
 
         if(sPlayer == null){
@@ -33,6 +38,9 @@ public class Player {
 
         return sPlayer;
     }
+
+
+    //getters and setters
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public boolean isHasPowerUp() {
@@ -82,8 +90,23 @@ public class Player {
     public void setLevel(int level) {
         this.level = level;
     }
+
+    public boolean isHitWrongSlider() {
+        return hitWrongSlider;
+    }
+
+    public void setHitWrongSlider(boolean hitWrongSlider) {
+        this.hitWrongSlider = hitWrongSlider;
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
+    //set the defaults before a new game.
+    //score to 0
+    //level starts at 1
+    //number of lives starts at 3
+    //no power ups to start
+    //game is not paused at start
+    //wrong slider has not been hit before game starts
     public void setAttributesToDefault(){
 
         setScore(0);
@@ -91,13 +114,17 @@ public class Player {
         setLivesLeft(3);
         setHasPowerUp(false);
         setPausesGame(false);
+        setHitWrongSlider(false);
 
     }
 
+    //increment the player score by a certain value
+    //whenever the correct action occurs.
     public void incrementScore(int byHowMuch){
 
         score += byHowMuch;
 
     }
+
 
 }

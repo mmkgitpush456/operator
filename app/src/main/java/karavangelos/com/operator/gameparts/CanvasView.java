@@ -68,25 +68,25 @@ public class CanvasView extends View implements View.OnClickListener{
         super.onDraw(canvas);
 
         canvas.drawColor(context.getResources().getColor(R.color.white));
-
-        playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
-        playerBars.drawTheBars(canvas);
+      //  drawTheLines(canvas);
 
 
-        for(int i = 0; i < quadrants.size(); i++){
+        if( player.isHitWrongSlider() ) {
 
-            quadrants.get(i).performSliderActivities(canvas, playerBars);
+
+            playerBars.drawTheBars(canvas);
+            drawTheLines(canvas);
+            invalidate();
+
+
+
+        } else {
+
+            runTheGame(canvas, playerBars);
 
         }
 
 
-
-        drawTheLines(canvas);
-        invalidate();
-
-        setTheScore();
-        setTheLives();
-        setPowerUp();
     }
 
 
@@ -362,6 +362,29 @@ public class CanvasView extends View implements View.OnClickListener{
         playerBars.moveHorizontalBarToRowActionUp(horizontalGridBreaks);
 
     }
+
+    private void runTheQuadrants(Canvas canvas, PlayerBars playerBars){
+
+        for(int i = 0; i < quadrants.size(); i++){
+
+            quadrants.get(i).performSliderActivities(canvas, playerBars);
+
+        }
+
+    }
+
+    private void runTheGame(Canvas canvas, PlayerBars playerBars){
+
+        playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
+        playerBars.drawTheBars(canvas);
+        runTheQuadrants(canvas, playerBars);
+        drawTheLines(canvas);
+        invalidate();
+        setTheScore();
+        setTheLives();
+        setPowerUp();
+    }
+
 
     private boolean checkForOneTouch(int pointerCount){
 
