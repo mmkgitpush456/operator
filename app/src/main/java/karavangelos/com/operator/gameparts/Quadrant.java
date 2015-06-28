@@ -180,10 +180,28 @@ public class Quadrant {
                 mismatchedHit = true;
 
             }
+        }
+    }
+
+
+    protected void resetAllOnMismatchHit(){
+
+        for(int i = 0; i < slidersContainer.size(); i++){
+
+            Slider theSlider = slidersContainer.get(i);
+
+            resetHorizontalOrVerticalSlider(theSlider);
 
 
         }
+        mismatchedHit = false;
+        sliderQueueKey = 0;
+        handler.removeCallbacks(runnable);
+        handlerDelayer = 0;
+
+        Log.d(TAG, "mismatch = " + mismatchedHit);
     }
+
 
     //Queues the next slider in line to move across the canvas by flipping
     //its isDissolvedFlag to false.  Used on the runProcessForCallingSliders

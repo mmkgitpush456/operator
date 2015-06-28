@@ -37,6 +37,7 @@ public class CanvasView extends View implements View.OnClickListener{
     private Player player;
 
     private boolean mismatchedHit;
+    private boolean defaultsAreSet;
 
 
 
@@ -57,6 +58,7 @@ public class CanvasView extends View implements View.OnClickListener{
         player = Player.newInstance();
 
         mismatchedHit = false;
+        defaultsAreSet = true;
 
     }
 
@@ -79,6 +81,7 @@ public class CanvasView extends View implements View.OnClickListener{
         runGamingSequenceIfLevelActive(canvas, playerBars);
         runLifeLostSequenceWhenMismatchedHit(canvas, playerBars);
         displayLifeLostMessageWhenMismatchedHit(canvas);
+
 
     }
 
@@ -154,7 +157,11 @@ public class CanvasView extends View implements View.OnClickListener{
                 activateTheQuadrantsOnLevelStart();
                 gameButton.setClickable(false);
                 gameButton.setTextColor(getResources().getColor(R.color.light_gray));
+                defaultsAreSet = false;
+                playerBars.setBlackRectBackToZero();
+                mismatchedHit = false;
             }
+
 
 
 
@@ -436,8 +443,6 @@ public class CanvasView extends View implements View.OnClickListener{
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
     public void freezeTheGame(){
 
         for(int i = 0; i < quadrants.size(); i++){
@@ -494,7 +499,17 @@ public class CanvasView extends View implements View.OnClickListener{
             drawTheLines(canvas);
             playerBars.expandBlackRectIfMismatchedHit(canvas);
             invalidate();
-            stopQuadrantThreadingSequence();
+
+            if(!defaultsAreSet){
+
+                player.setLevelRebooted(false);
+                rebootTheSlidersAndQuadrants();
+                gameButton.setClickable(true);
+                gameButton.setTextColor(getResources().getColor(R.color.black));
+                defaultsAreSet = true;
+
+            }
+
         }
     }
 
@@ -509,7 +524,16 @@ public class CanvasView extends View implements View.OnClickListener{
             canvas.drawText("Oops, you hit the wrong slider.", 100, canvas.getHeight() / 2, textPaint);
 
         }
+    }
 
+    private void rebootTheSlidersAndQuadrants() {
+
+        for (int i = 0; i < quadrants.size(); i++) {
+
+            quadrants.get(i).resetAllOnMismatchHit();
+
+
+        }
     }
 
 }

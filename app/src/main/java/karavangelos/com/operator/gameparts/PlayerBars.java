@@ -294,6 +294,13 @@ public class PlayerBars extends View {
     }
 
 
+    protected void setBlackRectBackToZero(){
+
+        blackRectLeft = blackRectRight = blackRectTop = blackRectBottom = 0;
+
+    }
+
+
     //draws the bars at their updated positions.  Used in the onDraw override of the canvasView
     protected void drawTheBars(Canvas canvas){
 

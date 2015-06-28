@@ -703,6 +703,7 @@ public class Slider extends View{
 
         setThePaint();
         rebootVector(one, max);
+        setIsMismatch(false);
 
 
 
