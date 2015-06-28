@@ -1,10 +1,8 @@
 package karavangelos.com.operator.gameparts;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -14,7 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import karavangelos.com.operator.GameActivity;
 import karavangelos.com.operator.R;
 
 /**
@@ -35,6 +32,7 @@ public class CanvasView extends View implements View.OnClickListener{
     private TextView livesTextView;
     private Button powerUpButton;
     private Button pauseButton;
+    private Button gameButton;
 
     private Player player;
 
@@ -75,28 +73,12 @@ public class CanvasView extends View implements View.OnClickListener{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-            canvas.drawColor(context.getResources().getColor(R.color.white));
-      //  drawTheLines(canvas);
+        canvas.drawColor(context.getResources().getColor(R.color.white));
 
 
-            if(!mismatchedHit){
-
-                runTheGame(canvas, playerBars);
-
-            } else {
-
-                playerBars.drawTheBars(canvas);
-                drawTheLines(canvas);
-                playerBars.expandBlackRectIfMismatchedHit(canvas);
-                invalidate();
-
-            }
-
-
-
-
-
-
+        runGamingSequenceIfLevelActive(canvas, playerBars);
+        runLifeLostSequenceWhenMismatchedHit(canvas, playerBars);
+        displayLifeLostMessageWhenMismatchedHit(canvas);
 
     }
 
@@ -163,6 +145,21 @@ public class CanvasView extends View implements View.OnClickListener{
 
         }
 
+        if(v == gameButton){
+
+            //Log.d(TAG, "pushed the game button");
+            if(!player.isLevelRebooted() ){
+
+                player.setLevelRebooted(true);
+                activateTheQuadrantsOnLevelStart();
+                gameButton.setClickable(false);
+                gameButton.setTextColor(getResources().getColor(R.color.light_gray));
+            }
+
+
+
+        }
+
 
     }
 
@@ -214,6 +211,16 @@ public class CanvasView extends View implements View.OnClickListener{
         this.pauseButton.setOnClickListener(this);
     }
 
+    public Button getGameButton() {
+        return gameButton;
+    }
+
+    public void setGameButton(Button gameButton) {
+        this.gameButton = gameButton;
+
+        this.gameButton.setOnClickListener(this);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -227,14 +234,19 @@ public class CanvasView extends View implements View.OnClickListener{
         for(int i = 1; i < 5; i ++){
 
             Quadrant quadrant = new Quadrant(c, attrs, i);
-            quadrant.runProcessForCallingSliders();
-
             quadrants.add(quadrant);
 
         }
-
     }
 
+    private void activateTheQuadrantsOnLevelStart(){
+
+        for(int i = 0; i < quadrants.size(); i++){
+
+            quadrants.get(i).runProcessForCallingSliders();
+        }
+
+    }
 
 
 
@@ -404,6 +416,14 @@ public class CanvasView extends View implements View.OnClickListener{
         setPowerUp();
     }
 
+    private void stopQuadrantThreadingSequence(){
+
+        for(int i = 0; i < quadrants.size(); i++) {
+            quadrants.get(i).stopTheHandlerAndRunnable();
+        }
+
+    }
+
 
     private boolean checkForOneTouch(int pointerCount){
 
@@ -440,5 +460,56 @@ public class CanvasView extends View implements View.OnClickListener{
 
         powerUpButton.setText(context.getString(R.string.none));
     }
-    
+
+
+    private void runGamingSequenceIfLevelActive(Canvas canvas, PlayerBars playerBars){
+
+        if(player.isLevelRebooted() ){
+
+            if(!mismatchedHit){
+
+                runTheGame(canvas, playerBars);
+
+
+            }
+
+        } else {
+
+            Paint textPaint = new Paint();
+
+            textPaint.setColor(getResources().getColor(R.color.black));
+            textPaint.setTextSize(40);
+            canvas.drawText("Push the start button to begin the game.", 100, canvas.getHeight() / 2, textPaint);
+            invalidate();
+
+        }
+    }
+
+
+    private void runLifeLostSequenceWhenMismatchedHit(Canvas canvas, PlayerBars playerBars){
+
+        if(mismatchedHit) {
+
+            playerBars.drawTheBars(canvas);
+            drawTheLines(canvas);
+            playerBars.expandBlackRectIfMismatchedHit(canvas);
+            invalidate();
+            stopQuadrantThreadingSequence();
+        }
+    }
+
+    private void displayLifeLostMessageWhenMismatchedHit(Canvas canvas){
+
+        if(playerBars.blackRectHasExpanded(canvas) ){
+
+            Paint textPaint = new Paint();
+
+            textPaint.setColor(getResources().getColor(R.color.white));
+            textPaint.setTextSize(40);
+            canvas.drawText("Oops, you hit the wrong slider.", 100, canvas.getHeight() / 2, textPaint);
+
+        }
+
+    }
+
 }

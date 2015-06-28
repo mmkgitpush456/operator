@@ -32,6 +32,7 @@ public class Quadrant {
     private Runnable runnable;
 
     private boolean mismatchedHit;
+    private int handlerDelayer;
 
     //Constructor.  Assigns context and Attribute Set.
     //Assigns the Quadrant key to assist with slider movement.
@@ -52,6 +53,7 @@ public class Quadrant {
 
         handler = new android.os.Handler();
         mismatchedHit = false;
+        handlerDelayer = 0;
 
     }
 
@@ -126,16 +128,23 @@ public class Quadrant {
         runnable = new Runnable() {
             @Override
             public void run() {
-                
-                activateTheNextSlider();
-                sliderQueueKey++;
 
-                if(sliderQueueKey == maxNumSliders){
+                if(handlerDelayer > 0){
 
-                    sliderQueueKey = 0;
-                    Log.d(TAG, "reset the slider queue key to 0");
+                    activateTheNextSlider();
+                    sliderQueueKey++;
 
+                    if(sliderQueueKey == maxNumSliders){
+
+                        sliderQueueKey = 0;
+                    }
+
+                } else {
+
+                    handlerDelayer++;
                 }
+
+
 
                 handler.postDelayed(this, 5000);
             }

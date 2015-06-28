@@ -267,7 +267,7 @@ public class PlayerBars extends View {
             blackRectBottom += 50;
 
         }
-        
+
         Paint blackPaint = new Paint();
         blackPaint.setColor(getResources().getColor(R.color.black));
         blackPaint.setStyle(Paint.Style.FILL);
@@ -278,7 +278,7 @@ public class PlayerBars extends View {
     }
 
 
-    private boolean blackRectHasExpanded(Canvas canvas){
+    protected boolean blackRectHasExpanded(Canvas canvas){
 
         boolean hasExpanded = false;
 

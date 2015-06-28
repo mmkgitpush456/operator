@@ -92,16 +92,17 @@ public class GameFragment extends Fragment{
         canvasLayout = (LinearLayout) v.findViewById(R.id.canvasLayout);
         canvasView = (CanvasView) v.findViewById(R.id.canvasView);
       //  canvasView.setContext(getActivity());
-        scoreTextView = (TextView) v.findViewById(R.id.scoreTextView);
-        livesTextView = (TextView) v.findViewById(R.id.livesTextView);
-        powerUpButton = (Button) v.findViewById(R.id.powerButton);
-        pauseButton = (Button) v.findViewById(R.id.pauseButton);
+        TextView scoreTextView = (TextView) v.findViewById(R.id.scoreTextView);
+        TextView livesTextView = (TextView) v.findViewById(R.id.livesTextView);
+        Button powerUpButton = (Button) v.findViewById(R.id.powerButton);
+        Button pauseButton = (Button) v.findViewById(R.id.pauseButton);
+        Button gameButton = (Button) v.findViewById(R.id.gameButton);
 
         canvasView.setScoreTextView(scoreTextView);
         canvasView.setLivesTextView(livesTextView);
         canvasView.setPowerUpButton(powerUpButton);
         canvasView.setPauseButton(pauseButton);
-
+        canvasView.setGameButton(gameButton);
 
     }
 

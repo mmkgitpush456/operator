@@ -126,7 +126,7 @@ public class Player {
         setHasPowerUp(false);
         setPausesGame(false);
         setHitWrongSlider(false);
-        setLevelRebooted(true);
+        setLevelRebooted(false);
 
     }
 
