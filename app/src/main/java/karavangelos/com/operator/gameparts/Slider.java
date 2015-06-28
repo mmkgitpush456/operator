@@ -213,31 +213,7 @@ public class Slider extends View{
         }
     }
 
-    public void drawLivelostSequence(Canvas canvas){
 
-        if(isMismatch){
-
-            sliderLeft -=25 ;
-            sliderTop -=25 ;
-            sliderRight += 25;
-            sliderBottom += 25;
-
-
-            theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
-            canvas.drawRect(theSlider, sliderPaint);
-
-        }
-
-        if(sliderLeft < 0 && sliderTop < 0 && sliderRight > canvas.getWidth() && sliderBottom > canvas.getHeight() && isMismatch ){
-
-            setIsMismatch(false);
-            theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
-            canvas.drawRect(theSlider, sliderPaint);
-
-        }
-
-
-    }
 
     //process for killing off the slider object on the screen.
     private void dissolveTheSlider(){
@@ -705,22 +681,10 @@ public class Slider extends View{
 
         setSliderCoordinates(playerBars, canvas);
 
-        if(!isMismatch) {
-
-            drawTheSlider(canvas);
-            setOperatorPositions(playerBars);
-            checkIfColorMatchesOperatorColor(playerBars);
-            checkIfTheSliderHasPassedTheCanvas(canvas);
-
-        } else {
-
-            drawLivelostSequence(canvas);
-        }
-
-
-
-
-
+        drawTheSlider(canvas);
+        setOperatorPositions(playerBars);
+        checkIfColorMatchesOperatorColor(playerBars);
+        checkIfTheSliderHasPassedTheCanvas(canvas);
     }
 
     //When a slider makes it across the canvas, or has been

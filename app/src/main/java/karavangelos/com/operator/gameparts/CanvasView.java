@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -37,6 +38,11 @@ public class CanvasView extends View implements View.OnClickListener{
 
     private Player player;
 
+    private boolean mismatchedHit;
+
+
+
+
     //constructor.  Assigns member context variable from inherited parent
     public CanvasView(Context c, AttributeSet attrs) {
         super(c, attrs);
@@ -51,6 +57,8 @@ public class CanvasView extends View implements View.OnClickListener{
         setUpTheQuadrants(c, attrs);
 
         player = Player.newInstance();
+
+        mismatchedHit = false;
 
     }
 
@@ -67,25 +75,27 @@ public class CanvasView extends View implements View.OnClickListener{
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawColor(context.getResources().getColor(R.color.white));
+            canvas.drawColor(context.getResources().getColor(R.color.white));
       //  drawTheLines(canvas);
 
 
-        if( player.isHitWrongSlider() ) {
+            if(!mismatchedHit){
+
+                runTheGame(canvas, playerBars);
+
+            } else {
+
+                playerBars.drawTheBars(canvas);
+                drawTheLines(canvas);
+                playerBars.expandBlackRectIfMismatchedHit(canvas);
+                invalidate();
+
+            }
 
 
 
-            playerBars.drawTheBars(canvas);
-            drawTheLines(canvas);
-            runTheQuadrants(canvas, playerBars);
-            invalidate();
 
 
-        } else {
-
-            runTheGame(canvas, playerBars);
-
-        }
 
 
     }
@@ -370,6 +380,12 @@ public class CanvasView extends View implements View.OnClickListener{
 
             quadrants.get(i).performSliderActivities(canvas, playerBars);
 
+
+            if(quadrants.get(i).isMismatchedHit()){
+
+                mismatchedHit = true;
+
+            }
         }
     }
 

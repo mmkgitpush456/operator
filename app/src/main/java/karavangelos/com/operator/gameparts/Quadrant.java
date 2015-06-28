@@ -27,11 +27,11 @@ public class Quadrant {
     private int sliderQueueKey;                                                                     //key that tells which slider's turn it is to move across the canvas.
 
     private ArrayList<Slider> slidersContainer;                                                     //Array container that holds all of the sliders.
-  //  private ArrayList<Integer> activeSliders;
 
     private android.os.Handler handler;                                                             //handler and runnable are used to queue sliders on interval instead of having them move all at once
     private Runnable runnable;
 
+    private boolean mismatchedHit;
 
     //Constructor.  Assigns context and Attribute Set.
     //Assigns the Quadrant key to assist with slider movement.
@@ -48,12 +48,59 @@ public class Quadrant {
         sliderQueueKey = 0;
 
         slidersContainer = new ArrayList<Slider>();
-     //   activeSliders = new ArrayList<Integer>();
         generateSlidersForQuadrant();
 
         handler = new android.os.Handler();
+        mismatchedHit = false;
 
     }
+
+
+    //getters and setters
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public int getMaxNumSliders() {
+        return maxNumSliders;
+    }
+
+    public void setMaxNumSliders(int maxNumSliders) {
+        this.maxNumSliders = maxNumSliders;
+    }
+
+    public int getQuadrantKey() {
+        return quadrantKey;
+    }
+
+    public void setQuadrantKey(int quadrantKey) {
+        this.quadrantKey = quadrantKey;
+    }
+
+    public int getSliderQueueKey() {
+        return sliderQueueKey;
+    }
+
+    public void setSliderQueueKey(int sliderQueueKey) {
+        this.sliderQueueKey = sliderQueueKey;
+    }
+
+    public ArrayList<Slider> getSlidersContainer() {
+        return slidersContainer;
+    }
+
+    public void setSlidersContainer(ArrayList<Slider> slidersContainer) {
+        this.slidersContainer = slidersContainer;
+    }
+
+    public boolean isMismatchedHit() {
+        return mismatchedHit;
+    }
+
+    public void setMismatchedHit(boolean mismatchedHit) {
+        this.mismatchedHit = mismatchedHit;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     //creates a set of Sliders and puts them within the slidersContainer.
@@ -106,16 +153,26 @@ public class Quadrant {
 
         for(int i = 0; i < slidersContainer.size(); i++){
 
-            if(!slidersContainer.get(i).isDissolved() ) {
+            Slider theSlider = slidersContainer.get(i);
 
-                slidersContainer.get(i).moveTheSlider(canvas, playerBars);
+            if(!theSlider.isDissolved() ) {
+
+                theSlider.moveTheSlider(canvas, playerBars);
 
             } else {
 
                // slidersContainer.get(i).resetTheSlider();
-                resetHorizontalOrVerticalSlider(slidersContainer.get(i) );
+                resetHorizontalOrVerticalSlider( theSlider );
 
             }
+
+            if(theSlider.isMismatch() ) {
+
+                mismatchedHit = true;
+
+            }
+
+
         }
     }
 

@@ -50,6 +50,13 @@ public class PlayerBars extends View {
     private boolean touchedTheHorizontalBar;
 
 
+    private Rect blackRect;
+    private int blackRectLeft;
+    private int blackRectTop;
+    private int blackRectRight;
+    private int blackRectBottom;
+
+
 
     //constructor sets the vertical and horizontal bars
     //and also sets flags that determine starting position
@@ -66,8 +73,11 @@ public class PlayerBars extends View {
         verticalBar = new Rect();
 
         operator = new Operator(c, attrs);
-
         colorKey = operator.getPaintKey();
+
+
+        blackRect = new Rect();
+
     }
 
 
@@ -237,9 +247,52 @@ public class PlayerBars extends View {
             setStartingVerticalBar(canvas, verticalGridBreaks);
             setStartHorizontalBar(canvas, horizontalGridBreaks);
 
+            blackRectLeft = (canvas.getWidth() / 2);
+            blackRectRight = (canvas.getWidth() / 2);
+            blackRectTop = (canvas.getHeight() / 2);
+            blackRectBottom = (canvas.getHeight() / 2);
+
+
             starterBarsAreSet = true;
         }
     }
+
+    protected void expandBlackRectIfMismatchedHit(Canvas canvas){
+
+        if(!blackRectHasExpanded(canvas) ){
+
+            blackRectLeft -= 25;
+            blackRectRight += 25;
+            blackRectTop -= 50;
+            blackRectBottom += 50;
+
+        }
+        
+        Paint blackPaint = new Paint();
+        blackPaint.setColor(getResources().getColor(R.color.black));
+        blackPaint.setStyle(Paint.Style.FILL);
+
+        blackRect.set(blackRectLeft, blackRectTop, blackRectRight, blackRectBottom);
+        canvas.drawRect(blackRect, blackPaint);
+
+    }
+
+
+    private boolean blackRectHasExpanded(Canvas canvas){
+
+        boolean hasExpanded = false;
+
+        if( (blackRectLeft < 0)
+                && (blackRectRight > canvas.getWidth() )
+                && (blackRectTop < 0)
+                && blackRectBottom > canvas.getHeight() ) {
+
+            hasExpanded = true;
+        }
+
+        return hasExpanded;
+    }
+
 
     //draws the bars at their updated positions.  Used in the onDraw override of the canvasView
     protected void drawTheBars(Canvas canvas){
