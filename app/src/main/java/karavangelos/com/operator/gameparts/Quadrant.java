@@ -199,7 +199,7 @@ public class Quadrant {
         handler.removeCallbacks(runnable);
         handlerDelayer = 0;
 
-        Log.d(TAG, "mismatch = " + mismatchedHit);
+       // Log.d(TAG, "mismatch = " + mismatchedHit);
     }
 
 

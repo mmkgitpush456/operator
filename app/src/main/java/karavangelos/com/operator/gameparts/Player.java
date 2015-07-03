@@ -138,5 +138,20 @@ public class Player {
 
     }
 
+    //subtract from the lives left when player loses a life
+    public void subtractOneLife(){
+
+        livesLeft--;
+    }
+
+    //Add one life to the livesLeft variable when player
+    //is eligible for an extra life.
+    public void AddOneLife(){
+
+
+        livesLeft++;
+
+    }
+
 
 }

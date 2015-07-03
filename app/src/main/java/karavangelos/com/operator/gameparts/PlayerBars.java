@@ -125,6 +125,14 @@ public class PlayerBars extends View {
         this.colorKey = colorKey;
     }
 
+    public boolean isStarterBarsAreSet() {
+        return starterBarsAreSet;
+    }
+
+    public void setStarterBarsAreSet(boolean starterBarsAreSet) {
+        this.starterBarsAreSet = starterBarsAreSet;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 

@@ -150,20 +150,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
         if(v == gameButton){
 
-            //Log.d(TAG, "pushed the game button");
-            if(!player.isLevelRebooted() ){
-
-                player.setLevelRebooted(true);
-                activateTheQuadrantsOnLevelStart();
-                gameButton.setClickable(false);
-                gameButton.setTextColor(getResources().getColor(R.color.light_gray));
-                defaultsAreSet = false;
-                playerBars.setBlackRectBackToZero();
-                mismatchedHit = false;
-            }
-
-
-
+            startGameOrLevel();
 
         }
 
@@ -393,6 +380,10 @@ public class CanvasView extends View implements View.OnClickListener{
 
     }
 
+    //runs the 4 quadrants that control the sliders that move across the screen.
+    //Should the operator hit one of the slider objects, then the mismatched hit
+    //flag is raised on the canvas View level in order to start the life lost and
+    //restart level sequence.
     private void runTheQuadrants(Canvas canvas, PlayerBars playerBars){
 
         for(int i = 0; i < quadrants.size(); i++){
@@ -411,6 +402,9 @@ public class CanvasView extends View implements View.OnClickListener{
 
 
 
+    //main method that runs the game.  The activity from the player bars, the quadrants that control
+    //the sliders, and the scoring, lives left, and power up status are maintained through this method.
+    //This is what is used within the main ondraw method.
     private void runTheGame(Canvas canvas, PlayerBars playerBars){
 
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
@@ -423,13 +417,7 @@ public class CanvasView extends View implements View.OnClickListener{
         setPowerUp();
     }
 
-    private void stopQuadrantThreadingSequence(){
 
-        for(int i = 0; i < quadrants.size(); i++) {
-            quadrants.get(i).stopTheHandlerAndRunnable();
-        }
-
-    }
 
 
     private boolean checkForOneTouch(int pointerCount){
@@ -443,6 +431,9 @@ public class CanvasView extends View implements View.OnClickListener{
 
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    //stops the quadrant handler and runnables in the event that the application is no longer on
+    //the front of the device stack.
     public void freezeTheGame(){
 
         for(int i = 0; i < quadrants.size(); i++){
@@ -451,11 +442,13 @@ public class CanvasView extends View implements View.OnClickListener{
         }
     }
 
+    //maintains the player's score on the visual level on the screen.
     private void setTheScore(){
 
         scoreTextView.setText("" + player.getScore());
     }
 
+    //maintains the player's lives remaining on the visual level on the screen.
     private void setTheLives(){
 
         livesTextView.setText("" + player.getLivesLeft());
@@ -467,6 +460,38 @@ public class CanvasView extends View implements View.OnClickListener{
     }
 
 
+    //action taken when the player starts a new level, life or game.  All default flag values
+    //are flipped to initiate the gaming sequence and the start button is de-activated to prevent
+    //multiple games.  The player values are reset to their defaults if the player pushes to start
+    // the game after they have lost all their lives.
+    private void startGameOrLevel(){
+
+        //Log.d(TAG, "pushed the game button");
+        if(!player.isLevelRebooted() ){
+
+            player.setLevelRebooted(true);
+            activateTheQuadrantsOnLevelStart();
+            gameButton.setClickable(false);
+            gameButton.setTextColor(getResources().getColor(R.color.light_gray));
+            defaultsAreSet = false;
+            playerBars.setBlackRectBackToZero();
+            mismatchedHit = false;
+
+            if(player.getLivesLeft() < 0){
+
+                player.setLevel(1);
+                player.setScore(0);
+                player.setLivesLeft(3);
+
+            }
+        }
+
+    }
+
+
+
+    //as long as there is no detection of a mismatched hit between the operator and
+    //one of the sliders, then the game continues to go.
     private void runGamingSequenceIfLevelActive(Canvas canvas, PlayerBars playerBars){
 
         if(player.isLevelRebooted() ){
@@ -491,6 +516,11 @@ public class CanvasView extends View implements View.OnClickListener{
     }
 
 
+    //takes place whenever a mismatched hit occurs between the operator and a slider.
+    //a black rectangle shoots across the screen to simulate a life being lost.
+    //then, all the default flags and values are reset to prepare the player to use their
+    //next life for the next round of the game.  The game button is re-activated so that the
+    //player can start the next round if they have any lives remaining.
     private void runLifeLostSequenceWhenMismatchedHit(Canvas canvas, PlayerBars playerBars){
 
         if(mismatchedHit) {
@@ -503,37 +533,53 @@ public class CanvasView extends View implements View.OnClickListener{
             if(!defaultsAreSet){
 
                 player.setLevelRebooted(false);
+                player.subtractOneLife();
                 rebootTheSlidersAndQuadrants();
                 gameButton.setClickable(true);
                 gameButton.setTextColor(getResources().getColor(R.color.black));
                 defaultsAreSet = true;
 
             }
-
         }
     }
 
+    //once the black rectangle covers the screen, a message flashes to notify the player
+    //that they have lost a life. If they still have lives remaining, they can play again.
+    //Otherwise, they will be prompted that the game is over and they must start again.
     private void displayLifeLostMessageWhenMismatchedHit(Canvas canvas){
 
         if(playerBars.blackRectHasExpanded(canvas) ){
 
+            playerBars.setStarterBarsAreSet(false);
             Paint textPaint = new Paint();
-
             textPaint.setColor(getResources().getColor(R.color.white));
             textPaint.setTextSize(40);
-            canvas.drawText("Oops, you hit the wrong slider.", 100, canvas.getHeight() / 2, textPaint);
+
+
+            if(player.getLivesLeft() < 0) {
+
+                canvas.drawText("Game Over.  Push start to try again.", 100, canvas.getHeight() / 2, textPaint);
+
+            } else {
+
+                canvas.drawText("Oops, you hit the wrong slider.", 100, canvas.getHeight() / 2, textPaint);
+                canvas.drawText("Push start to try again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+
+            }
+
+
 
         }
     }
 
+    //resets all the default values on the quadrant level in order to re-start the level
+    //or go to the next level with a clean slate.  Only the player's score is maintained.
     private void rebootTheSlidersAndQuadrants() {
 
         for (int i = 0; i < quadrants.size(); i++) {
 
             quadrants.get(i).resetAllOnMismatchHit();
 
-
         }
     }
-
 }
