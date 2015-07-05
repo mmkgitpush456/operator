@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import karavangelos.com.operator.GameActivity;
 import karavangelos.com.operator.R;
 import karavangelos.com.operator.gameparts.CanvasView;
 
@@ -24,27 +27,49 @@ public class GameFragment extends Fragment{
 
     private static final String TAG = "GameFragment";
     private View v;
-
     private LinearLayout canvasLayout;
-
     private CanvasView canvasView;
-    private TextView scoreTextView;
-    private TextView livesTextView;
-    private Button powerUpButton;
-    private Button pauseButton;
-
-
+    private android.support.v7.app.ActionBar actionBar;
+    private View actionBarView;
 
     public GameFragment(){
 
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+
+        actionBar = ((ActionBarActivity)getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(false);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+
+        LayoutInflater inflator = (LayoutInflater) getActivity() .getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
+        View v = inflator.inflate(R.layout.action_bar_game_fragment, null);
+        actionBar.setCustomView(v);
+
+        Toolbar parent =(Toolbar) v.getParent();
+        parent.setContentInsetsAbsolute(0,0);
+
+        TextView timerTextView = (TextView) v.findViewById(R.id.gameBarTimerTextView);
+        timerTextView.setText("Hello Game");
+
+
+
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
 
 
         v = inflater.inflate(R.layout.game_layout, null);
+
+
+
 
 
         return v;
@@ -106,11 +131,7 @@ public class GameFragment extends Fragment{
 
     }
 
-    public void updateScore(String updatedScore){
 
-        scoreTextView.setText(updatedScore);
-
-    }
 
 
 

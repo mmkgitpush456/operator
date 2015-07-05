@@ -2,8 +2,10 @@ package karavangelos.com.operator;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import karavangelos.com.operator.fragments.GameFragment;
 
@@ -15,13 +17,23 @@ import karavangelos.com.operator.fragments.GameFragment;
 public class GameActivity extends ActionBarActivity{
 
     private static final String TAG = "GameActivity";
+    private ActionBar actionBar;
+
+    private TextView timerTextView;
+    private TextView levelTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+
+
+
         establishTheGameFragment();
+
+
     }
 
     @Override
@@ -52,10 +64,18 @@ public class GameActivity extends ActionBarActivity{
         }
     }
 
-    public void doStuff(){
 
-        Log.d(TAG, "hi, I am actually from the activity");
+
+    public TextView getTimerTextView(){
+
+        TextView timer = timerTextView;
+        return timer;
+
 
     }
+
+
+
+
 
 }
