@@ -135,7 +135,7 @@ public class Player {
         setLevelRebooted(false);
         timeLeftHandler = new Handler();
 
-        timeLeft = 125;
+        //timeLeft = 125;
 
     }
 
@@ -160,6 +160,27 @@ public class Player {
         livesLeft++;
     }
 
+    private float levelTime(){
+
+        float levelTime = 5 * level;
+        return levelTime;
+    }
+
+    public void setTimeInLevel(){
+
+        timeLeft = 20 + levelTime();
+
+    }
+
+
+    public void levelUp(){
+
+        setLevel(level + 1);
+
+    }
+
+
+
     public void runTimeLeft(){
 
         timeLeftRunnable = new Runnable() {
@@ -176,6 +197,12 @@ public class Player {
         };
 
         timeLeftRunnable.run();
+    }
+
+    public void killTheTimerProcess(){
+
+        timeLeftHandler.removeCallbacks(timeLeftRunnable);
+        timeLeftRunnable = null;
 
     }
 

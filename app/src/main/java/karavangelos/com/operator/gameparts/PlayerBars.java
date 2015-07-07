@@ -49,13 +49,17 @@ public class PlayerBars extends View {
     private boolean touchedTheVerticalBar;
     private boolean touchedTheHorizontalBar;
 
-
     private Rect blackRect;
     private int blackRectLeft;
     private int blackRectTop;
     private int blackRectRight;
     private int blackRectBottom;
 
+    private Rect operatorRect;
+    private int operatorRectLeft;
+    private int operatorRectTop;
+    private int operatorRectRight;
+    private int operatorRectBottom;
 
 
     //constructor sets the vertical and horizontal bars
@@ -77,6 +81,7 @@ public class PlayerBars extends View {
 
 
         blackRect = new Rect();
+        operatorRect = new Rect();
 
     }
 
@@ -255,11 +260,10 @@ public class PlayerBars extends View {
             setStartingVerticalBar(canvas, verticalGridBreaks);
             setStartHorizontalBar(canvas, horizontalGridBreaks);
 
-            blackRectLeft = (canvas.getWidth() / 2);
-            blackRectRight = (canvas.getWidth() / 2);
-            blackRectTop = (canvas.getHeight() / 2);
-            blackRectBottom = (canvas.getHeight() / 2);
-
+            blackRectLeft = operatorRectLeft = (canvas.getWidth() / 2);
+            blackRectRight = operatorRectRight = (canvas.getWidth() / 2);
+            blackRectTop =  operatorRectTop =(canvas.getHeight() / 2);
+            blackRectBottom = operatorRectBottom = (canvas.getHeight() / 2);
 
             starterBarsAreSet = true;
         }
@@ -307,6 +311,53 @@ public class PlayerBars extends View {
         blackRectLeft = blackRectRight = blackRectTop = blackRectBottom = 0;
 
     }
+
+
+
+    protected void expandOperatorRectIfLevelCleared(Canvas canvas){
+
+        if(!operatorRectRectHasExpanded(canvas) ){
+
+            operatorRectLeft -= 25;
+            operatorRectRight += 25;
+            operatorRectTop -= 50;
+            operatorRectBottom += 50;
+
+        }
+
+        Paint operatorPaint = operator.getOperatorPaint();
+
+        operatorRect.set(operatorRectLeft, operatorRectTop, operatorRectRight, operatorRectBottom);
+        canvas.drawRect(operatorRect, operatorPaint);
+
+    }
+
+
+    protected boolean operatorRectRectHasExpanded(Canvas canvas){
+
+        boolean hasExpanded = false;
+
+        if( (operatorRectLeft < 0)
+                && (operatorRectRight > canvas.getWidth() )
+                && (operatorRectTop < 0)
+                && operatorRectBottom > canvas.getHeight() ) {
+
+            hasExpanded = true;
+        }
+
+        return hasExpanded;
+    }
+
+
+    protected void setOperatorRectBackToZero(){
+
+        operatorRectLeft = operatorRectRight = operatorRectTop = operatorRectBottom = 0;
+
+    }
+
+
+
+
 
 
     //draws the bars at their updated positions.  Used in the onDraw override of the canvasView

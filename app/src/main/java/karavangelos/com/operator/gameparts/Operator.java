@@ -105,6 +105,14 @@ public class Operator extends View{
         this.paintKey = paintKey;
     }
 
+    public Paint getOperatorPaint() {
+        return operatorPaint;
+    }
+
+    public void setOperatorPaint(Paint operatorPaint) {
+        this.operatorPaint = operatorPaint;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 

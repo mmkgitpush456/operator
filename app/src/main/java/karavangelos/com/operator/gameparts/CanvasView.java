@@ -82,6 +82,7 @@ public class CanvasView extends View implements View.OnClickListener{
         runGamingSequenceIfLevelActive(canvas, playerBars);
         runLifeLostSequenceWhenMismatchedHit(canvas, playerBars);
         displayLifeLostMessageWhenMismatchedHit(canvas);
+        runLevelClearedSequenceWhenTimeLeftAtZero(canvas, playerBars);
 
 
     }
@@ -501,13 +502,16 @@ public class CanvasView extends View implements View.OnClickListener{
         //Log.d(TAG, "pushed the game button");
         if(!player.isLevelRebooted() ){
 
-            player.setLevelRebooted(true);
+
             activateTheQuadrantsOnLevelStart();
             gameButton.setClickable(false);
             gameButton.setTextColor(getResources().getColor(R.color.light_gray));
             defaultsAreSet = false;
             playerBars.setBlackRectBackToZero();
             mismatchedHit = false;
+
+            player.setLevelRebooted(true);
+            player.setTimeInLevel();
             player.runTimeLeft();
 
             if(player.getLivesLeft() < 0){
@@ -565,6 +569,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
                 player.setLevelRebooted(false);
                 player.subtractOneLife();
+                player.killTheTimerProcess();
                 rebootTheSlidersAndQuadrants();
                 gameButton.setClickable(true);
                 gameButton.setTextColor(getResources().getColor(R.color.black));
@@ -574,32 +579,47 @@ public class CanvasView extends View implements View.OnClickListener{
         }
     }
 
+    private void runLevelClearedSequenceWhenTimeLeftAtZero(Canvas canvas, PlayerBars playerBars){
+
+        if(player.getTimeLeft() < 0) {
+
+            playerBars.drawTheBars(canvas);
+            drawTheLines(canvas);
+            playerBars.expandOperatorRectIfLevelCleared(canvas);
+            invalidate();
+
+            if(!defaultsAreSet){
+
+                player.setLevelRebooted(false);
+                player.levelUp();
+                player.killTheTimerProcess();
+                rebootTheSlidersAndQuadrants();
+                gameButton.setClickable(true);
+                gameButton.setTextColor(getResources().getColor(R.color.black));
+                defaultsAreSet = true;
+
+            }
+        }
+    }
+
+
+
+
     //once the black rectangle covers the screen, a message flashes to notify the player
     //that they have lost a life. If they still have lives remaining, they can play again.
     //Otherwise, they will be prompted that the game is over and they must start again.
     private void displayLifeLostMessageWhenMismatchedHit(Canvas canvas){
 
-        if(playerBars.blackRectHasExpanded(canvas) ){
+        if (playerBars.operatorRectRectHasExpanded(canvas) ){
 
             playerBars.setStarterBarsAreSet(false);
             Paint textPaint = new Paint();
-            textPaint.setColor(getResources().getColor(R.color.white));
+            textPaint.setColor(getResources().getColor(R.color.black));
             textPaint.setTextSize(40);
 
 
-            if(player.getLivesLeft() < 0) {
-
-                canvas.drawText("Game Over.  Push start to try again.", 100, canvas.getHeight() / 2, textPaint);
-
-            } else {
-
-                canvas.drawText("Oops, you hit the wrong slider.", 100, canvas.getHeight() / 2, textPaint);
-                canvas.drawText("Push start to try again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
-
-            }
-
-
-
+            canvas.drawText("Level Cleared!", 100, canvas.getHeight() / 2, textPaint);
+            canvas.drawText("Push start to continue", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
         }
     }
 
