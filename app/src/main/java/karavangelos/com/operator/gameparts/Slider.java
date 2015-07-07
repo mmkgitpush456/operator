@@ -181,7 +181,7 @@ public class Slider extends View{
         setThePaint();
         this.quadrantKey = quadrantKey;
 
-        sliderSpeed = getRandomNumber(3, 10);
+        sliderSpeed = getRandomNumber(3, 7);
 
         hasCollided = false;
         isDissolved = true;
@@ -224,13 +224,13 @@ public class Slider extends View{
 
                 if(sliderRight > sliderLeft){
 
-                    sliderRight -= 4;
+                    sliderRight -= 6;
                 }
 
                 if(sliderBottom > sliderTop){
 
-                    sliderBottom-= 3;
-                    sliderTop+=3;
+                    sliderBottom-= 6;
+                    sliderTop+=6;
                 }
 
                 break;
@@ -239,8 +239,8 @@ public class Slider extends View{
 
                 if(sliderRight > sliderLeft){
 
-                    sliderRight -= 2;
-                    sliderLeft += 2;
+                    sliderRight -= 6;
+                    sliderLeft += 6;
                 }
 
                 if(sliderBottom > sliderTop){
@@ -254,13 +254,13 @@ public class Slider extends View{
 
                 if(sliderRight > sliderLeft){
 
-                    sliderLeft += 4;
+                    sliderLeft += 6;
                 }
 
                 if(sliderBottom > sliderTop){
 
-                    sliderBottom-= 3;
-                    sliderTop+=3;
+                    sliderBottom-= 6;
+                    sliderTop+=6;
                 }
 
                 break;
@@ -269,8 +269,8 @@ public class Slider extends View{
 
                 if(sliderRight > sliderLeft){
 
-                    sliderRight -= 2;
-                    sliderLeft += 2;
+                    sliderRight -= 6;
+                    sliderLeft += 6;
                 }
 
                 if(sliderBottom > sliderTop){
@@ -603,6 +603,8 @@ public class Slider extends View{
 
             isDissolved = true;
             Log.d(TAG, "the slider has been dissolved");
+
+            Log.d(TAG, "score is now " + Player.newInstance().getScore() );
             Player.newInstance().incrementScore(2);
 
         }

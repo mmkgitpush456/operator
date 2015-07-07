@@ -30,6 +30,8 @@ public class CanvasView extends View implements View.OnClickListener{
 
     private TextView scoreTextView;
     private TextView livesTextView;
+    private TextView timerTextView;
+    private TextView levelTextView;
     private Button powerUpButton;
     private Button pauseButton;
     private Button gameButton;
@@ -60,6 +62,7 @@ public class CanvasView extends View implements View.OnClickListener{
         mismatchedHit = false;
         defaultsAreSet = true;
 
+
     }
 
     // override onSizeChanged
@@ -76,8 +79,6 @@ public class CanvasView extends View implements View.OnClickListener{
         super.onDraw(canvas);
 
         canvas.drawColor(context.getResources().getColor(R.color.white));
-
-
         runGamingSequenceIfLevelActive(canvas, playerBars);
         runLifeLostSequenceWhenMismatchedHit(canvas, playerBars);
         displayLifeLostMessageWhenMismatchedHit(canvas);
@@ -213,6 +214,22 @@ public class CanvasView extends View implements View.OnClickListener{
         this.gameButton = gameButton;
 
         this.gameButton.setOnClickListener(this);
+    }
+
+    public TextView getTimerTextView() {
+        return timerTextView;
+    }
+
+    public void setTimerTextView(TextView timerTextView) {
+        this.timerTextView = timerTextView;
+    }
+
+    public TextView getLevelTextView() {
+        return levelTextView;
+    }
+
+    public void setLevelTextView(TextView levelTextView) {
+        this.levelTextView = levelTextView;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -415,6 +432,8 @@ public class CanvasView extends View implements View.OnClickListener{
         setTheScore();
         setTheLives();
         setPowerUp();
+        setTimeLeft();
+        setLevel();
     }
 
 
@@ -460,6 +479,19 @@ public class CanvasView extends View implements View.OnClickListener{
     }
 
 
+    private void setTimeLeft(){
+
+        timerTextView.setText("Time Left: " +  player.timeLeftFormatted());
+
+    }
+
+    private void setLevel(){
+
+        levelTextView.setText("Level: " + player.getLevel());
+
+    }
+
+
     //action taken when the player starts a new level, life or game.  All default flag values
     //are flipped to initiate the gaming sequence and the start button is de-activated to prevent
     //multiple games.  The player values are reset to their defaults if the player pushes to start
@@ -476,6 +508,7 @@ public class CanvasView extends View implements View.OnClickListener{
             defaultsAreSet = false;
             playerBars.setBlackRectBackToZero();
             mismatchedHit = false;
+            player.runTimeLeft();
 
             if(player.getLivesLeft() < 0){
 
@@ -499,8 +532,6 @@ public class CanvasView extends View implements View.OnClickListener{
             if(!mismatchedHit){
 
                 runTheGame(canvas, playerBars);
-
-
             }
 
         } else {

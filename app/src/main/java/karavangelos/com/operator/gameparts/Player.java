@@ -1,5 +1,7 @@
 package karavangelos.com.operator.gameparts;
 
+import android.os.Handler;
+
 /**
  * Created by karavangelos on 6/19/15.
  */
@@ -16,6 +18,10 @@ public class Player {
     private boolean pausesGame;                                                                     //flag that tells whether the game is currently paused
     private boolean hitWrongSlider;                                                                 //tells whether the player has hit a mis-matching slider object.
     private boolean levelRebooted;                                                                  //states whether a level has been properly prepared for launch.
+
+    private Handler timeLeftHandler;
+    private Runnable timeLeftRunnable;
+
 
     private static Player sPlayer;                                                                  //static player instance.  Ensures only one player object will be created throughout the app
 
@@ -127,6 +133,9 @@ public class Player {
         setPausesGame(false);
         setHitWrongSlider(false);
         setLevelRebooted(false);
+        timeLeftHandler = new Handler();
+
+        timeLeft = 125;
 
     }
 
@@ -148,10 +157,89 @@ public class Player {
     //is eligible for an extra life.
     public void AddOneLife(){
 
-
         livesLeft++;
+    }
+
+    public void runTimeLeft(){
+
+        timeLeftRunnable = new Runnable() {
+            @Override
+            public void run() {
+
+                timeLeft -= 1;
+
+
+                timeLeftHandler.postDelayed(this, 1000);
+
+
+            }
+        };
+
+        timeLeftRunnable.run();
 
     }
+
+
+    public String timeLeftFormatted(){
+
+        int theTime = (int) timeLeft;
+        String timeAsString = "";
+
+        if(theTime < 60) {
+
+            if(theTime < 10) {
+
+                timeAsString = "00:0"+theTime;
+
+            } else {
+
+                timeAsString = "00:" + theTime;
+
+            }
+        }
+
+        if(theTime > 60){
+
+            int minutesLeft = theTime / 60;
+            int secondsLeft = theTime % 60;
+            String formatMinutes = "";
+            String formatSeconds = "";
+
+
+            if(minutesLeft < 10){
+
+                formatMinutes = "0" + minutesLeft;
+
+
+            } else {
+
+                formatMinutes = String.valueOf(minutesLeft);
+
+            }
+
+
+
+
+            if(secondsLeft < 10) {
+
+                formatSeconds = "0" + secondsLeft;
+
+            } else {
+
+                formatSeconds = String.valueOf(secondsLeft);
+
+            }
+
+            timeAsString = formatMinutes + ":" + formatSeconds;
+
+        }
+
+
+
+        return timeAsString;
+        //return String.valueOf(theTime);
+    }
+
 
 
 }

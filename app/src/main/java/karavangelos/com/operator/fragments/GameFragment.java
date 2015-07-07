@@ -45,16 +45,12 @@ public class GameFragment extends Fragment{
         actionBar.setDisplayHomeAsUpEnabled(false);
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
-
         LayoutInflater inflator = (LayoutInflater) getActivity() .getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
-        View v = inflator.inflate(R.layout.action_bar_game_fragment, null);
-        actionBar.setCustomView(v);
-
-        Toolbar parent =(Toolbar) v.getParent();
+        actionBarView = inflator.inflate(R.layout.action_bar_game_fragment, null);
+        actionBar.setCustomView(actionBarView);
+        Toolbar parent =(Toolbar) actionBarView.getParent();
         parent.setContentInsetsAbsolute(0,0);
 
-        TextView timerTextView = (TextView) v.findViewById(R.id.gameBarTimerTextView);
-        timerTextView.setText("Hello Game");
 
 
 
@@ -80,7 +76,6 @@ public class GameFragment extends Fragment{
         super.onResume();
 
         defineViews(v);
-       // setCanvasMargins();
 
     }
 
@@ -123,11 +118,19 @@ public class GameFragment extends Fragment{
         Button pauseButton = (Button) v.findViewById(R.id.pauseButton);
         Button gameButton = (Button) v.findViewById(R.id.gameButton);
 
+        TextView timertextView = (TextView) actionBarView.findViewById(R.id.gameBarTimerTextView);
+        TextView levelTextView = (TextView) actionBarView.findViewById(R.id.gameBarLevelTextView);
+
         canvasView.setScoreTextView(scoreTextView);
         canvasView.setLivesTextView(livesTextView);
         canvasView.setPowerUpButton(powerUpButton);
         canvasView.setPauseButton(pauseButton);
         canvasView.setGameButton(gameButton);
+        canvasView.setTimerTextView(timertextView);
+        canvasView.setLevelTextView(levelTextView);
+
+
+
 
     }
 
