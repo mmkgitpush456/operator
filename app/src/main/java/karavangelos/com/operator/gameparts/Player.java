@@ -14,10 +14,12 @@ public class Player {
     private int livesLeft;                                                                          //number of lives a player has left
     private int level;                                                                              //player's current level
     private float timeLeft;                                                                         //time left on the current level until it is cleared
+    private int operatorCounter;
     private boolean hasPowerUp;                                                                     //flag that tells whether the player is elligible for a power up
     private boolean pausesGame;                                                                     //flag that tells whether the game is currently paused
     private boolean hitWrongSlider;                                                                 //tells whether the player has hit a mis-matching slider object.
     private boolean levelRebooted;                                                                  //states whether a level has been properly prepared for launch.
+
 
     private Handler timeLeftHandler;
     private Runnable timeLeftRunnable;
@@ -114,6 +116,13 @@ public class Player {
         this.levelRebooted = levelRebooted;
     }
 
+    public int getOperatorCounter() {
+        return operatorCounter;
+    }
+
+    public void setOperatorCounter(int operatorCounter) {
+        this.operatorCounter = operatorCounter;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -134,9 +143,7 @@ public class Player {
         setHitWrongSlider(false);
         setLevelRebooted(false);
         timeLeftHandler = new Handler();
-
-        //timeLeft = 125;
-
+        operatorCounter = 0;
     }
 
     //increment the player score by a certain value
@@ -187,11 +194,10 @@ public class Player {
             @Override
             public void run() {
 
-                timeLeft -= 1;
-
-
                 timeLeftHandler.postDelayed(this, 1000);
 
+                timeLeft -= 1;
+                operatorCounter++;
 
             }
         };

@@ -767,8 +767,6 @@ public class PlayerBars extends View {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
-
     protected int obtainOperatorPosition(String whichCoordinate){
 
         int whichPosition = 0;
@@ -794,6 +792,19 @@ public class PlayerBars extends View {
         }
 
         return whichPosition;
+    }
+
+    protected int checkToRebootOperatorColor(int operatorCounter){
+
+        if(operatorCounter == 10){
+
+            operator.setPaintKey(operator.getRandomNumber(1, 4));
+            operator.setOperatorPaintColor(operator.getPaintKey() );
+            setColorKey(operator.getPaintKey());
+            operatorCounter = 0;
+        }
+
+        return operatorCounter;
     }
 
 }

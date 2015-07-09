@@ -138,7 +138,7 @@ public class Operator extends View{
     //method used to obtain a random number between the min and max arguments.  Min being the lowest
     //number that can be obtained, and max being the highest number that can be obtained.  This method
     //is used for a number of contributing factors across the Slider class.
-    private int getRandomNumber(int min, int max){
+    protected int getRandomNumber(int min, int max){
 
         Random random = new Random();
 
@@ -155,7 +155,7 @@ public class Operator extends View{
     //2 FOR GREEN
     //3 FOR BLUE
     //4 FOR PINK
-    private void setOperatorPaintColor(int paintColorCode){
+    protected void setOperatorPaintColor(int paintColorCode){
 
         switch (paintColorCode){
 
