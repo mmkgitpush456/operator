@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by karavangelos on 6/19/15.
@@ -25,6 +26,8 @@ public class Quadrant {
     private int quadrantKey;                                                                        //key that helps tell the sliders which section of the canvas they will be moving from
     private int maxNumSliders;                                                                      //maximum number of sliders that are utilized within the quadrant
     private int sliderQueueKey;                                                                     //key that tells which slider's turn it is to move across the canvas.
+    private int minTimeOut;
+    private int maxTimeOut;
 
     private ArrayList<Slider> slidersContainer;                                                     //Array container that holds all of the sliders.
 
@@ -54,6 +57,9 @@ public class Quadrant {
         handler = new android.os.Handler();
         mismatchedHit = false;
         handlerDelayer = 0;
+
+        minTimeOut = 3;
+        maxTimeOut = 5;
 
     }
 
@@ -101,6 +107,21 @@ public class Quadrant {
         this.mismatchedHit = mismatchedHit;
     }
 
+    public int getMaxTimeOut() {
+        return maxTimeOut;
+    }
+
+    public void setMaxTimeOut(int maxTimeOut) {
+        this.maxTimeOut = maxTimeOut;
+    }
+
+    public int getMinTimeOut() {
+        return minTimeOut;
+    }
+
+    public void setMinTimeOut(int minTimeOut) {
+        this.minTimeOut = minTimeOut;
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -146,12 +167,27 @@ public class Quadrant {
 
 
 
-                handler.postDelayed(this, 5000);
+                handler.postDelayed(this, getHandlerDelay() );
             }
         };
         runnable.run();
     }
 
+    private int getHandlerDelay(){
+
+        return (getRandomNumber() * 1000);
+
+    }
+
+
+
+    protected int getRandomNumber(){
+
+        Random random = new Random();
+
+        int randomNumber = random.nextInt(maxTimeOut) + minTimeOut;
+        return randomNumber;
+    }
 
 
     //This is the process that moves the sliders within the container across the canvas.

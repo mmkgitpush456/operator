@@ -175,7 +175,7 @@ public class Player {
 
     public void setTimeInLevel(){
 
-        timeLeft = 20 + levelTime();
+        timeLeft = 21 + levelTime();
 
     }
 

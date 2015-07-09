@@ -519,7 +519,6 @@ public class CanvasView extends View implements View.OnClickListener{
 
             if(player.getLivesLeft() < 0){
 
-                player.setLevel(1);
                 player.setScore(0);
                 player.setLivesLeft(3);
 
@@ -541,7 +540,7 @@ public class CanvasView extends View implements View.OnClickListener{
                 runTheGame(canvas, playerBars);
             }
 
-        } else {
+        } else if(!player.isLevelRebooted() && !mismatchedHit && player.getTimeLeft() > -1) {
 
             Paint textPaint = new Paint();
 
@@ -625,15 +624,16 @@ public class CanvasView extends View implements View.OnClickListener{
             textPaint.setTextSize(40);
 
 
-            if(player.getLivesLeft() < 0) {
-
+            if(player.getLivesLeft() >= 0) {
 
                 canvas.drawText("Oops, you hit the wrong slider!", 100, canvas.getHeight() / 2, textPaint);
                 canvas.drawText("Push start to continue", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+
             } else {
 
                 canvas.drawText("GAME OVER", 100, canvas.getHeight() / 2, textPaint);
                 canvas.drawText("Push start to play again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+                player.setLevel(1);
 
             }
         }

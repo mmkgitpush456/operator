@@ -224,13 +224,13 @@ public class Slider extends View{
 
                 if(sliderRight > sliderLeft){
 
-                    sliderRight -= 6;
+                    sliderRight -= 10;
                 }
 
                 if(sliderBottom > sliderTop){
 
-                    sliderBottom-= 6;
-                    sliderTop+=6;
+                    sliderBottom-= 15;
+                    sliderTop+=15;
                 }
 
                 break;
@@ -239,13 +239,13 @@ public class Slider extends View{
 
                 if(sliderRight > sliderLeft){
 
-                    sliderRight -= 6;
-                    sliderLeft += 6;
+                    sliderRight -= 10;
+                    sliderLeft += 10;
                 }
 
                 if(sliderBottom > sliderTop){
 
-                    sliderBottom -= 6;
+                    sliderBottom -= 15;
                 }
 
                 break;
@@ -254,13 +254,13 @@ public class Slider extends View{
 
                 if(sliderRight > sliderLeft){
 
-                    sliderLeft += 6;
+                    sliderLeft += 10;
                 }
 
                 if(sliderBottom > sliderTop){
 
-                    sliderBottom-= 6;
-                    sliderTop+=6;
+                    sliderBottom-= 15;
+                    sliderTop+=15;
                 }
 
                 break;
@@ -269,13 +269,13 @@ public class Slider extends View{
 
                 if(sliderRight > sliderLeft){
 
-                    sliderRight -= 6;
-                    sliderLeft += 6;
+                    sliderRight -= 10;
+                    sliderLeft += 10;
                 }
 
                 if(sliderBottom > sliderTop){
 
-                    sliderTop += 6;
+                    sliderTop += 15;
                 }
                 break;
         }//end of the switch and case
@@ -303,7 +303,8 @@ public class Slider extends View{
     //the location coordinates are generated so that the slider object is just outside of visibility
     //of the canvas.  This method is run once per slider cycle since the startingPositionsEstablished
     //flag is flipped to true after the positioning has run its course.
-
+    //additional calcuations are placed for the highest vector keys to even out the
+    //slider's measurement across the vector that it moves across.
     protected void setSliderCoordinates(PlayerBars playerBars, Canvas canvas){
 
         if(!startingPositionsEstablished){
