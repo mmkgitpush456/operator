@@ -317,6 +317,13 @@ public class Slider extends View{
 
                     sliderRight = 0;
                     sliderBottom = (vectorKey * sliderHeight);
+
+                    if(vectorKey == 11){
+
+                        sliderBottom += (canvas.getHeight() - sliderBottom);
+
+                    }
+
                     sliderTop = (sliderBottom - sliderHeight);
                     sliderLeft = (sliderRight - sliderWidth);
                     break;
@@ -326,6 +333,13 @@ public class Slider extends View{
                     sliderBottom = 0;
                     sliderTop = (sliderBottom - sliderHeight);
                     sliderRight = (sliderWidth * vectorKey);
+
+                    if(vectorKey == 7){
+
+                        sliderRight += (canvas.getWidth() - sliderRight);
+
+                    }
+
                     sliderLeft = (sliderRight - sliderWidth);
                     break;
 
@@ -334,6 +348,12 @@ public class Slider extends View{
                     sliderLeft = canvas.getWidth();
                     sliderRight = (sliderLeft + sliderWidth);
                     sliderBottom = (sliderHeight * vectorKey);
+                    if(vectorKey == 11){
+
+                        sliderBottom += (canvas.getHeight() - sliderBottom);
+
+                    }
+
                     sliderTop = (sliderBottom - sliderHeight);
 
                     break;
@@ -343,6 +363,13 @@ public class Slider extends View{
                     sliderTop = canvas.getHeight();
                     sliderBottom = (sliderTop + sliderHeight);
                     sliderRight = (sliderWidth * vectorKey);
+
+                    if(vectorKey == 7){
+
+                        sliderRight += (canvas.getWidth() - sliderRight);
+
+                    }
+
                     sliderLeft = (sliderRight - sliderWidth);
 
                     break;
