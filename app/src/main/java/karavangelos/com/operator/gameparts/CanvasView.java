@@ -602,7 +602,11 @@ public class CanvasView extends View implements View.OnClickListener{
                 gameButton.setTextColor(getResources().getColor(R.color.black));
                 defaultsAreSet = true;
 
+
+
+
             }
+
 
             displayLevelClearedMessage(canvas);
         }
@@ -653,6 +657,8 @@ public class CanvasView extends View implements View.OnClickListener{
 
             canvas.drawText("Level Cleared!", 100, canvas.getHeight() / 2, textPaint);
             canvas.drawText("Push start to continue", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+
+
 
         }
     }

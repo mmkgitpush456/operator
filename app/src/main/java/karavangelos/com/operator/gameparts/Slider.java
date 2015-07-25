@@ -51,6 +51,8 @@ public class Slider extends View{
     private boolean isDissolved;                                                                    //checks to tell if and when this slider has been visibly dissolved from the screen.
     private boolean isMismatch;
 
+    private Player player;
+
 
     public Slider(Context c, AttributeSet attrs, int quadrantKey) {
         super(c, attrs);
@@ -67,9 +69,9 @@ public class Slider extends View{
             setVectorKey(getRandomNumber(1, 7));
         }
 
-
-
+        player = Player.newInstance();
         setConstructorProtocol(quadrantKey);
+
     }
 
     //getters and setters
@@ -181,7 +183,7 @@ public class Slider extends View{
         setThePaint();
         this.quadrantKey = quadrantKey;
 
-        sliderSpeed = getRandomNumber(3, 7);
+        sliderSpeed = getRandomNumber(player.getMinimumSliderSpeed(), player.getMaximumSliderSpeed());
 
         hasCollided = false;
         isDissolved = true;
@@ -206,7 +208,7 @@ public class Slider extends View{
 
             } else {
 
-                Player.newInstance().setHitWrongSlider(true);
+                player.setHitWrongSlider(true);
                 setIsMismatch(true);
 
             }
@@ -630,10 +632,7 @@ public class Slider extends View{
         if( (sliderLeft > sliderRight) && (sliderTop > sliderBottom) ) {
 
             isDissolved = true;
-            Log.d(TAG, "the slider has been dissolved");
-
-            Log.d(TAG, "score is now " + Player.newInstance().getScore() );
-            Player.newInstance().incrementScore(2);
+            player.incrementScore(2);
 
         }
     }
@@ -642,9 +641,6 @@ public class Slider extends View{
     //colors.  The corresponding flag is set accordingly.  This method is run constantly since the operator
     //can change colors over periods of time or through potential power-ups.
     public void checkIfColorMatchesOperatorColor(PlayerBars playerBars){
-
-     //   Log.d(TAG, "paint key is " + paintKey);
-     //   Log.d(TAG, "operator color key is " + playerBars.getColorKey() );
 
         if(paintKey == playerBars.getColorKey()) {
 
@@ -729,7 +725,7 @@ public class Slider extends View{
         setStartingPositionsEstablished(false);
         setIsDissolved(true);
 
-        sliderSpeed = getRandomNumber(one, 10);
+        sliderSpeed = getRandomNumber(player.getMinimumSliderSpeed(), player.getMaximumSliderSpeed());
 
         setThePaint();
         rebootVector(one, max);

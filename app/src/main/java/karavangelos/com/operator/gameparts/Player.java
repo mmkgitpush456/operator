@@ -20,6 +20,10 @@ public class Player {
     private boolean hitWrongSlider;                                                                 //tells whether the player has hit a mis-matching slider object.
     private boolean levelRebooted;                                                                  //states whether a level has been properly prepared for launch.
 
+    private int minimumSliderSpeed;
+    private int maximumSliderSpeed;
+    private int minumumSliderLaunchTime;
+    private int maximumSliderLaunchTime;
 
     private Handler timeLeftHandler;
     private Runnable timeLeftRunnable;
@@ -124,6 +128,38 @@ public class Player {
         this.operatorCounter = operatorCounter;
     }
 
+    public int getMaximumSliderLaunchTime() {
+        return maximumSliderLaunchTime;
+    }
+
+    public void setMaximumSliderLaunchTime(int maximumSliderLaunchTime) {
+        this.maximumSliderLaunchTime = maximumSliderLaunchTime;
+    }
+
+    public int getMaximumSliderSpeed() {
+        return maximumSliderSpeed;
+    }
+
+    public void setMaximumSliderSpeed(int maximumSliderSpeed) {
+        this.maximumSliderSpeed = maximumSliderSpeed;
+    }
+
+    public int getMinimumSliderSpeed() {
+        return minimumSliderSpeed;
+    }
+
+    public void setMinimumSliderSpeed(int minimumSliderSpeed) {
+        this.minimumSliderSpeed = minimumSliderSpeed;
+    }
+
+    public int getMinumumSliderLaunchTime() {
+        return minumumSliderLaunchTime;
+    }
+
+    public void setMinumumSliderLaunchTime(int minumumSliderLaunchTime) {
+        this.minumumSliderLaunchTime = minumumSliderLaunchTime;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //set the defaults before a new game.
@@ -144,6 +180,9 @@ public class Player {
         setLevelRebooted(false);
         timeLeftHandler = new Handler();
         operatorCounter = 0;
+        setMinimumSliderSpeed(2);
+        setMaximumSliderSpeed(5);
+
     }
 
     //increment the player score by a certain value
@@ -167,6 +206,9 @@ public class Player {
         livesLeft++;
     }
 
+    //calculates the amount of time in seconds that will be added to the
+    //default starting time amount of the game.
+    //Used in the setTimeInLevel() method below.
     private float levelTime(){
 
         float levelTime = 5 * level;
@@ -213,6 +255,13 @@ public class Player {
     }
 
 
+    //Most involved method in the player class.
+    //Takes the current vlue of the timeLeft float variable
+    //and converts it into an integer value.
+    //The value is then passed through multiple
+    //filters to place it into a readable countdown time
+    //format and then is returned as a string value.
+    //Used within the canvasView.
     public String timeLeftFormatted(){
 
         int theTime = (int) timeLeft;
@@ -267,11 +316,27 @@ public class Player {
 
         }
 
-
-
         return timeAsString;
         //return String.valueOf(theTime);
     }
+
+    public void incrementSpeedOrSliderLaunch(){
+
+        int remainder = (level % 2);
+
+        if(remainder == 1){
+
+            setMinimumSliderSpeed(minimumSliderSpeed + 1);
+
+        } else {
+
+            setMaximumSliderSpeed(maximumSliderSpeed + 1);
+
+        }
+
+    }
+
+
 
 
 
