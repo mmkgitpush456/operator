@@ -1,6 +1,7 @@
 package karavangelos.com.operator.gameparts;
 
 import android.os.Handler;
+import android.util.Log;
 
 /**
  * Created by karavangelos on 6/19/15.
@@ -22,8 +23,8 @@ public class Player {
 
     private int minimumSliderSpeed;
     private int maximumSliderSpeed;
-    private int minumumSliderLaunchTime;
-    private int maximumSliderLaunchTime;
+    private int minimumQuadrantTimeOut;
+    private int maximumQuadrantTimeOut;
 
     private Handler timeLeftHandler;
     private Runnable timeLeftRunnable;
@@ -128,12 +129,12 @@ public class Player {
         this.operatorCounter = operatorCounter;
     }
 
-    public int getMaximumSliderLaunchTime() {
-        return maximumSliderLaunchTime;
+    public int getMaximumQuadrantTimeOut() {
+        return maximumQuadrantTimeOut;
     }
 
-    public void setMaximumSliderLaunchTime(int maximumSliderLaunchTime) {
-        this.maximumSliderLaunchTime = maximumSliderLaunchTime;
+    public void setMaximumQuadrantTimeOut(int maximumQuadrantTimeOut) {
+        this.maximumQuadrantTimeOut = maximumQuadrantTimeOut;
     }
 
     public int getMaximumSliderSpeed() {
@@ -152,12 +153,12 @@ public class Player {
         this.minimumSliderSpeed = minimumSliderSpeed;
     }
 
-    public int getMinumumSliderLaunchTime() {
-        return minumumSliderLaunchTime;
+    public int getMinimumQuadrantTimeOut() {
+        return minimumQuadrantTimeOut;
     }
 
-    public void setMinumumSliderLaunchTime(int minumumSliderLaunchTime) {
-        this.minumumSliderLaunchTime = minumumSliderLaunchTime;
+    public void setMinimumQuadrantTimeOut(int minimumQuadrantTimeOut) {
+        this.minimumQuadrantTimeOut = minimumQuadrantTimeOut;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,6 +183,8 @@ public class Player {
         operatorCounter = 0;
         setMinimumSliderSpeed(2);
         setMaximumSliderSpeed(5);
+        setMinimumQuadrantTimeOut(4);
+        setMaximumQuadrantTimeOut(6);
 
     }
 
@@ -320,17 +323,19 @@ public class Player {
         //return String.valueOf(theTime);
     }
 
-    public void incrementSpeedOrSliderLaunch(){
+    public void incrementMinimumOrMaximumSliderSpeed(){
 
         int remainder = (level % 2);
 
         if(remainder == 1){
 
             setMinimumSliderSpeed(minimumSliderSpeed + 1);
+            Log.d(TAG, "minimum slider speed is now " + minimumSliderSpeed);
 
         } else {
 
             setMaximumSliderSpeed(maximumSliderSpeed + 1);
+            Log.d(TAG, "maximum slider speed is now " + maximumSliderSpeed);
 
         }
 

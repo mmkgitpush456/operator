@@ -26,8 +26,8 @@ public class Quadrant {
     private int quadrantKey;                                                                        //key that helps tell the sliders which section of the canvas they will be moving from
     private int maxNumSliders;                                                                      //maximum number of sliders that are utilized within the quadrant
     private int sliderQueueKey;                                                                     //key that tells which slider's turn it is to move across the canvas.
-    private int minTimeOut;
-    private int maxTimeOut;
+   // private int minTimeOut;
+   // private int maxTimeOut;
 
     private ArrayList<Slider> slidersContainer;                                                     //Array container that holds all of the sliders.
 
@@ -36,6 +36,8 @@ public class Quadrant {
 
     private boolean mismatchedHit;
     private int handlerDelayer;
+
+    private Player player;
 
     //Constructor.  Assigns context and Attribute Set.
     //Assigns the Quadrant key to assist with slider movement.
@@ -58,8 +60,9 @@ public class Quadrant {
         mismatchedHit = false;
         handlerDelayer = 0;
 
-        minTimeOut = 3;
-        maxTimeOut = 5;
+       // minTimeOut = 3;
+       // maxTimeOut = 5;
+        player = Player.newInstance();
 
     }
 
@@ -107,6 +110,7 @@ public class Quadrant {
         this.mismatchedHit = mismatchedHit;
     }
 
+    /*
     public int getMaxTimeOut() {
         return maxTimeOut;
     }
@@ -122,6 +126,7 @@ public class Quadrant {
     public void setMinTimeOut(int minTimeOut) {
         this.minTimeOut = minTimeOut;
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -185,7 +190,7 @@ public class Quadrant {
 
         Random random = new Random();
 
-        int randomNumber = random.nextInt(maxTimeOut) + minTimeOut;
+        int randomNumber = random.nextInt(player.getMaximumQuadrantTimeOut()) + player.getMinimumQuadrantTimeOut();
         return randomNumber;
     }
 
