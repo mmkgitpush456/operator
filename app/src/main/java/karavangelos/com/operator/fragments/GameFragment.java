@@ -121,6 +121,7 @@ public class GameFragment extends Fragment{
         TextView timertextView = (TextView) actionBarView.findViewById(R.id.gameBarTimerTextView);
         TextView levelTextView = (TextView) actionBarView.findViewById(R.id.gameBarLevelTextView);
 
+        pauseButton.setClickable(false);
         canvasView.setScoreTextView(scoreTextView);
         canvasView.setLivesTextView(livesTextView);
         canvasView.setPowerUpButton(powerUpButton);

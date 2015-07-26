@@ -10,7 +10,7 @@
     <string name="score">Score:</string>
     <string name="lives_left">Lives Left:</string>
     <string name="power_up">Power Up:</string>
-    <string name="pause">Pause</string>
+    <string name="pause">PAUSE</string>
     <string name="inactive">INACTIVE</string>
     <string name="touch_to_begin">Touch this screen to begin</string>
     <string name="left">LEFT</string>
@@ -19,6 +19,7 @@
     <string name="bottom">BOTTOM</string>
     <string name="none">NONE</string>
     <string name="start">START</string>
+    <string name="resume">RESUME</string>
 
     <!-- Color String Keys -->
 

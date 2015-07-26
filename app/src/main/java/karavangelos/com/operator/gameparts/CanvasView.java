@@ -144,12 +144,15 @@ public class CanvasView extends View implements View.OnClickListener{
 
         }
 
+
         if(v == pauseButton){
 
             Log.d(TAG, "pushed the pause button");
             flipThePausedQuadrantFlag();
 
+
         }
+
 
         if(v == gameButton){
 
@@ -198,6 +201,7 @@ public class CanvasView extends View implements View.OnClickListener{
         this.powerUpButton.setOnClickListener(this);
     }
 
+
     public Button getPauseButton() {
         return pauseButton;
     }
@@ -206,6 +210,9 @@ public class CanvasView extends View implements View.OnClickListener{
         this.pauseButton = pauseButton;
 
         this.pauseButton.setOnClickListener(this);
+        this.pauseButton.setClickable(false);
+        this.pauseButton.setTextColor(getResources().getColor(R.color.light_gray));
+
     }
 
     public Button getGameButton() {
@@ -517,6 +524,8 @@ public class CanvasView extends View implements View.OnClickListener{
             player.setTimeInLevel();
             player.runTimeLeft();
             player.setOperatorCounter(0);
+            pauseButton.setClickable(true);
+            pauseButton.setTextColor(getResources().getColor(R.color.black));
 
             if(player.getLivesLeft() < 0){
 
@@ -567,6 +576,8 @@ public class CanvasView extends View implements View.OnClickListener{
             drawTheLines(canvas);
             playerBars.expandBlackRectIfMismatchedHit(canvas);
             invalidate();
+            pauseButton.setClickable(false);
+            pauseButton.setTextColor(getResources().getColor(R.color.light_gray));
 
             if(!defaultsAreSet){
 
@@ -590,6 +601,8 @@ public class CanvasView extends View implements View.OnClickListener{
             drawTheLines(canvas);
             playerBars.expandOperatorRectIfLevelCleared(canvas);
             invalidate();
+            pauseButton.setClickable(false);
+            pauseButton.setTextColor(getResources().getColor(R.color.light_gray));
 
             timerTextView.setText("CLEAR!!");
 
@@ -678,6 +691,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
     private void flipThePausedQuadrantFlag(){
 
+
         for(int i = 0; i < quadrants.size(); i++){
 
             if(quadrants.get(i).isPaused() ){
@@ -688,15 +702,19 @@ public class CanvasView extends View implements View.OnClickListener{
 
                 quadrants.get(i).setPaused(true);
             }
+            quadrants.get(i).pauseOrResumeTheSliders();
         }
+
 
         if(player.isPaused() ){
 
             player.setPaused(false);
+            pauseButton.setText(context.getString(R.string.pause));
 
         } else {
 
             player.setPaused(true);
+            pauseButton.setText(context.getString(R.string.resume));
         }
 
         player.pauseOrResumeTheTimer();

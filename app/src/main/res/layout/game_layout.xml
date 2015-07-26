@@ -102,6 +102,7 @@
             android:textStyle="bold"
             android:text="@string/pause"
             android:layout_weight="1"
+            android:clickable="false"
             />
 
         <Button

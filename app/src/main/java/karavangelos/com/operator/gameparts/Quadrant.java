@@ -3,6 +3,7 @@ package karavangelos.com.operator.gameparts;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -144,12 +145,15 @@ public class Quadrant {
             @Override
             public void run() {
 
+                Log.d(TAG, "running slider push process");
                 if(!isPaused()) {
 
+                    handler.postDelayed(this, getHandlerDelay() );
                     if(handlerDelayer > 0){
 
-                        activateTheNextSlider();
                         sliderQueueKey++;
+                        activateTheNextSlider();
+
 
                         if(sliderQueueKey == maxNumSliders){
 
@@ -161,7 +165,7 @@ public class Quadrant {
                         handlerDelayer++;
                     }
 
-                    handler.postDelayed(this, getHandlerDelay() );
+
 
                 }
             }
@@ -175,6 +179,21 @@ public class Quadrant {
 
         //Log.d(TAG, "handlerDelay: " + handlerDelay);
         return handlerDelay;
+    }
+
+    public void pauseOrResumeTheSliders(){
+
+        if(isPaused()){
+
+            handler.removeCallbacks(runnable);
+            Log.d(TAG, "Pausing all sliders");
+            handlerDelayer = 0;
+
+        } else {
+
+            runProcessForCallingSliders();
+
+        }
 
     }
 
@@ -210,11 +229,8 @@ public class Quadrant {
                     theSlider.moveTheSlider(canvas, playerBars);
                 }
 
-
-
             } else {
 
-               // slidersContainer.get(i).resetTheSlider();
                 resetHorizontalOrVerticalSlider( theSlider );
 
             }

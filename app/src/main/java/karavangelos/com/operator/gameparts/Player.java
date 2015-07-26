@@ -257,6 +257,7 @@ public class Player {
                     timeLeft -= 1;
                     operatorCounter++;
 
+                  //  Log.d(TAG, "If you see this, the player timer is working correctly");
                 }
             }
         };
