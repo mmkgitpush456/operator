@@ -51,6 +51,8 @@ public class Slider extends View{
     private boolean isDissolved;                                                                    //checks to tell if and when this slider has been visibly dissolved from the screen.
     private boolean isMismatch;
 
+    private int killCollide;
+
     private Player player;
 
 
@@ -58,6 +60,7 @@ public class Slider extends View{
         super(c, attrs);
         context = c;
 
+        killCollide = 0;
         if(quadrantKey == 1 || quadrantKey == 3){
 
             setVectorKey(getRandomNumber(1, 11));
@@ -201,16 +204,18 @@ public class Slider extends View{
 
         if(hasCollided){
 
-
             if(colorsMatch) {
 
+                killCollide = 1;
                 wipeSliderClean();
 
             } else {
 
-                player.setHitWrongSlider(true);
-                setIsMismatch(true);
+                if(killCollide == 0) {
 
+                    player.setHitWrongSlider(true);
+                    setIsMismatch(true);
+                }
             }
         }
     }
@@ -319,13 +324,19 @@ public class Slider extends View{
                 case 1: //LEFT
 
                     sliderRight = 0;
-                    sliderBottom = (vectorKey * sliderHeight);
+
+
+
+                    sliderBottom = (sliderHeight * vectorKey);
+
 
                     if(vectorKey == 11){
 
                         sliderBottom += (canvas.getHeight() - sliderBottom);
 
                     }
+
+
 
                     sliderTop = (sliderBottom - sliderHeight);
                     sliderLeft = (sliderRight - sliderWidth);
@@ -351,11 +362,13 @@ public class Slider extends View{
                     sliderLeft = canvas.getWidth();
                     sliderRight = (sliderLeft + sliderWidth);
                     sliderBottom = (sliderHeight * vectorKey);
+
                     if(vectorKey == 11){
 
                         sliderBottom += (canvas.getHeight() - sliderBottom);
 
                     }
+
 
                     sliderTop = (sliderBottom - sliderHeight);
 
@@ -578,7 +591,7 @@ public class Slider extends View{
     private boolean linearCollideVertical(){
 
         if(verticalCollideIsElligible() && (operatorLeft == sliderLeft) ) {
-            Log.d(TAG, "VERTICAL COLLIDE");
+            //Log.d(TAG, "VERTICAL COLLIDE");
 
             return true;
         }
@@ -593,10 +606,21 @@ public class Slider extends View{
 
         if(horizontalCollideIsElligible() && operatorTop == sliderTop){
 
-            Log.d(TAG, "HORIZONTAL COLLIDE");
+            //Log.d(TAG, "HORIZONTAL COLLIDE");
             return true;
 
         }
+
+        if(vectorKey == 11){
+
+
+            if(horizontalCollideIsElligible() && operatorBottom == sliderBottom){
+
+                return true;
+            }
+
+        }
+
 
         return false;
 
@@ -730,6 +754,7 @@ public class Slider extends View{
         setThePaint();
         rebootVector(one, max);
         setIsMismatch(false);
+        killCollide = 0;
 
 
 

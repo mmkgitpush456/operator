@@ -50,7 +50,7 @@ public class Quadrant {
         this.attrs = attrs;
 
         this.quadrantKey = quadrantKey;
-        maxNumSliders = 11;
+        maxNumSliders = 7;
         sliderQueueKey = 0;
 
         slidersContainer = new ArrayList<Slider>();
@@ -110,23 +110,6 @@ public class Quadrant {
         this.mismatchedHit = mismatchedHit;
     }
 
-    /*
-    public int getMaxTimeOut() {
-        return maxTimeOut;
-    }
-
-    public void setMaxTimeOut(int maxTimeOut) {
-        this.maxTimeOut = maxTimeOut;
-    }
-
-    public int getMinTimeOut() {
-        return minTimeOut;
-    }
-
-    public void setMinTimeOut(int minTimeOut) {
-        this.minTimeOut = minTimeOut;
-    }
-    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -180,7 +163,11 @@ public class Quadrant {
 
     private int getHandlerDelay(){
 
-        return (getRandomNumber() * 1000);
+        int handlerDelay = (getRandomNumber() * 1000);
+
+        //Log.d(TAG, "handlerDelay: " + handlerDelay);
+        return handlerDelay;
+
 
     }
 

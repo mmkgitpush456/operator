@@ -601,7 +601,6 @@ public class CanvasView extends View implements View.OnClickListener{
                 gameButton.setClickable(true);
                 gameButton.setTextColor(getResources().getColor(R.color.black));
                 defaultsAreSet = true;
-
                 player.incrementMinimumOrMaximumSliderSpeed();
 
 

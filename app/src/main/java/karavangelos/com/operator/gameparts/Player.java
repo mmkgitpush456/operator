@@ -220,6 +220,7 @@ public class Player {
 
     public void setTimeInLevel(){
 
+//        timeLeft = 0 + levelTime();
         timeLeft = 21 + levelTime();
 
     }
@@ -325,21 +326,62 @@ public class Player {
 
     public void incrementMinimumOrMaximumSliderSpeed(){
 
-        int remainder = (level % 2);
+        int increment = (level % 7);
 
-        if(remainder == 1){
+      //  int remainderForSlider = (level % 7);
+      //  int remainderForDelay = (level % 7);
+      //  int remainderForDelay = (6 % level);
+      //  int remainderForDelay = (6 % level);
 
-            setMinimumSliderSpeed(minimumSliderSpeed + 1);
-            Log.d(TAG, "minimum slider speed is now " + minimumSliderSpeed);
+        if(increment == 3){
 
-        } else {
+            if(minimumSliderSpeed != 12) {
 
-            setMaximumSliderSpeed(maximumSliderSpeed + 1);
-            Log.d(TAG, "maximum slider speed is now " + maximumSliderSpeed);
+                setMinimumSliderSpeed(minimumSliderSpeed + 1);
+               // Log.d(TAG, "minimum slider speed is now " + minimumSliderSpeed);
+
+            }
+
+        } else if(increment == 4) {
+
+
+            if(maximumSliderSpeed != 16) {
+
+                setMaximumSliderSpeed(maximumSliderSpeed + 1);
+             //    Log.d(TAG, "maximum slider speed is now " + maximumSliderSpeed);
+            }
+
 
         }
 
+
+        if(increment == 5){
+
+            if (minimumQuadrantTimeOut != 2) {
+                setMinimumQuadrantTimeOut(minimumQuadrantTimeOut - 1);
+              //  Log.d(TAG, "minimum quadrant timeout is now " + minimumQuadrantTimeOut);
+            }
+
+
+
+        } else if(increment == 6){
+
+            if(maximumQuadrantTimeOut != 3) {
+
+                setMaximumQuadrantTimeOut(maximumQuadrantTimeOut -1);
+             //   Log.d(TAG, "maximum quadrant timeout is now " + maximumQuadrantTimeOut);
+
+            }
+
+
+        }
+
+
+       // Log.d(TAG, "Level is now " + level + ", modulus remainder is " + increment );
+
     }
+
+
 
 
 
