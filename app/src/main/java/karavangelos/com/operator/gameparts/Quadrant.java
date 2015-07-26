@@ -3,7 +3,6 @@ package karavangelos.com.operator.gameparts;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -26,8 +25,7 @@ public class Quadrant {
     private int quadrantKey;                                                                        //key that helps tell the sliders which section of the canvas they will be moving from
     private int maxNumSliders;                                                                      //maximum number of sliders that are utilized within the quadrant
     private int sliderQueueKey;                                                                     //key that tells which slider's turn it is to move across the canvas.
-   // private int minTimeOut;
-   // private int maxTimeOut;
+
 
     private ArrayList<Slider> slidersContainer;                                                     //Array container that holds all of the sliders.
 
@@ -36,6 +34,7 @@ public class Quadrant {
 
     private boolean mismatchedHit;
     private int handlerDelayer;
+    private boolean paused;
 
     private Player player;
 
@@ -59,9 +58,8 @@ public class Quadrant {
         handler = new android.os.Handler();
         mismatchedHit = false;
         handlerDelayer = 0;
+        paused = false;
 
-       // minTimeOut = 3;
-       // maxTimeOut = 5;
         player = Player.newInstance();
 
     }
@@ -110,6 +108,14 @@ public class Quadrant {
         this.mismatchedHit = mismatchedHit;
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -138,24 +144,26 @@ public class Quadrant {
             @Override
             public void run() {
 
-                if(handlerDelayer > 0){
+                if(!isPaused()) {
 
-                    activateTheNextSlider();
-                    sliderQueueKey++;
+                    if(handlerDelayer > 0){
 
-                    if(sliderQueueKey == maxNumSliders){
+                        activateTheNextSlider();
+                        sliderQueueKey++;
 
-                        sliderQueueKey = 0;
+                        if(sliderQueueKey == maxNumSliders){
+
+                            sliderQueueKey = 0;
+                        }
+
+                    } else {
+
+                        handlerDelayer++;
                     }
 
-                } else {
+                    handler.postDelayed(this, getHandlerDelay() );
 
-                    handlerDelayer++;
                 }
-
-
-
-                handler.postDelayed(this, getHandlerDelay() );
             }
         };
         runnable.run();
@@ -167,7 +175,6 @@ public class Quadrant {
 
         //Log.d(TAG, "handlerDelay: " + handlerDelay);
         return handlerDelay;
-
 
     }
 
@@ -194,7 +201,16 @@ public class Quadrant {
 
             if(!theSlider.isDissolved() ) {
 
-                theSlider.moveTheSlider(canvas, playerBars);
+                if(isPaused()) {
+
+                    theSlider.setPausedSlider();
+
+                } else {
+
+                    theSlider.moveTheSlider(canvas, playerBars);
+                }
+
+
 
             } else {
 
@@ -257,7 +273,6 @@ public class Quadrant {
         if(quadrantKey == 1 || quadrantKey == 3){
 
             slider.resetTheSlider(11);
-
         }
 
         if(quadrantKey == 2 || quadrantKey == 4){
@@ -265,6 +280,11 @@ public class Quadrant {
             slider.resetTheSlider(7);
 
         }
+    }
+
+    public void pauseOrStopTheSliderMotion(){
+
+        handler.removeCallbacks(runnable);
 
     }
 

@@ -20,6 +20,7 @@ public class Player {
     private boolean pausesGame;                                                                     //flag that tells whether the game is currently paused
     private boolean hitWrongSlider;                                                                 //tells whether the player has hit a mis-matching slider object.
     private boolean levelRebooted;                                                                  //states whether a level has been properly prepared for launch.
+    private boolean paused;
 
     private int minimumSliderSpeed;
     private int maximumSliderSpeed;
@@ -161,6 +162,14 @@ public class Player {
         this.minimumQuadrantTimeOut = minimumQuadrantTimeOut;
     }
 
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     //set the defaults before a new game.
@@ -185,6 +194,7 @@ public class Player {
         setMaximumSliderSpeed(5);
         setMinimumQuadrantTimeOut(4);
         setMaximumQuadrantTimeOut(6);
+        setPaused(false);
 
     }
 
@@ -240,16 +250,35 @@ public class Player {
             @Override
             public void run() {
 
-                timeLeftHandler.postDelayed(this, 1000);
+                if(!isPaused()){
 
-                timeLeft -= 1;
-                operatorCounter++;
+                    timeLeftHandler.postDelayed(this, 1000);
 
+                    timeLeft -= 1;
+                    operatorCounter++;
+
+                }
             }
         };
 
         timeLeftRunnable.run();
     }
+
+
+    public void pauseOrResumeTheTimer(){
+
+        if(isPaused()){
+
+            timeLeftHandler.removeCallbacks(timeLeftRunnable);
+
+        } else {
+
+            runTimeLeft();
+
+        }
+
+    }
+
 
     public void killTheTimerProcess(){
 
@@ -305,7 +334,6 @@ public class Player {
 
 
 
-
             if(secondsLeft < 10) {
 
                 formatSeconds = "0" + secondsLeft;
@@ -328,10 +356,6 @@ public class Player {
 
         int increment = (level % 7);
 
-      //  int remainderForSlider = (level % 7);
-      //  int remainderForDelay = (level % 7);
-      //  int remainderForDelay = (6 % level);
-      //  int remainderForDelay = (6 % level);
 
         if(increment == 3){
 
@@ -375,9 +399,6 @@ public class Player {
 
 
         }
-
-
-       // Log.d(TAG, "Level is now " + level + ", modulus remainder is " + increment );
 
     }
 

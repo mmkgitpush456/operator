@@ -147,6 +147,7 @@ public class CanvasView extends View implements View.OnClickListener{
         if(v == pauseButton){
 
             Log.d(TAG, "pushed the pause button");
+            flipThePausedQuadrantFlag();
 
         }
 
@@ -673,4 +674,33 @@ public class CanvasView extends View implements View.OnClickListener{
 
         }
     }
+
+
+    private void flipThePausedQuadrantFlag(){
+
+        for(int i = 0; i < quadrants.size(); i++){
+
+            if(quadrants.get(i).isPaused() ){
+
+                quadrants.get(i).setPaused(false);
+
+            } else {
+
+                quadrants.get(i).setPaused(true);
+            }
+        }
+
+        if(player.isPaused() ){
+
+            player.setPaused(false);
+
+        } else {
+
+            player.setPaused(true);
+        }
+
+        player.pauseOrResumeTheTimer();
+
+    }
+
 }

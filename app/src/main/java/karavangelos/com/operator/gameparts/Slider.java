@@ -204,6 +204,11 @@ public class Slider extends View{
         canvas.drawRect(theSlider, sliderPaint);
         switchCollisionFlagIfCollides();
         moveTheSliderBasedOnQuadrant();
+        runTheCollisionLogic();
+
+    }
+
+    private void runTheCollisionLogic(){
 
         if(hasCollided){
 
@@ -229,6 +234,12 @@ public class Slider extends View{
                 }
             }
         }
+    }
+
+    public void keepPausedSliderInPlace(Canvas canvas){
+
+        theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
+
     }
 
 
@@ -777,6 +788,11 @@ public class Slider extends View{
     protected void rebootVector(int min, int max){
 
         vectorKey = getRandomNumber(min, max);
+    }
+
+    protected void setPausedSlider(){
+
+        theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
     }
 
 
