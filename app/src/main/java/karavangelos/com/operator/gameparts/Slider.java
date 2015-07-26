@@ -51,6 +51,8 @@ public class Slider extends View{
     private boolean isDissolved;                                                                    //checks to tell if and when this slider has been visibly dissolved from the screen.
     private boolean isMismatch;
 
+    private boolean hasIncrementedScore;
+
     private int killCollide;
 
     private Player player;
@@ -191,6 +193,7 @@ public class Slider extends View{
         hasCollided = false;
         isDissolved = true;
         isMismatch = false;
+        hasIncrementedScore = false;
     }
 
     //public method that updates and draws the slider object on the canvas.
@@ -205,6 +208,14 @@ public class Slider extends View{
         if(hasCollided){
 
             if(colorsMatch) {
+
+                if(!hasIncrementedScore){
+
+                    hasIncrementedScore = true;
+                    player.incrementScore(2);
+
+                }
+
 
                 killCollide = 1;
                 wipeSliderClean();
@@ -300,6 +311,7 @@ public class Slider extends View{
 
             // Log.d(TAG, "the slider has been dissolved");
             theSlider = null;
+
 
         }
 
@@ -656,7 +668,6 @@ public class Slider extends View{
         if( (sliderLeft > sliderRight) && (sliderTop > sliderBottom) ) {
 
             isDissolved = true;
-            player.incrementScore(2);
 
         }
     }
@@ -755,6 +766,7 @@ public class Slider extends View{
         rebootVector(one, max);
         setIsMismatch(false);
         killCollide = 0;
+        hasIncrementedScore = false;
 
 
 
