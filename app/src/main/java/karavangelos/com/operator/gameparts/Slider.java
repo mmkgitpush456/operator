@@ -33,7 +33,7 @@ public class Slider extends View{
     private int sliderWidth;                                                                        //width of the slider object
     private int sliderHeight;                                                                       //height of the slider object
 
-    private int operatorLeft;
+    private int operatorLeft;                                                                       //operator coordinates pulled into the class for collision detection
     private int operatorTop;
     private int operatorRight;
     private int operatorBottom;
@@ -51,11 +51,11 @@ public class Slider extends View{
     private boolean isDissolved;                                                                    //checks to tell if and when this slider has been visibly dissolved from the screen.
     private boolean isMismatch;
 
-    private boolean hasIncrementedScore;
+    private boolean hasIncrementedScore;                                                            //increments player score whenever a matching color hit occurs.
 
     private int killCollide;
 
-    private Player player;
+    private Player player;                                                                          //player singleton instance.
 
 
     public Slider(Context c, AttributeSet attrs, int quadrantKey) {
@@ -208,6 +208,10 @@ public class Slider extends View{
 
     }
 
+    //checks to see whether or not a collision has occured between the slider and
+    //the operator.  Should a collision occur, the proper process is run depending on whether the
+    //operator and slider have matching colors or not.  Used within the drawTheSlider method
+    //of this class.
     private void runTheCollisionLogic(){
 
         if(hasCollided){
@@ -220,7 +224,6 @@ public class Slider extends View{
                     player.incrementScore(2);
 
                 }
-
 
                 killCollide = 1;
                 wipeSliderClean();
@@ -312,6 +315,9 @@ public class Slider extends View{
         checkIfTheSliderIsDissolved();
     }
 
+    //if the slider still needs to shrink after a matching color collision, it is dissolved
+    //using the dissolveTheSlider method.  Otherwise, the slider is set to null.
+    //Used within the runTheCollisionLogic of this class.
     private void wipeSliderClean(){
 
         if (!isDissolved) {
@@ -790,6 +796,8 @@ public class Slider extends View{
         vectorKey = getRandomNumber(min, max);
     }
 
+    //maintains a slider's coordinates should the player decide to pause the game.
+    //Used on the performSliderActivities method of the quadrant class.
     protected void setPausedSlider(){
 
         theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);

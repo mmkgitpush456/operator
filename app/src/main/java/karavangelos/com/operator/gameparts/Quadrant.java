@@ -33,11 +33,11 @@ public class Quadrant {
     private android.os.Handler handler;                                                             //handler and runnable are used to queue sliders on interval instead of having them move all at once
     private Runnable runnable;
 
-    private boolean mismatchedHit;
-    private int handlerDelayer;
-    private boolean paused;
+    private boolean mismatchedHit;                                                                  //flag that is flipped to true if the operator has a different color than the slider and the 2 collide
+    private int handlerDelayer;                                                                     //integer flag that prevents the slider from launching at the very beginning of the game or level OR after a player resumes a paused game.
+    private boolean paused;                                                                         //flag that detects whether or not the game is paused
 
-    private Player player;
+    private Player player;                                                                          //player singleton instance.
 
     //Constructor.  Assigns context and Attribute Set.
     //Assigns the Quadrant key to assist with slider movement.
@@ -145,7 +145,7 @@ public class Quadrant {
             @Override
             public void run() {
 
-                Log.d(TAG, "running slider push process");
+               // Log.d(TAG, "running slider push process");
                 if(!isPaused()) {
 
                     handler.postDelayed(this, getHandlerDelay() );
@@ -173,6 +173,9 @@ public class Quadrant {
         runnable.run();
     }
 
+    //returns a random integer based on the getRandomNumber method
+    //which tells the runnable how long to wait before releasing
+    //a slider.  Used within the runProcessForCallingSliders above.
     private int getHandlerDelay(){
 
         int handlerDelay = (getRandomNumber() * 1000);
@@ -181,12 +184,17 @@ public class Quadrant {
         return handlerDelay;
     }
 
+    //if the local paused flag is true, then the handler is removed
+    //from making calls to the runnable and the handler delayer, which
+    //prevents sliders from launching from the start of the runnable, is
+    //put back to 0.  Otherwise, the runProcessForCallingSliders method is
+    //called again and the game resumes.
     public void pauseOrResumeTheSliders(){
 
         if(isPaused()){
 
             handler.removeCallbacks(runnable);
-            Log.d(TAG, "Pausing all sliders");
+           // Log.d(TAG, "Pausing all sliders");
             handlerDelayer = 0;
 
         } else {
@@ -198,7 +206,8 @@ public class Quadrant {
     }
 
 
-
+    //obtains a random integer based on the current values obtained from the
+    //player's minimum and maximum timeout quadrant variables.
     protected int getRandomNumber(){
 
         Random random = new Random();
@@ -244,6 +253,11 @@ public class Quadrant {
     }
 
 
+    //should the operator hit a slider with a mismatched color,
+    //all the sliders within the quadrant are reset to their original values
+    //prior to launch and the member variables of the quadrant are returned to their
+    //original values as well.  Used within the rebootTheSlidersAndQuadrants
+    //method on the canvas view.
     protected void resetAllOnMismatchHit(){
 
         for(int i = 0; i < slidersContainer.size(); i++){
@@ -284,6 +298,9 @@ public class Quadrant {
     }
 
 
+    //resets a slider if it completes its path across the board or if the
+    //operator hits it.  Used within the resetAllOnMismatchHit and
+    //performSliderActivities methods within this class.
     private void resetHorizontalOrVerticalSlider(Slider slider){
 
         if(quadrantKey == 1 || quadrantKey == 3){
@@ -298,11 +315,7 @@ public class Quadrant {
         }
     }
 
-    public void pauseOrStopTheSliderMotion(){
 
-        handler.removeCallbacks(runnable);
-
-    }
 
 
 }

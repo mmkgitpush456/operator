@@ -28,18 +28,18 @@ public class CanvasView extends View implements View.OnClickListener{
     private PlayerBars playerBars;                                                                  //player bars object which interacts with the canvas.
     private ArrayList<Quadrant> quadrants;                                                          //container of quadrants
 
-    private TextView scoreTextView;
-    private TextView livesTextView;
-    private TextView timerTextView;
-    private TextView levelTextView;
-    private Button powerUpButton;
-    private Button pauseButton;
-    private Button gameButton;
+    private TextView scoreTextView;                                                                 //game score
+    private TextView livesTextView;                                                                 //current number of lives left
+    private TextView timerTextView;                                                                 //time left text view
+    private TextView levelTextView;                                                                 //current level text view
+    private Button powerUpButton;                                                                   //change color button
+    private Button pauseButton;                                                                     //pause/resume button
+    private Button gameButton;                                                                      //start game/level button
 
-    private Player player;
+    private Player player;                                                                          //player singleton instance
 
-    private boolean mismatchedHit;
-    private boolean defaultsAreSet;
+    private boolean mismatchedHit;                                                                  //flag that detects whether a hit occured between the operator and a mismatching colored slider.
+    private boolean defaultsAreSet;                                                                 //checks whether the original defaults prior to a game/level start.
 
 
 
@@ -489,13 +489,16 @@ public class CanvasView extends View implements View.OnClickListener{
         powerUpButton.setText(context.getString(R.string.none));
     }
 
-
+    //updates the timer countdown textview on the action bar.  Used within the
+    //runTheGame method on this class.
     private void setTimeLeft(){
 
         timerTextView.setText("Time Left: " +  player.timeLeftFormatted());
 
     }
 
+    //keeps the current level of the game on track.
+    //used within the runTheGame method on this class.
     private void setLevel(){
 
         levelTextView.setText("Level: " + player.getLevel());
@@ -689,6 +692,11 @@ public class CanvasView extends View implements View.OnClickListener{
     }
 
 
+    //method used whenever the pause/resume button is pushed.  If the game is running,
+    //the the pause flags local to the quadrants and the player class are flipped to true.  Consequently,
+    //those classes have their respective handlers and runnables detatched and frozen until the game is resumed.
+    //should the button be pushed to resume the game, the paused flags are returned to their false state and
+    //the game continues on.
     private void flipThePausedQuadrantFlag(){
 
 

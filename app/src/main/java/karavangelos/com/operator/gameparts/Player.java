@@ -20,15 +20,15 @@ public class Player {
     private boolean pausesGame;                                                                     //flag that tells whether the game is currently paused
     private boolean hitWrongSlider;                                                                 //tells whether the player has hit a mis-matching slider object.
     private boolean levelRebooted;                                                                  //states whether a level has been properly prepared for launch.
-    private boolean paused;
+    private boolean paused;                                                                         //tells whether or not the current game in activity has been paused or not.
 
-    private int minimumSliderSpeed;
-    private int maximumSliderSpeed;
-    private int minimumQuadrantTimeOut;
-    private int maximumQuadrantTimeOut;
+    private int minimumSliderSpeed;                                                                 //absolute minimum speed that a slider can inherit during a course of the game.
+    private int maximumSliderSpeed;                                                                 //absolute maximum speed that a slider can inherit during a course of the game.
+    private int minimumQuadrantTimeOut;                                                             //absolute minimum amount of time before slider releases on a given quadrant
+    private int maximumQuadrantTimeOut;                                                             //absolute maximum amount of time before slider releases on a given quadrant
 
-    private Handler timeLeftHandler;
-    private Runnable timeLeftRunnable;
+    private Handler timeLeftHandler;                                                                //handler that handles the level countdown.
+    private Runnable timeLeftRunnable;                                                              //runnable that handles the level countdown.
 
 
     private static Player sPlayer;                                                                  //static player instance.  Ensures only one player object will be created throughout the app
@@ -228,6 +228,8 @@ public class Player {
         return levelTime;
     }
 
+    //set the total time of the current level.  The levelTime method is
+    //used to calculate the amount of time within the current level.
     public void setTimeInLevel(){
 
 //        timeLeft = 0 + levelTime();
@@ -236,6 +238,9 @@ public class Player {
     }
 
 
+    //level up should the player clear the current level.
+    //used within the runLevelClearedSequenceWhenTimeLeftAtZero
+    //method on the canvas view.
     public void levelUp(){
 
         setLevel(level + 1);
@@ -244,6 +249,9 @@ public class Player {
 
 
 
+    //handler and runnable method that runs the countdown of the timer at the top
+    //left of the screen.  Used within the startGameOrLevel of the canvas view as well
+    //as the pauseOrResumeTheTimer below.
     public void runTimeLeft(){
 
         timeLeftRunnable = new Runnable() {
@@ -266,6 +274,9 @@ public class Player {
     }
 
 
+    //should the local paused flag be flipped to true, the timeLeftHandler is detached from its calls
+    //to the timeLeftRunnable.  Otherwise, the runTimeLeft method is re-instituted and the timer
+    //continues to count down.  Used within the flipThePausedQuadrantFlag on the canvas view.
     public void pauseOrResumeTheTimer(){
 
         if(isPaused()){
@@ -281,6 +292,11 @@ public class Player {
     }
 
 
+    //completely kill off the timeLeftHandler's association to the
+    //timeLeftRunnable and nullify the timeLeftRunnable.
+    //Used within the runLifeLostSequenceWhenMismatchedHit
+    //as well as the runLevelClearedSequenceWhenTimeLeftAtZero method
+    //on the canvas view.
     public void killTheTimerProcess(){
 
         timeLeftHandler.removeCallbacks(timeLeftRunnable);
@@ -333,8 +349,6 @@ public class Player {
 
             }
 
-
-
             if(secondsLeft < 10) {
 
                 formatSeconds = "0" + secondsLeft;
@@ -353,6 +367,13 @@ public class Player {
         //return String.valueOf(theTime);
     }
 
+
+    //Adjusts a value used for calling the speed of the sliders as well as the
+    //delay time used to calculate their activations.  A local value called increment is used
+    //which obtains a modulous remained from the level the player has reached.  Should the increment
+    //value match one of the values shown below, either the minimum slider speed, maximum slider speed,
+    //minimum quadrant timeour, or maximum timeout will be updated to periodically increase the game's difficulty.
+    //Used within the runLevelClearedSequenceWhenTimeLeftAtZero method on the canvas view.
     public void incrementMinimumOrMaximumSliderSpeed(){
 
         int increment = (level % 7);
