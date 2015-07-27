@@ -276,7 +276,7 @@ public class Player {
 
     //should the local paused flag be flipped to true, the timeLeftHandler is detached from its calls
     //to the timeLeftRunnable.  Otherwise, the runTimeLeft method is re-instituted and the timer
-    //continues to count down.  Used within the flipThePausedQuadrantFlag on the canvas view.
+    //continues to count down.  Used within the pauseTheGame on the canvas view.
     public void pauseOrResumeTheTimer(){
 
         if(isPaused()){

@@ -633,10 +633,6 @@ public class PlayerBars extends View {
     }
 
 
-
-
-
-
     //settle down for this set.  The following logic moves the horizontal bar between the nearest
     //set of horizontal bars after they have released their finger hold on it.  Each method is explained
     //in detail as to it compliments the process.
@@ -794,17 +790,15 @@ public class PlayerBars extends View {
         return whichPosition;
     }
 
-    protected int checkToRebootOperatorColor(int operatorCounter){
+    //changes the color of the operator and the associated key values that assist
+    //with color collision detection.  This method is called whenever the player pushes the
+    //Change Color button on the screen.  Used within the OnClick override of the canvas view.
+    protected void changeOperatorColorOnButtonPress(){
 
-        if(operatorCounter == 10){
+        operator.setPaintKey(operator.getRandomNumber(1, 4));
+        operator.setOperatorPaintColor(operator.getPaintKey() );
+        setColorKey(operator.getPaintKey());
 
-            operator.setPaintKey(operator.getRandomNumber(1, 4));
-            operator.setOperatorPaintColor(operator.getPaintKey() );
-            setColorKey(operator.getPaintKey());
-            operatorCounter = 0;
-        }
-
-        return operatorCounter;
     }
 
 }

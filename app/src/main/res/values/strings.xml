@@ -20,6 +20,7 @@
     <string name="none">NONE</string>
     <string name="start">START</string>
     <string name="resume">RESUME</string>
+    <string name="change_color">CHANGE COLOR</string>
 
     <!-- Color String Keys -->
 

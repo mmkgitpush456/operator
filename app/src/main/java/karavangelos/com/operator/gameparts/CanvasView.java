@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +31,7 @@ public class CanvasView extends View implements View.OnClickListener{
     private TextView livesTextView;                                                                 //current number of lives left
     private TextView timerTextView;                                                                 //time left text view
     private TextView levelTextView;                                                                 //current level text view
-    private Button powerUpButton;                                                                   //change color button
+    private Button changeColorButton;                                                                   //change color button
     private Button pauseButton;                                                                     //pause/resume button
     private Button gameButton;                                                                      //start game/level button
 
@@ -40,6 +39,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
     private boolean mismatchedHit;                                                                  //flag that detects whether a hit occured between the operator and a mismatching colored slider.
     private boolean defaultsAreSet;                                                                 //checks whether the original defaults prior to a game/level start.
+    private boolean paused;                                                                         //member flag for checking game active state.  Used for drawing of the player bars.
 
 
 
@@ -61,6 +61,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
         mismatchedHit = false;
         defaultsAreSet = true;
+        paused = false;
 
 
     }
@@ -138,17 +139,18 @@ public class CanvasView extends View implements View.OnClickListener{
     @Override
     public void onClick(View v) {
 
-        if(v == powerUpButton){
+        if(v == changeColorButton){
 
-            Log.d(TAG, "pushed the power up button");
+            //Log.d(TAG, "pushed the power up button");
+            playerBars.changeOperatorColorOnButtonPress();
 
         }
 
 
         if(v == pauseButton){
 
-            Log.d(TAG, "pushed the pause button");
-            flipThePausedQuadrantFlag();
+           // Log.d(TAG, "pushed the pause button");
+            pauseTheGame();
 
 
         }
@@ -191,14 +193,16 @@ public class CanvasView extends View implements View.OnClickListener{
         this.livesTextView = livesTextView;
     }
 
-    public Button getPowerUpButton() {
-        return powerUpButton;
+    public Button getChangeColorButton() {
+        return changeColorButton;
     }
 
-    public void setPowerUpButton(Button powerUpButton) {
-        this.powerUpButton = powerUpButton;
+    public void setChangeColorButton(Button changeColorButton) {
+        this.changeColorButton = changeColorButton;
 
-        this.powerUpButton.setOnClickListener(this);
+        this.changeColorButton.setOnClickListener(this);
+        this.changeColorButton.setClickable(false);
+        this.changeColorButton.setTextColor(getResources().getColor(R.color.light_gray));
     }
 
 
@@ -239,6 +243,14 @@ public class CanvasView extends View implements View.OnClickListener{
 
     public void setLevelTextView(TextView levelTextView) {
         this.levelTextView = levelTextView;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        this.paused = paused;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -426,15 +438,19 @@ public class CanvasView extends View implements View.OnClickListener{
     }
 
 
-
-
     //main method that runs the game.  The activity from the player bars, the quadrants that control
     //the sliders, and the scoring, lives left, and power up status are maintained through this method.
     //This is what is used within the main ondraw method.
     private void runTheGame(Canvas canvas, PlayerBars playerBars){
 
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
-        playerBars.drawTheBars(canvas);
+
+        if(!isPaused()){
+
+            playerBars.drawTheBars(canvas);
+
+        }
+
         runTheQuadrants(canvas, playerBars);
         drawTheLines(canvas);
         invalidate();
@@ -444,7 +460,6 @@ public class CanvasView extends View implements View.OnClickListener{
         setTimeLeft();
         setLevel();
 
-        player.setOperatorCounter(playerBars.checkToRebootOperatorColor(player.getOperatorCounter() ) );
     }
 
 
@@ -486,7 +501,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
     private void setPowerUp(){
 
-        powerUpButton.setText(context.getString(R.string.none));
+        changeColorButton.setText(context.getString(R.string.change_color));
     }
 
     //updates the timer countdown textview on the action bar.  Used within the
@@ -529,6 +544,11 @@ public class CanvasView extends View implements View.OnClickListener{
             player.setOperatorCounter(0);
             pauseButton.setClickable(true);
             pauseButton.setTextColor(getResources().getColor(R.color.black));
+
+            changeColorButton.setClickable(true);
+            changeColorButton.setTextColor(getResources().getColor(R.color.black));
+
+            setPaused(false);
 
             if(player.getLivesLeft() < 0){
 
@@ -582,6 +602,9 @@ public class CanvasView extends View implements View.OnClickListener{
             pauseButton.setClickable(false);
             pauseButton.setTextColor(getResources().getColor(R.color.light_gray));
 
+            changeColorButton.setClickable(false);
+            changeColorButton.setTextColor(getResources().getColor(R.color.light_gray));
+
             if(!defaultsAreSet){
 
                 player.setLevelRebooted(false);
@@ -591,6 +614,7 @@ public class CanvasView extends View implements View.OnClickListener{
                 gameButton.setClickable(true);
                 gameButton.setTextColor(getResources().getColor(R.color.black));
                 defaultsAreSet = true;
+                setPaused(false);
 
             }
         }
@@ -607,6 +631,9 @@ public class CanvasView extends View implements View.OnClickListener{
             pauseButton.setClickable(false);
             pauseButton.setTextColor(getResources().getColor(R.color.light_gray));
 
+            changeColorButton.setClickable(false);
+            changeColorButton.setTextColor(getResources().getColor(R.color.light_gray));
+
             timerTextView.setText("CLEAR!!");
 
             if(!defaultsAreSet){
@@ -619,7 +646,7 @@ public class CanvasView extends View implements View.OnClickListener{
                 gameButton.setTextColor(getResources().getColor(R.color.black));
                 defaultsAreSet = true;
                 player.incrementMinimumOrMaximumSliderSpeed();
-
+                setPaused(false);
 
 
             }
@@ -696,8 +723,9 @@ public class CanvasView extends View implements View.OnClickListener{
     //the the pause flags local to the quadrants and the player class are flipped to true.  Consequently,
     //those classes have their respective handlers and runnables detatched and frozen until the game is resumed.
     //should the button be pushed to resume the game, the paused flags are returned to their false state and
-    //the game continues on.
-    private void flipThePausedQuadrantFlag(){
+    //the game continues on.  Also determines whether or not the player bars should be drawn depending on the
+    //game state of paused or active
+    public void pauseTheGame(){
 
 
         for(int i = 0; i < quadrants.size(); i++){
@@ -726,6 +754,16 @@ public class CanvasView extends View implements View.OnClickListener{
         }
 
         player.pauseOrResumeTheTimer();
+
+        if(isPaused()){
+
+            setPaused(false);
+
+        } else {
+
+            setPaused(true);
+
+        }
 
     }
 

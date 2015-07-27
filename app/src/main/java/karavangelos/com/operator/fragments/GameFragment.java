@@ -1,14 +1,9 @@
 package karavangelos.com.operator.fragments;
 
-import android.app.ActionBar;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +11,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import karavangelos.com.operator.GameActivity;
 import karavangelos.com.operator.R;
 import karavangelos.com.operator.gameparts.CanvasView;
 
@@ -51,6 +45,7 @@ public class GameFragment extends Fragment{
         Toolbar parent =(Toolbar) actionBarView.getParent();
         parent.setContentInsetsAbsolute(0,0);
 
+        defineViews(v);
 
 
 
@@ -75,7 +70,7 @@ public class GameFragment extends Fragment{
     public void onResume() {
         super.onResume();
 
-        defineViews(v);
+      //  defineViews(v);
 
     }
 
@@ -84,13 +79,14 @@ public class GameFragment extends Fragment{
     public void onPause() {
         super.onPause();
 
+        canvasView.pauseTheGame();
     }
 
     @Override
     public void onStop() {
         super.onStop();
 
-        canvasView.freezeTheGame();
+        //canvasView.freezeTheGame();
     }
 
     @Override
@@ -114,17 +110,18 @@ public class GameFragment extends Fragment{
       //  canvasView.setContext(getActivity());
         TextView scoreTextView = (TextView) v.findViewById(R.id.scoreTextView);
         TextView livesTextView = (TextView) v.findViewById(R.id.livesTextView);
-        Button powerUpButton = (Button) v.findViewById(R.id.powerButton);
+        Button changeColorButton = (Button) v.findViewById(R.id.changeColorButton);
         Button pauseButton = (Button) v.findViewById(R.id.pauseButton);
         Button gameButton = (Button) v.findViewById(R.id.gameButton);
 
         TextView timertextView = (TextView) actionBarView.findViewById(R.id.gameBarTimerTextView);
         TextView levelTextView = (TextView) actionBarView.findViewById(R.id.gameBarLevelTextView);
 
-        pauseButton.setClickable(false);
+     //   pauseButton.setClickable(false);
+     //   changeColorButton.setClickable(false);
         canvasView.setScoreTextView(scoreTextView);
         canvasView.setLivesTextView(livesTextView);
-        canvasView.setPowerUpButton(powerUpButton);
+        canvasView.setChangeColorButton(changeColorButton);
         canvasView.setPauseButton(pauseButton);
         canvasView.setGameButton(gameButton);
         canvasView.setTimerTextView(timertextView);
