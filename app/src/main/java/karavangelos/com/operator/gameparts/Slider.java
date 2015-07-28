@@ -1,6 +1,5 @@
 package karavangelos.com.operator.gameparts;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,7 +7,6 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 
 import java.util.Random;
 
@@ -443,8 +441,8 @@ public class Slider extends View{
     //convenience method that sets the paint color of the slider object based on the number key
     //passed in from the argument.
     //1 FOR RED
-    //2 FOR GREEN
-    //3 FOR BLUE
+    //2 FOR BEIGE
+    //3 FOR AQUA
     //4 FOR PINK
     private void setSliderPaintColor(int paintColorCode){
 
@@ -459,7 +457,7 @@ public class Slider extends View{
 
             case 2:
 
-                sliderPaint.setColor(getResources().getColor(R.color.green));
+                sliderPaint.setColor(getResources().getColor(R.color.beige));
                 sliderPaint.setStyle(Paint.Style.FILL);
                 break;
 
@@ -467,7 +465,7 @@ public class Slider extends View{
 
             case 3:
 
-                sliderPaint.setColor(getResources().getColor(R.color.blue));
+                sliderPaint.setColor(getResources().getColor(R.color.aqua));
                 sliderPaint.setStyle(Paint.Style.FILL);
                 break;
 

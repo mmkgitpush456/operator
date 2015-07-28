@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import java.util.Random;
@@ -168,7 +167,7 @@ public class Operator extends View{
 
             case 2:
 
-                operatorPaint.setColor(getResources().getColor(R.color.green));
+                operatorPaint.setColor(getResources().getColor(R.color.beige));
                 operatorPaint.setStyle(Paint.Style.FILL);
                 break;
 
@@ -176,7 +175,7 @@ public class Operator extends View{
 
             case 3:
 
-                operatorPaint.setColor(getResources().getColor(R.color.blue));
+                operatorPaint.setColor(getResources().getColor(R.color.aqua));
                 operatorPaint.setStyle(Paint.Style.FILL);
                 break;
 
