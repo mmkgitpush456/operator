@@ -34,8 +34,10 @@ public class Quadrant {
     private Runnable runnable;
 
     private boolean mismatchedHit;                                                                  //flag that is flipped to true if the operator has a different color than the slider and the 2 collide
-    private int handlerDelayer;                                                                     //integer flag that prevents the slider from launching at the very beginning of the game or level OR after a player resumes a paused game.
+    private int handlerLauncher;                                                                    //integer flag that prevents the slider from launching at the very beginning of the game or level OR after a player resumes a paused game.
     private boolean paused;                                                                         //flag that detects whether or not the game is paused
+    private int sliderReleaseTime;                                                                  //seconds interval for a slider to be released from the respective quadrant.
+    private int sliderReleaseAfterPause;                                                            //seconds until the next slider release if the player resumes the level after pause.
 
     private Player player;                                                                          //player singleton instance.
 
@@ -58,7 +60,8 @@ public class Quadrant {
 
         handler = new android.os.Handler();
         mismatchedHit = false;
-        handlerDelayer = 0;
+        handlerLauncher = 0;
+        sliderReleaseAfterPause = 0;
         paused = false;
 
         player = Player.newInstance();
@@ -148,8 +151,20 @@ public class Quadrant {
                // Log.d(TAG, "running slider push process");
                 if(!isPaused()) {
 
-                    handler.postDelayed(this, getHandlerDelay() );
-                    if(handlerDelayer > 0){
+                    if(sliderReleaseAfterPause > 0) {
+
+                        handler.postDelayed(this, (sliderReleaseAfterPause * 1000) );
+                        sliderReleaseAfterPause = 0;
+                        handlerLauncher= 0;
+
+                    } else {
+
+                        handler.postDelayed(this, (sliderReleaseTime * 1000) );
+                    }
+
+
+
+                    if(handlerLauncher > 0){
 
                         sliderQueueKey++;
                         activateTheNextSlider();
@@ -162,7 +177,7 @@ public class Quadrant {
 
                     } else {
 
-                        handlerDelayer++;
+                        handlerLauncher++;
                     }
 
 
@@ -176,12 +191,34 @@ public class Quadrant {
     //returns a random integer based on the getRandomNumber method
     //which tells the runnable how long to wait before releasing
     //a slider.  Used within the runProcessForCallingSliders above.
-    private int getHandlerDelay(){
+    public void setHandlerReleaseOnNewLevel(){
 
-        int handlerDelay = (getRandomNumber() * 1000);
+        sliderReleaseTime = (getRandomNumber() );
 
-        //Log.d(TAG, "handlerDelay: " + handlerDelay);
-        return handlerDelay;
+    }
+
+
+    //sets a value to the sliderReleaseAfterPause variable
+    //gets the total time in the level and the current time remaining in the level.
+    //while the local time left variable is less than the total amount of time in the level,
+    //the slider release time variable is added to it.  Finally, the sliderReleaseAfterPause
+    //variable is set by subtracting the total time in the level from the modified time left variable.
+    //Used whenever the pause/resume button is clicked to pause the game or when the game leaves the foreground
+    //of the device.
+    public void setHandlerReleaseAfterPause(){
+
+        int levelTime = (int) ( 5 * player.getLevel() ) + 21;
+        int timeLeft = (int) player.getTimeLeft();
+
+        while(timeLeft < levelTime) {
+
+            timeLeft += sliderReleaseTime;
+
+        }
+
+        int timeBuffer = timeLeft - levelTime;
+        sliderReleaseAfterPause = timeBuffer;
+
     }
 
     //if the local paused flag is true, then the handler is removed
@@ -195,7 +232,7 @@ public class Quadrant {
 
             handler.removeCallbacks(runnable);
            // Log.d(TAG, "Pausing all sliders");
-            handlerDelayer = 0;
+            handlerLauncher = 0;
 
         } else {
 
@@ -271,7 +308,7 @@ public class Quadrant {
         mismatchedHit = false;
         sliderQueueKey = 0;
         handler.removeCallbacks(runnable);
-        handlerDelayer = 0;
+        handlerLauncher = 0;
 
        // Log.d(TAG, "mismatch = " + mismatchedHit);
     }

@@ -275,6 +275,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
         for(int i = 0; i < quadrants.size(); i++){
 
+            quadrants.get(i).setHandlerReleaseOnNewLevel();
             quadrants.get(i).runProcessForCallingSliders();
         }
 
@@ -737,6 +738,7 @@ public class CanvasView extends View implements View.OnClickListener{
             } else {
 
                 quadrants.get(i).setPaused(true);
+                quadrants.get(i).setHandlerReleaseAfterPause();
             }
             quadrants.get(i).pauseOrResumeTheSliders();
         }
