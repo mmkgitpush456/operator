@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import karavangelos.com.operator.fragments.MainFragment;
+import karavangelos.com.operator.objects.DBHandler;
 import karavangelos.com.operator.objects.Player;
 
 
@@ -24,6 +25,9 @@ public class MainActivity extends ActionBarActivity {
         stackCount = 0;
         establishTheMainFragment();
         Player player = Player.newInstance();
+
+        DBHandler db = new DBHandler(this);
+        db = null;
 
     }
 

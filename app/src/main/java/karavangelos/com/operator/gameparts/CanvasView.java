@@ -8,10 +8,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import karavangelos.com.operator.R;
+import karavangelos.com.operator.objects.DBHandler;
 import karavangelos.com.operator.objects.Player;
 
 /**
@@ -41,6 +43,7 @@ public class CanvasView extends View implements View.OnClickListener{
     private boolean mismatchedHit;                                                                  //flag that detects whether a hit occured between the operator and a mismatching colored slider.
     private boolean defaultsAreSet;                                                                 //checks whether the original defaults prior to a game/level start.
     private boolean paused;                                                                         //member flag for checking game active state.  Used for drawing of the player bars.
+    private boolean enterIntoDB;                                                                    //sets eligibility for the player to enter a high score into the SQLite database.
 
 
 
@@ -63,6 +66,7 @@ public class CanvasView extends View implements View.OnClickListener{
         mismatchedHit = false;
         defaultsAreSet = true;
         paused = false;
+        enterIntoDB = false;
 
 
     }
@@ -143,7 +147,27 @@ public class CanvasView extends View implements View.OnClickListener{
         if(v == changeColorButton){
 
             //Log.d(TAG, "pushed the power up button");
-            playerBars.changeOperatorColorOnButtonPress();
+
+            if(!enterIntoDB){
+
+                playerBars.changeOperatorColorOnButtonPress();
+            } else {
+
+                changeColorButton.setText(context.getString(R.string.change_color));
+                changeColorButton.setClickable(false);
+                changeColorButton.setTextColor(context.getResources().getColor(R.color.light_gray));
+
+                DBHandler dbHandler = new DBHandler(context);
+                dbHandler.insertRowIntoDB(scoreTextView.getText().toString(), levelTextView.getText().toString());
+                dbHandler.getStatsFromSelectedDate("07/29/15");
+
+                Toast.makeText(context, "HIGH SCORE ENTERED!!", Toast.LENGTH_SHORT).show();
+
+
+                enterIntoDB = false;
+            }
+
+
 
         }
 
@@ -684,6 +708,10 @@ public class CanvasView extends View implements View.OnClickListener{
                 canvas.drawText("GAME OVER", 100, canvas.getHeight() / 2, textPaint);
                 canvas.drawText("Push start to play again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
                 player.setLevel(1);
+                enterIntoDB = true;
+                changeColorButton.setClickable(true);
+                changeColorButton.setText("ENTER HIGH SCORE");
+                changeColorButton.setTextColor(context.getResources().getColor(R.color.black));
 
             }
         }
