@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import karavangelos.com.operator.fragments.MainFragment;
-import karavangelos.com.operator.gameparts.Player;
+import karavangelos.com.operator.objects.Player;
 
 
 public class MainActivity extends ActionBarActivity {

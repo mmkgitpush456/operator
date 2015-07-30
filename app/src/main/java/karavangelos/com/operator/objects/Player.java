@@ -1,7 +1,6 @@
-package karavangelos.com.operator.gameparts;
+package karavangelos.com.operator.objects;
 
 import android.os.Handler;
-import android.util.Log;
 
 /**
  * Created by karavangelos on 6/19/15.

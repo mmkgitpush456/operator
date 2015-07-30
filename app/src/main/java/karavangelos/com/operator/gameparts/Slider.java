@@ -11,6 +11,7 @@ import android.view.View;
 import java.util.Random;
 
 import karavangelos.com.operator.R;
+import karavangelos.com.operator.objects.Player;
 
 /**
  * Created by karavangelos on 3/26/15.

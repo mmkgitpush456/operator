@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import karavangelos.com.operator.R;
+import karavangelos.com.operator.objects.Player;
 
 /**
  * Created by karavangelos on 2/14/15.
