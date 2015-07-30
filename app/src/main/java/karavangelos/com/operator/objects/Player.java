@@ -2,6 +2,9 @@ package karavangelos.com.operator.objects;
 
 import android.os.Handler;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by karavangelos on 6/19/15.
  */
@@ -417,10 +420,17 @@ public class Player {
              //   Log.d(TAG, "maximum quadrant timeout is now " + maximumQuadrantTimeOut);
 
             }
-
-
         }
+    }
 
+    public String getTodaysDate(){
+
+        Date date = new Date();
+        String DATE_FORMAT = "MM/dd/yy";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+        String todaysDate = sdf.format(date);
+
+        return todaysDate;
     }
 
 

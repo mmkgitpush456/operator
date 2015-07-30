@@ -64,6 +64,8 @@ public class DBHandler extends SQLiteOpenHelper {
        // String score = String.valueOf(player.getScore() );
        // String level = String.valueOf(player.getLevel() );
 
+        Player player = Player.newInstance();
+
         ContentValues values = new ContentValues();
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -72,7 +74,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
             values.put(COLUMN_SCORE, score);
             values.put(COLUMN_LEVEL, level);
-            values.put(COLUMN_DATE, "07/29/15");
+            values.put(COLUMN_DATE, player.getTodaysDate() );
 
             db.insert(TABLE_SCORES, null, values);
 
@@ -141,13 +143,15 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
 
-      //  cursor.close();
+        cursor.close();
         cursor = null;
-      //  db.close();
+        db.close();
         db = null;
       //  return archivedStats;
 
     }//end get StatsFromArchivedDate
+
+
 
 
 

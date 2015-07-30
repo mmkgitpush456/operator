@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -43,7 +44,9 @@ public class CanvasView extends View implements View.OnClickListener{
     private boolean mismatchedHit;                                                                  //flag that detects whether a hit occured between the operator and a mismatching colored slider.
     private boolean defaultsAreSet;                                                                 //checks whether the original defaults prior to a game/level start.
     private boolean paused;                                                                         //member flag for checking game active state.  Used for drawing of the player bars.
+    private boolean gameIsOver;
     private boolean enterIntoDB;                                                                    //sets eligibility for the player to enter a high score into the SQLite database.
+
 
 
 
@@ -68,6 +71,8 @@ public class CanvasView extends View implements View.OnClickListener{
         paused = false;
         enterIntoDB = false;
 
+
+        Log.d(TAG, "today is " + player.getTodaysDate() );
 
     }
 
@@ -151,20 +156,28 @@ public class CanvasView extends View implements View.OnClickListener{
             if(!enterIntoDB){
 
                 playerBars.changeOperatorColorOnButtonPress();
+
             } else {
 
-                changeColorButton.setText(context.getString(R.string.change_color));
-                changeColorButton.setClickable(false);
-                changeColorButton.setTextColor(context.getResources().getColor(R.color.light_gray));
-
-                DBHandler dbHandler = new DBHandler(context);
-                dbHandler.insertRowIntoDB(scoreTextView.getText().toString(), levelTextView.getText().toString());
-                dbHandler.getStatsFromSelectedDate("07/29/15");
-
-                Toast.makeText(context, "HIGH SCORE ENTERED!!", Toast.LENGTH_SHORT).show();
+                if(player.getLivesLeft() < 0) {
 
 
-                enterIntoDB = false;
+                    changeColorButton.setText(context.getString(R.string.change_color));
+                    changeColorButton.setClickable(false);
+                    changeColorButton.setTextColor(context.getResources().getColor(R.color.light_gray));
+
+                    DBHandler dbHandler = new DBHandler(context);
+                    dbHandler.insertRowIntoDB(scoreTextView.getText().toString(), levelTextView.getText().toString());
+                    //    dbHandler.getStatsFromSelectedDate("07/29/15");
+
+                    Toast.makeText(context, "HIGH SCORE ENTERED!!", Toast.LENGTH_SHORT).show();
+
+
+                    enterIntoDB = false;
+                    player.setLivesLeft(3);
+
+                }
+
             }
 
 
@@ -698,12 +711,18 @@ public class CanvasView extends View implements View.OnClickListener{
             textPaint.setTextSize(40);
 
 
-            if(player.getLivesLeft() >= 0) {
+             if(player.getLivesLeft() == 3) {
+
+                canvas.drawText("GAME OVER", 100, canvas.getHeight() / 2, textPaint);
+                canvas.drawText("Push start to play again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+
+
+            } else if(player.getLivesLeft() >= 0) {
 
                 canvas.drawText("Oops, you hit the wrong slider!", 100, canvas.getHeight() / 2, textPaint);
                 canvas.drawText("Push start to continue", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
 
-            } else {
+            } else if(player.getLivesLeft() < 0) {
 
                 canvas.drawText("GAME OVER", 100, canvas.getHeight() / 2, textPaint);
                 canvas.drawText("Push start to play again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
