@@ -139,10 +139,6 @@ public class DBHandler extends SQLiteOpenHelper {
           //  return null;
             }//end catch block for imperial statistics
 
-
-
-
-
         cursor.close();
         cursor = null;
         db.close();
@@ -152,6 +148,11 @@ public class DBHandler extends SQLiteOpenHelper {
     }//end get StatsFromArchivedDate
 
 
+    public void getTopTenScores(){
+
+
+
+    }
 
 
 
