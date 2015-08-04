@@ -37,7 +37,7 @@ public class HighScoresModel {
 
     public void setDummyScores(){
 
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 50; i++){
 
             HighScore highScore = new HighScore();
             highScore.setScore("" + (i + 1));

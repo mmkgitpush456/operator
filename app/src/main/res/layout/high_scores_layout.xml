@@ -25,6 +25,68 @@
             android:text="@string/high_scores"
 
             />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4"
+            android:layout_alignParentBottom="true"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Number"
+                android:id="@+id/scoreIndexTextView"
+                android:textColor="@color/black"
+                android:layout_marginTop="26dp"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Score"
+                android:id="@+id/scoreTextView"
+                android:layout_marginTop="26dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Level"
+                android:id="@+id/levelTextView"
+                android:textColor="@color/black"
+                android:layout_marginTop="26dp"
+                android:layout_weight="1"
+                />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Date"
+                android:id="@+id/dateTextView"
+                android:textColor="@color/black"
+                android:layout_alignTop="@+id/scoreTextView"
+                android:layout_marginTop="26dp"
+                android:layout_weight="1"
+                />
+
+
+        </LinearLayout>
+
+
     </RelativeLayout>
 
     <fragment
