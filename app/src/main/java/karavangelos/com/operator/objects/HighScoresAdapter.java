@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class HighScoresAdapter extends ArrayAdapter {
 
     static class ViewHolder{
 
+        LinearLayout scoresListItemContainerLayout;
         TextView scoreTextView;
         TextView levelTextView;
         TextView dateTextView;
@@ -50,16 +52,19 @@ public class HighScoresAdapter extends ArrayAdapter {
 
            viewHolder = new ViewHolder();
 
+           viewHolder.scoresListItemContainerLayout = (LinearLayout) convertView.findViewById(R.id.scoresListItemContainerLayout);
            viewHolder.scoreTextView = (TextView) convertView.findViewById(R.id.scoreTextView);
            viewHolder.levelTextView = (TextView) convertView.findViewById(R.id.levelTextView);
            viewHolder.dateTextView = (TextView) convertView.findViewById(R.id.dateTextView);
            viewHolder.scoreIndexTextView = (TextView) convertView.findViewById(R.id.scoreIndexTextView);
 
            convertView.setTag(viewHolder);
+           convertView.setTag(R.id.scoresListItemContainerLayout, viewHolder.scoresListItemContainerLayout);
            convertView.setTag(R.id.scoreTextView, viewHolder.scoreTextView);
            convertView.setTag(R.id.levelTextView, viewHolder.levelTextView);
            convertView.setTag(R.id.dateTextView, viewHolder.dateTextView);
            convertView.setTag(R.id.scoreIndexTextView, viewHolder.scoreIndexTextView);
+
 
        } else {
 
@@ -70,8 +75,11 @@ public class HighScoresAdapter extends ArrayAdapter {
 
        }
 
+        viewHolder.scoresListItemContainerLayout.setBackgroundColor(highScores.get(position).getColor());
         viewHolder.scoreTextView.setText(highScores.get(position).getScore());
         viewHolder.scoreIndexTextView.setText(((position + 1) + ":" ));
+        viewHolder.levelTextView.setText(highScores.get(position).getLevel());
+        viewHolder.dateTextView.setText(highScores.get(position).getDateOfScore());
 
         return convertView;
     }

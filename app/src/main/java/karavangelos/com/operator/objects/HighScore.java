@@ -15,6 +15,7 @@ public class HighScore {
     private String score;                                                                           //score from the particular game
     private String level;                                                                           //level reached when game is over
     private String dateOfScore;                                                                     //date that the player played the game
+    private int color;
 
 
     //getters and setters
@@ -42,6 +43,15 @@ public class HighScore {
     public void setScore(String score) {
         this.score = score;
     }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

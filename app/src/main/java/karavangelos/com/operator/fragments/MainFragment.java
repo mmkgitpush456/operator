@@ -12,6 +12,7 @@ import android.widget.Button;
 import karavangelos.com.operator.GameActivity;
 import karavangelos.com.operator.MainActivity;
 import karavangelos.com.operator.R;
+import karavangelos.com.operator.objects.DBHandler;
 
 /**
  * Created by karavangelos on 2/12/15.
@@ -45,6 +46,31 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         renderButtons(v);
         assignListeners();
 
+        /*
+        DBHandler db = new DBHandler(getActivity());
+        db.insertRowIntoDB(223, 22);
+        db.insertRowIntoDB(93, 7);
+        db.insertRowIntoDB(34, 2);
+        db.insertRowIntoDB(54, 5);
+        db.insertRowIntoDB(12, 6);
+        db.insertRowIntoDB(33, 8);
+        db.insertRowIntoDB(99, 3);
+        db.insertRowIntoDB(42, 5);
+        db.insertRowIntoDB(67, 8);
+        db.insertRowIntoDB(102,12);
+        db.insertRowIntoDB(73, 5);
+        db.insertRowIntoDB(32, 7);
+        db.insertRowIntoDB(77, 3);
+        db.insertRowIntoDB(145, 9);
+        db.insertRowIntoDB(83, 1);
+        */
+
+
+        /*
+
+
+         */
+
     }
 
     @Override
@@ -66,6 +92,9 @@ public class MainFragment extends Fragment implements View.OnClickListener{
                 Intent intent = new Intent(getActivity(), GameActivity.class);
                 getActivity().startActivity(intent);
 
+                DBHandler dbHandler = new DBHandler(getActivity());
+
+                dbHandler.getStatsFromSelectedDate();
 
                 break;
 

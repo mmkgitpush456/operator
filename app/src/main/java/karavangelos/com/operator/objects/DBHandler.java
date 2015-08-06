@@ -40,8 +40,8 @@ public class DBHandler extends SQLiteOpenHelper {
 
         String CREATE_REPORTS_TABLE = "CREATE TABLE " + TABLE_SCORES + " ("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
-                + COLUMN_SCORE + " VARCHAR(10) NOT NULL, "
-                + COLUMN_LEVEL + " VARCHAR(10) NOT NULL, "
+                + COLUMN_SCORE + " INTEGER NOT NULL, "
+                + COLUMN_LEVEL + " INTEGER NOT NULL, "
                 + COLUMN_DATE + " VARCHAR(25) NOT NULL);";
 
         db.execSQL(CREATE_REPORTS_TABLE);
@@ -59,7 +59,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
 
     //dummy method that puts information in the DB
-    public void insertRowIntoDB(String score, String level) {
+    public void insertRowIntoDB(int score, int level) {
 
        // String score = String.valueOf(player.getScore() );
        // String level = String.valueOf(player.getLevel() );
@@ -89,18 +89,20 @@ public class DBHandler extends SQLiteOpenHelper {
 
     //method that pulls a full row of information based on the specific archived date.
     //The size of the array and its contents are determined based on the currently selected device or devicePosition
-    public void getStatsFromSelectedDate(String selectedDate){
+    public HighScore[] getStatsFromSelectedDate(){
 
         //Log.d(TAG, "date is " + archivedDate + " and position is " + devicePosition);
 
+        HighScore[] scores = null;
         String[] archivedStats = null;
         SQLiteDatabase db = getReadableDatabase();
 
-        String QUERY = "SELECT * FROM " + TABLE_SCORES + " WHERE " + COLUMN_DATE + " ='"+selectedDate+"';";
 
+        Cursor cursor = db.query(TABLE_SCORES, new String[]{"SCORE, LEVEL, DATE"}, null, null, null, null, "SCORE DESC", "15");
+
+       // String QUERY = "SELECT * FROM " + TABLE_SCORES + " WHERE " + COLUMN_DATE + " ='"+selectedDate+"';";
         // Log.d(TAG, "query is " + QUERY);
-
-        Cursor cursor = db.rawQuery(QUERY, null);
+       // Cursor cursor = db.rawQuery(QUERY, null);
 
         if(cursor != null){
 
@@ -110,20 +112,26 @@ public class DBHandler extends SQLiteOpenHelper {
         //try block used for error checking
         try {
 
-            Log.d(TAG, "The size of the cursor is " + cursor.getColumnCount());
+            Log.d(TAG, "The size of the cursor is " + cursor.getCount());
+            scores = new HighScore[cursor.getCount()];
 
-            archivedStats = new String[3];
+            int i = 0;
+            while(!cursor.isAfterLast()){
+
+                HighScore highScore = new HighScore();
+                highScore.setScore(cursor.getString(0));
+                highScore.setLevel(cursor.getString(1));
+                highScore.setDateOfScore(cursor.getString(2));
+
+                scores[i] = highScore;
 
 
-            archivedStats[0] = cursor.getString(1);         //metric weight
-            archivedStats[1] = cursor.getString(2);         //body fat
-            archivedStats[2] = cursor.getString(3);         //calories
+                Log.d(TAG, "Row " + i +": SCORE : " + cursor.getString(0) + ", LEVEL: " + cursor.getString(1) + ", DATE: " + cursor.getString(2) );
+                i++;
+                cursor.moveToNext();
+            }
 
 
-            Log.d(TAG, "SCORE: " + archivedStats[0] + "\n"
-            + "LEVEL: " + archivedStats[1] + "\n"
-            + "DATE: " + archivedStats[2] );
-                //end try block
             } catch(Exception e){
 
                 //if the query returns nothing, it goes to the catch block.
@@ -136,7 +144,7 @@ public class DBHandler extends SQLiteOpenHelper {
             cursor = null;
             db.close();
             db = null;
-          //  return null;
+            return null;
             }//end catch block for imperial statistics
 
         cursor.close();
@@ -145,6 +153,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db = null;
       //  return archivedStats;
 
+        return scores;
     }//end get StatsFromArchivedDate
 
 

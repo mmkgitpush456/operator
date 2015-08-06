@@ -44,7 +44,6 @@ public class CanvasView extends View implements View.OnClickListener{
     private boolean mismatchedHit;                                                                  //flag that detects whether a hit occured between the operator and a mismatching colored slider.
     private boolean defaultsAreSet;                                                                 //checks whether the original defaults prior to a game/level start.
     private boolean paused;                                                                         //member flag for checking game active state.  Used for drawing of the player bars.
-    private boolean gameIsOver;
     private boolean enterIntoDB;                                                                    //sets eligibility for the player to enter a high score into the SQLite database.
 
 
@@ -167,8 +166,8 @@ public class CanvasView extends View implements View.OnClickListener{
                     changeColorButton.setTextColor(context.getResources().getColor(R.color.light_gray));
 
                     DBHandler dbHandler = new DBHandler(context);
-                    dbHandler.insertRowIntoDB(scoreTextView.getText().toString(), levelTextView.getText().toString());
-                    //    dbHandler.getStatsFromSelectedDate("07/29/15");
+                    dbHandler.insertRowIntoDB(  Integer.parseInt(scoreTextView.getText().toString()), Integer.parseInt( levelTextView.getText().toString().replace("Level:", "").trim() ) );
+                    dbHandler.getStatsFromSelectedDate();
 
                     Toast.makeText(context, "HIGH SCORE ENTERED!!", Toast.LENGTH_SHORT).show();
 
@@ -593,6 +592,8 @@ public class CanvasView extends View implements View.OnClickListener{
 
                 player.setScore(0);
                 player.setLivesLeft(3);
+                levelTextView.setText("Level: " + player.getLevel() );
+                scoreTextView.setText(player.getScore());
 
             }
         }
@@ -726,7 +727,8 @@ public class CanvasView extends View implements View.OnClickListener{
 
                 canvas.drawText("GAME OVER", 100, canvas.getHeight() / 2, textPaint);
                 canvas.drawText("Push start to play again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
-                player.setLevel(1);
+                 player.setLevel(1);
+                 player.setScore(0);
                 enterIntoDB = true;
                 changeColorButton.setClickable(true);
                 changeColorButton.setText("ENTER HIGH SCORE");

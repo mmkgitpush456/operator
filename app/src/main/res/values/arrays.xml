@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="colors_array">
+
+        <item>@color/red</item>
+        <item>@color/beige</item>
+        <item>@color/aqua</item>
+        <item>@color/pink</item>
+
+    </array>
+
+
+</resources>

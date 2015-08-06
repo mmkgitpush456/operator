@@ -53,7 +53,7 @@ public class Quadrant {
         this.attrs = attrs;
 
         this.quadrantKey = quadrantKey;
-        maxNumSliders = 7;
+        maxNumSliders = 12;
         sliderQueueKey = 0;
 
         slidersContainer = new ArrayList<Slider>();
