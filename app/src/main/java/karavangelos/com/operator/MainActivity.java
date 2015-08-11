@@ -3,6 +3,7 @@ package karavangelos.com.operator;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -14,7 +15,7 @@ import karavangelos.com.operator.objects.Player;
 public class MainActivity extends ActionBarActivity {
 
     private static final String TAG = "MainActivity";                                               //logging tag
-    public static int stackCount;
+    public static int stackCount = 0;
 
 
     @Override
@@ -22,12 +23,13 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        stackCount = 0;
         establishTheMainFragment();
         Player player = Player.newInstance();
 
-        DBHandler db = new DBHandler(this);
-        db = null;
+      //  DBHandler db = new DBHandler(this);
+      //  db = null;
+
+     //   Log.d(TAG,"stack count: " + stackCount + " from ONCREATE");
 
     }
 
@@ -35,6 +37,8 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+     //   Log.d(TAG,"stack count: " + stackCount + " from ONRESUME");
     }
 
     @Override

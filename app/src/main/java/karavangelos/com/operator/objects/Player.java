@@ -1,6 +1,7 @@
 package karavangelos.com.operator.objects;
 
 import android.os.Handler;
+import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -197,6 +198,9 @@ public class Player {
         setMinimumQuadrantTimeOut(4);
         setMaximumQuadrantTimeOut(6);
         setPaused(false);
+        setTimeInLevel();
+
+        Log.d(TAG, "setting attributes to default");
 
     }
 

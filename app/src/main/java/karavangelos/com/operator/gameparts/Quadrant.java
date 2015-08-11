@@ -167,8 +167,8 @@ public class Quadrant {
 
                     if(handlerLauncher > 0){
 
-                        sliderQueueKey++;
                         activateTheNextSlider();
+                        sliderQueueKey++;
 
 
                         if(sliderQueueKey == maxNumSliders){

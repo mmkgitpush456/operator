@@ -17,10 +17,6 @@ import karavangelos.com.operator.fragments.GameFragment;
 public class GameActivity extends ActionBarActivity{
 
     private static final String TAG = "GameActivity";
-    private ActionBar actionBar;
-
-    private TextView timerTextView;
-    private TextView levelTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +62,6 @@ public class GameActivity extends ActionBarActivity{
 
 
 
-    public TextView getTimerTextView(){
-
-        TextView timer = timerTextView;
-        return timer;
-
-
-    }
 
 
 

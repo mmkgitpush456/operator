@@ -70,9 +70,11 @@ public class CanvasView extends View implements View.OnClickListener{
         paused = false;
         enterIntoDB = false;
 
-
-        Log.d(TAG, "today is " + player.getTodaysDate() );
-
+       // Log.d(TAG, "creating a new canvas view");
+        //!player.isLevelRebooted() && !mismatchedHit && player.getTimeLeft() > -1
+        Log.d(TAG, "level rebooted: " + player.isLevelRebooted() );
+        Log.d(TAG, "mismatched hit: " + mismatchedHit);
+        Log.d(TAG, "player time left: " + player.getTimeLeft());
     }
 
     // override onSizeChanged
@@ -93,8 +95,6 @@ public class CanvasView extends View implements View.OnClickListener{
         runLifeLostSequenceWhenMismatchedHit(canvas, playerBars);
         displayLifeLostMessageWhenMismatchedHit(canvas);
         runLevelClearedSequenceWhenTimeLeftAtZero(canvas, playerBars);
-
-
     }
 
 
@@ -621,8 +621,9 @@ public class CanvasView extends View implements View.OnClickListener{
             textPaint.setTextSize(40);
             canvas.drawText("Push the start button to begin the game.", 100, canvas.getHeight() / 2, textPaint);
             invalidate();
-
         }
+
+
     }
 
 
@@ -743,7 +744,7 @@ public class CanvasView extends View implements View.OnClickListener{
     //Otherwise, they will be prompted that the game is over and they must start again.
     private void displayLevelClearedMessage(Canvas canvas){
 
-        if (playerBars.operatorRectRectHasExpanded(canvas) ){
+        if (playerBars.operatorRectRectHasExpanded(canvas) && player.getLevel() != 1 ){
 
             playerBars.setStarterBarsAreSet(false);
             Paint textPaint = new Paint();

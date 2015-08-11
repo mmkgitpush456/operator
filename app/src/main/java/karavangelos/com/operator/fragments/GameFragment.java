@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import karavangelos.com.operator.R;
 import karavangelos.com.operator.gameparts.CanvasView;
+import karavangelos.com.operator.objects.Player;
 
 /**
  * Created by karavangelos on 2/14/15.
@@ -21,7 +23,7 @@ public class GameFragment extends Fragment{
 
     private static final String TAG = "GameFragment";
     private View v;
-    private LinearLayout canvasLayout;
+   // private LinearLayout canvasLayout;
     private CanvasView canvasView;
     private android.support.v7.app.ActionBar actionBar;
     private View actionBarView;
@@ -47,10 +49,6 @@ public class GameFragment extends Fragment{
 
         defineViews(v);
 
-
-
-
-
     }
 
     @Override
@@ -58,11 +56,6 @@ public class GameFragment extends Fragment{
 
 
         v = inflater.inflate(R.layout.game_layout, null);
-
-
-
-
-
         return v;
     }
 
@@ -73,6 +66,8 @@ public class GameFragment extends Fragment{
       //  defineViews(v);
 
     }
+
+
 
 
     @Override
@@ -93,6 +88,8 @@ public class GameFragment extends Fragment{
     public void onDestroy() {
         super.onDestroy();
 
+        Player.newInstance().setAttributesToDefault();
+        Log.d(TAG, "destroying the fragment");
     }
 
 
@@ -105,7 +102,7 @@ public class GameFragment extends Fragment{
     //define all the XML views within the layout
     private void defineViews(View v){
 
-        canvasLayout = (LinearLayout) v.findViewById(R.id.canvasLayout);
+       // canvasLayout = (LinearLayout) v.findViewById(R.id.canvasLayout);
         canvasView = (CanvasView) v.findViewById(R.id.canvasView);
       //  canvasView.setContext(getActivity());
         TextView scoreTextView = (TextView) v.findViewById(R.id.scoreTextView);

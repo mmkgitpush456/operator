@@ -112,7 +112,7 @@ public class DBHandler extends SQLiteOpenHelper {
         //try block used for error checking
         try {
 
-            Log.d(TAG, "The size of the cursor is " + cursor.getCount());
+           // Log.d(TAG, "The size of the cursor is " + cursor.getCount());
             scores = new HighScore[cursor.getCount()];
 
             int i = 0;
@@ -126,7 +126,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 scores[i] = highScore;
 
 
-                Log.d(TAG, "Row " + i +": SCORE : " + cursor.getString(0) + ", LEVEL: " + cursor.getString(1) + ", DATE: " + cursor.getString(2) );
+             //   Log.d(TAG, "Row " + i +": SCORE : " + cursor.getString(0) + ", LEVEL: " + cursor.getString(1) + ", DATE: " + cursor.getString(2) );
                 i++;
                 cursor.moveToNext();
             }
@@ -157,11 +157,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }//end get StatsFromArchivedDate
 
 
-    public void getTopTenScores(){
 
-
-
-    }
 
 
 

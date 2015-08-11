@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import karavangelos.com.operator.R;
+import karavangelos.com.operator.objects.Player;
 
 /**
  * Created by karavangelos on 2/21/15.
@@ -61,6 +62,8 @@ public class PlayerBars extends View {
     private int operatorRectRight;
     private int operatorRectBottom;
 
+    private Player player;
+
 
     //constructor sets the vertical and horizontal bars
     //and also sets flags that determine starting position
@@ -82,6 +85,7 @@ public class PlayerBars extends View {
 
         blackRect = new Rect();
         operatorRect = new Rect();
+        player = Player.newInstance();
 
     }
 
@@ -316,7 +320,7 @@ public class PlayerBars extends View {
 
     protected void expandOperatorRectIfLevelCleared(Canvas canvas){
 
-        if(!operatorRectRectHasExpanded(canvas) ){
+        if(!operatorRectRectHasExpanded(canvas) && player.getLevel() != 1 ){
 
             operatorRectLeft -= 25;
             operatorRectRight += 25;
