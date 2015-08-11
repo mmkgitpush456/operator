@@ -34,9 +34,23 @@ public class GameActivity extends ActionBarActivity{
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
 
-        finish();
+      //  super.onBackPressed();
+
+     //   establishTheGameFragment();
+
+        if(!GameFragment.newInstance().gameIsCurrentlyPausedForActivityBackPress()){
+
+            GameFragment.newInstance().pauseTheGameFromActivityBackPress();
+
+        } else {
+
+            finish();
+        }
+
+
+
+     //   finish();
 
     }
 
@@ -52,12 +66,20 @@ public class GameActivity extends ActionBarActivity{
 
         if(fragment == null) {
 
-            fragment = new GameFragment();
+            fragment = GameFragment.newInstance();
             fm.beginTransaction()
                     .addToBackStack(null)
                     .add(R.id.fragmentContainer, fragment)
                     .commit();
         }
+    }
+
+    private Fragment getCurrentFragment(){
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+        Fragment currentFragment = getSupportFragmentManager()
+                .findFragmentByTag(fragmentTag);
+        return currentFragment;
     }
 
 

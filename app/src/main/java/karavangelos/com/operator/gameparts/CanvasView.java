@@ -70,11 +70,6 @@ public class CanvasView extends View implements View.OnClickListener{
         paused = false;
         enterIntoDB = false;
 
-       // Log.d(TAG, "creating a new canvas view");
-        //!player.isLevelRebooted() && !mismatchedHit && player.getTimeLeft() > -1
-        Log.d(TAG, "level rebooted: " + player.isLevelRebooted() );
-        Log.d(TAG, "mismatched hit: " + mismatchedHit);
-        Log.d(TAG, "player time left: " + player.getTimeLeft());
     }
 
     // override onSizeChanged
@@ -578,6 +573,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
             player.setLevelRebooted(true);
             player.setTimeInLevel();
+            player.setPaused(false);
             player.runTimeLeft();
             player.setOperatorCounter(0);
             pauseButton.setClickable(true);

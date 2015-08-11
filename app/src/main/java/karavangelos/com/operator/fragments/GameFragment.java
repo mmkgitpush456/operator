@@ -28,8 +28,19 @@ public class GameFragment extends Fragment{
     private android.support.v7.app.ActionBar actionBar;
     private View actionBarView;
 
+    private static GameFragment sGameFragment;
+
     public GameFragment(){
 
+    }
+
+    public static GameFragment newInstance(){
+
+        if(sGameFragment == null){
+
+            sGameFragment = new GameFragment();
+        }
+        return sGameFragment;
     }
 
     @Override
@@ -89,6 +100,7 @@ public class GameFragment extends Fragment{
         super.onDestroy();
 
         Player.newInstance().setAttributesToDefault();
+        Player.newInstance().setPaused(true);
         Log.d(TAG, "destroying the fragment");
     }
 
@@ -124,10 +136,32 @@ public class GameFragment extends Fragment{
         canvasView.setTimerTextView(timertextView);
         canvasView.setLevelTextView(levelTextView);
 
+    }
 
+    public void pauseTheGameFromActivityBackPress(){
 
+        canvasView.pauseTheGame();
 
     }
+
+    public boolean gameIsCurrentlyPausedForActivityBackPress(){
+
+        return canvasView.isPaused();
+
+    }
+
+    public void togglePauseOrUnPauseForActivityBackPress(){
+
+        if(canvasView.isPaused()){
+
+            canvasView.setPaused(false);
+
+        } else {
+
+            canvasView.setPaused(true);
+        }
+    }
+
 
 
 

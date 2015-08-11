@@ -199,6 +199,7 @@ public class Player {
         setMaximumQuadrantTimeOut(6);
         setPaused(false);
         setTimeInLevel();
+      //  timeLeftRunnable = null;
 
         Log.d(TAG, "setting attributes to default");
 
@@ -308,6 +309,11 @@ public class Player {
         timeLeftHandler.removeCallbacks(timeLeftRunnable);
         timeLeftRunnable = null;
 
+    }
+
+    public void nullifyHandler(){
+
+        timeLeftHandler = null;
     }
 
 
