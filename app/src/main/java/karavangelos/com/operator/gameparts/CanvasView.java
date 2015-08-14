@@ -565,33 +565,17 @@ public class CanvasView extends View implements View.OnClickListener{
 
 
             activateTheQuadrantsOnLevelStart();
-            gameButton.setClickable(false);
-            gameButton.setTextColor(getResources().getColor(R.color.light_gray));
+
             defaultsAreSet = false;
             playerBars.setBlackRectBackToZero();
             mismatchedHit = false;
 
-            player.setLevelRebooted(true);
-            player.setTimeInLevel();
-            player.setPaused(false);
-            player.runTimeLeft();
-            player.setOperatorCounter(0);
-            pauseButton.setClickable(true);
-            pauseButton.setTextColor(getResources().getColor(R.color.black));
-
-            changeColorButton.setClickable(true);
-            changeColorButton.setTextColor(getResources().getColor(R.color.black));
-
+            player.setBaseDefaultsOnLevelStart();
+            setButtonAppearanceAndClickableForInGame();
+            
             setPaused(false);
+            resetPlayerDefaultsAndTextViewsIfGameIsBeingRestarted();
 
-            if(player.getLivesLeft() < 0){
-
-                player.setScore(0);
-                player.setLivesLeft(3);
-                levelTextView.setText("Level: " + player.getLevel() );
-                scoreTextView.setText(player.getScore());
-
-            }
         }
 
     }
@@ -795,11 +779,15 @@ public class CanvasView extends View implements View.OnClickListener{
 
             player.setPaused(false);
             pauseButton.setText(context.getString(R.string.pause));
+            changeColorButton.setClickable(true);
+            changeColorButton.setTextColor(getResources().getColor(R.color.black));
 
         } else {
 
             player.setPaused(true);
             pauseButton.setText(context.getString(R.string.resume));
+            changeColorButton.setClickable(false);
+            changeColorButton.setTextColor(getResources().getColor(R.color.light_gray));
         }
 
         player.pauseOrResumeTheTimer();
@@ -811,9 +799,36 @@ public class CanvasView extends View implements View.OnClickListener{
         } else {
 
             setPaused(true);
+        }
+    }
+
+    private void setButtonAppearanceAndClickableForInGame(){
+
+        pauseButton.setClickable(true);
+        pauseButton.setTextColor(getResources().getColor(R.color.black));
+
+        changeColorButton.setClickable(true);
+        changeColorButton.setTextColor(getResources().getColor(R.color.black));
+
+        gameButton.setClickable(false);
+        gameButton.setTextColor(getResources().getColor(R.color.light_gray));
+
+    }
+
+    private void resetPlayerDefaultsAndTextViewsIfGameIsBeingRestarted(){
+
+        if(player.getLivesLeft() < 0){
+
+            player.setScore(0);
+            player.setLivesLeft(3);
+            levelTextView.setText("Level: " + player.getLevel() );
+            scoreTextView.setText(player.getScore());
 
         }
 
     }
 
 }
+
+
+

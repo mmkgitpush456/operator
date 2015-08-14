@@ -444,6 +444,14 @@ public class Player {
     }
 
 
+    public void setBaseDefaultsOnLevelStart(){
+        setLevelRebooted(true);
+        setTimeInLevel();
+        setPaused(false);
+        runTimeLeft();
+        setOperatorCounter(0);
+    }
+
 
 
 
