@@ -799,7 +799,15 @@ public class PlayerBars extends View {
     //Change Color button on the screen.  Used within the OnClick override of the canvas view.
     protected void changeOperatorColorOnButtonPress(){
 
-        operator.setPaintKey(operator.getRandomNumber(1, 4));
+        operator.setPaintKey(operator.getPaintKey() + 1);
+
+        if(operator.getPaintKey() > 4){
+
+            operator.setPaintKey(1);
+        }
+
+
+      //  operator.setPaintKey(operator.getRandomNumber(1, 4));
         operator.setOperatorPaintColor(operator.getPaintKey() );
         setColorKey(operator.getPaintKey());
 
