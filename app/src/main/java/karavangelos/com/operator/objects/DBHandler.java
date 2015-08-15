@@ -75,9 +75,9 @@ public class DBHandler extends SQLiteOpenHelper {
             values.put(COLUMN_SCORE, score);
             values.put(COLUMN_LEVEL, level);
             values.put(COLUMN_DATE, player.getTodaysDate() );
-
             db.insert(TABLE_SCORES, null, values);
 
+            Log.d(TAG, "successfully made entry into the database");
 
         } catch (Exception e) {
 
@@ -94,15 +94,11 @@ public class DBHandler extends SQLiteOpenHelper {
         //Log.d(TAG, "date is " + archivedDate + " and position is " + devicePosition);
 
         HighScore[] scores = null;
-        String[] archivedStats = null;
         SQLiteDatabase db = getReadableDatabase();
 
 
         Cursor cursor = db.query(TABLE_SCORES, new String[]{"SCORE, LEVEL, DATE"}, null, null, null, null, "SCORE DESC", "15");
 
-       // String QUERY = "SELECT * FROM " + TABLE_SCORES + " WHERE " + COLUMN_DATE + " ='"+selectedDate+"';";
-        // Log.d(TAG, "query is " + QUERY);
-       // Cursor cursor = db.rawQuery(QUERY, null);
 
         if(cursor != null){
 
@@ -126,7 +122,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 scores[i] = highScore;
 
 
-             //   Log.d(TAG, "Row " + i +": SCORE : " + cursor.getString(0) + ", LEVEL: " + cursor.getString(1) + ", DATE: " + cursor.getString(2) );
+                Log.d(TAG, "Row " + i +": SCORE : " + cursor.getString(0) + ", LEVEL: " + cursor.getString(1) + ", DATE: " + cursor.getString(2) );
                 i++;
                 cursor.moveToNext();
             }

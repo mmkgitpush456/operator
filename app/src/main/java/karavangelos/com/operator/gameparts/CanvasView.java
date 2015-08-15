@@ -35,7 +35,7 @@ public class CanvasView extends View implements View.OnClickListener{
     private TextView livesTextView;                                                                 //current number of lives left
     private TextView timerTextView;                                                                 //time left text view
     private TextView levelTextView;                                                                 //current level text view
-    private Button changeColorButton;                                                                   //change color button
+    private Button changeColorButton;                                                               //change color button
     private Button pauseButton;                                                                     //pause/resume button
     private Button gameButton;                                                                      //start game/level button
 
