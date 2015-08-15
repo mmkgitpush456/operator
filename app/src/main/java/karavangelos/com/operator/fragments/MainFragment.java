@@ -1,6 +1,7 @@
 package karavangelos.com.operator.fragments;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import karavangelos.com.operator.GameActivity;
 import karavangelos.com.operator.MainActivity;
@@ -23,9 +25,11 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
     private View v;
 
+    private TextView mainLayoutTextView;
     private Button newGameButton;
     private Button highScoresButton;
     private Button instructionsButton;
+
 
 
 
@@ -34,6 +38,11 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.main_layout, container, false);
+
+        mainLayoutTextView = (TextView) v.findViewById(R.id.mainLayoutTextView);
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/hemi.ttf");
+        mainLayoutTextView.setTypeface(typeface);
+
         return v;
 
     }//end onCreate view
@@ -127,6 +136,13 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         newGameButton = (Button) v.findViewById(R.id.newGameButton);
         highScoresButton = (Button) v.findViewById(R.id.highScoresButton);
         instructionsButton = (Button) v.findViewById(R.id.instructionsButton);
+
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/hemi.ttf");
+        newGameButton.setTypeface(typeface);
+        highScoresButton.setTypeface(typeface);
+        instructionsButton.setTypeface(typeface);
+
+
 
      //   Log.d(TAG, "loading buttons");
 

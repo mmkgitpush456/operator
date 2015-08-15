@@ -24,12 +24,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         establishTheMainFragment();
-        Player player = Player.newInstance();
-
-      //  DBHandler db = new DBHandler(this);
-      //  db = null;
-
-     //   Log.d(TAG,"stack count: " + stackCount + " from ONCREATE");
+        getSupportActionBar().hide();
 
     }
 

@@ -1,5 +1,6 @@
 package karavangelos.com.operator.fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -27,6 +28,9 @@ public class GameFragment extends Fragment{
     private CanvasView canvasView;
     private android.support.v7.app.ActionBar actionBar;
     private View actionBarView;
+
+    private TextView scoreTitleTextView;
+    private TextView livesLeftTitleTextView;
 
     private static GameFragment sGameFragment;
 
@@ -114,9 +118,7 @@ public class GameFragment extends Fragment{
     //define all the XML views within the layout
     private void defineViews(View v){
 
-       // canvasLayout = (LinearLayout) v.findViewById(R.id.canvasLayout);
         canvasView = (CanvasView) v.findViewById(R.id.canvasView);
-      //  canvasView.setContext(getActivity());
         TextView scoreTextView = (TextView) v.findViewById(R.id.scoreTextView);
         TextView livesTextView = (TextView) v.findViewById(R.id.livesTextView);
         Button changeColorButton = (Button) v.findViewById(R.id.changeColorButton);
@@ -125,16 +127,22 @@ public class GameFragment extends Fragment{
 
         TextView timertextView = (TextView) actionBarView.findViewById(R.id.gameBarTimerTextView);
         TextView levelTextView = (TextView) actionBarView.findViewById(R.id.gameBarLevelTextView);
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/hemi.ttf");
 
-     //   pauseButton.setClickable(false);
-     //   changeColorButton.setClickable(false);
-        canvasView.setScoreTextView(scoreTextView);
-        canvasView.setLivesTextView(livesTextView);
-        canvasView.setChangeColorButton(changeColorButton);
-        canvasView.setPauseButton(pauseButton);
-        canvasView.setGameButton(gameButton);
-        canvasView.setTimerTextView(timertextView);
-        canvasView.setLevelTextView(levelTextView);
+
+        canvasView.setScoreTextView(scoreTextView, typeface);
+        canvasView.setLivesTextView(livesTextView, typeface);
+        canvasView.setChangeColorButton(changeColorButton, typeface);
+        canvasView.setPauseButton(pauseButton, typeface);
+        canvasView.setGameButton(gameButton, typeface);
+        canvasView.setTimerTextView(timertextView, typeface);
+        canvasView.setLevelTextView(levelTextView, typeface);
+
+        scoreTitleTextView = (TextView) v.findViewById(R.id.scoreTitleTextView);
+        livesLeftTitleTextView = (TextView) v.findViewById(R.id.livesleftTitleTextView);
+
+        scoreTitleTextView.setTypeface(typeface);
+        livesLeftTitleTextView.setTypeface(typeface);
 
     }
 

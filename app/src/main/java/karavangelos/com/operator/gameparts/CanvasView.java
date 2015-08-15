@@ -3,6 +3,7 @@ package karavangelos.com.operator.gameparts;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -213,28 +214,30 @@ public class CanvasView extends View implements View.OnClickListener{
         return scoreTextView;
     }
 
-    public void setScoreTextView(TextView scoreTextView) {
+    public void setScoreTextView(TextView scoreTextView, Typeface typeface) {
         this.scoreTextView = scoreTextView;
+        this.scoreTextView.setTypeface(typeface);
     }
 
     public TextView getLivesTextView() {
         return livesTextView;
     }
 
-    public void setLivesTextView(TextView livesTextView) {
+    public void setLivesTextView(TextView livesTextView, Typeface typeface) {
         this.livesTextView = livesTextView;
+        this.livesTextView.setTypeface(typeface);
     }
 
     public Button getChangeColorButton() {
         return changeColorButton;
     }
 
-    public void setChangeColorButton(Button changeColorButton) {
+    public void setChangeColorButton(Button changeColorButton, Typeface typeface) {
         this.changeColorButton = changeColorButton;
-
         this.changeColorButton.setOnClickListener(this);
         this.changeColorButton.setClickable(false);
         this.changeColorButton.setTextColor(getResources().getColor(R.color.light_gray));
+        this.changeColorButton.setTypeface(typeface);
     }
 
 
@@ -242,12 +245,13 @@ public class CanvasView extends View implements View.OnClickListener{
         return pauseButton;
     }
 
-    public void setPauseButton(Button pauseButton) {
+    public void setPauseButton(Button pauseButton, Typeface typeface) {
         this.pauseButton = pauseButton;
 
         this.pauseButton.setOnClickListener(this);
         this.pauseButton.setClickable(false);
         this.pauseButton.setTextColor(getResources().getColor(R.color.light_gray));
+        this.pauseButton.setTypeface(typeface);
 
     }
 
@@ -255,26 +259,29 @@ public class CanvasView extends View implements View.OnClickListener{
         return gameButton;
     }
 
-    public void setGameButton(Button gameButton) {
+    public void setGameButton(Button gameButton, Typeface typeface) {
         this.gameButton = gameButton;
 
         this.gameButton.setOnClickListener(this);
+        this.gameButton.setTypeface(typeface);
     }
 
     public TextView getTimerTextView() {
         return timerTextView;
     }
 
-    public void setTimerTextView(TextView timerTextView) {
+    public void setTimerTextView(TextView timerTextView, Typeface typeface) {
         this.timerTextView = timerTextView;
+        this.timerTextView.setTypeface(typeface);
     }
 
     public TextView getLevelTextView() {
         return levelTextView;
     }
 
-    public void setLevelTextView(TextView levelTextView) {
+    public void setLevelTextView(TextView levelTextView, Typeface typeface) {
         this.levelTextView = levelTextView;
+        this.levelTextView.setTypeface(typeface);
     }
 
     public boolean isPaused() {

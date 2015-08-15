@@ -39,6 +39,7 @@
         >
 
         <TextView
+            android:id="@+id/scoreTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -50,7 +51,6 @@
             android:id="@+id/scoreTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/score"
             android:gravity="center"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -58,6 +58,7 @@
             />
 
         <TextView
+            android:id="@+id/livesleftTitleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/lives_left"
@@ -69,7 +70,6 @@
             android:id="@+id/livesTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/lives_left"
             android:gravity="center"
             android:textSize="20sp"
             android:textStyle="bold"
