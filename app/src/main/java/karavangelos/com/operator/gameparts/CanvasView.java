@@ -478,14 +478,26 @@ public class CanvasView extends View implements View.OnClickListener{
 
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
 
+
         if(!isPaused()){
 
             playerBars.drawTheBars(canvas);
+            runTheQuadrants(canvas, playerBars);
+            drawTheLines(canvas);
+
+        } else {
+
+            Paint textPaint = new Paint();
+            textPaint.setColor(getResources().getColor(R.color.black));
+            textPaint.setTextSize(40);
+            canvas.drawText("PAUSED", 400, canvas.getHeight() / 2, textPaint);
+            canvas.drawText("Push resume to continue", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+            canvas.drawText("Push the back button to quit..", 100, ( canvas.getHeight() /2 ) + 120, textPaint);
 
         }
 
-        runTheQuadrants(canvas, playerBars);
-        drawTheLines(canvas);
+
+
         invalidate();
         setTheScore();
         setTheLives();
