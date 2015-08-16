@@ -1,6 +1,7 @@
 package karavangelos.com.operator.fragments;
 
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -22,6 +23,7 @@ public class InstructionsFragment extends Fragment{
     private static InstructionsFragment sIntructionsFragment;
     private View v;
     private TextView instructionsTextView;
+    private TextView instructionsTitleTextView;
 
 
     public InstructionsFragment(){
@@ -46,8 +48,13 @@ public class InstructionsFragment extends Fragment{
 
         v = inflater.inflate(R.layout.instructions_layout, null);
         instructionsTextView = (TextView) v.findViewById(R.id.instructionsTextView);
+        instructionsTitleTextView = (TextView) v.findViewById(R.id.instructionsTitleTextView);
+        Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/hemi.ttf");
+        instructionsTextView.setTypeface(typeface);
+        instructionsTitleTextView.setTypeface(typeface);
 
         populateTextView(R.raw.instructions, instructionsTextView);
+
 
         return v;
     }

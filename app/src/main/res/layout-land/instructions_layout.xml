@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:weightSum="4"
-    android:background="@drawable/screenshot_cover"
+    android:background="@drawable/screenshot_rotate"
     >
 
     <RelativeLayout

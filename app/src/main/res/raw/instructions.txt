@@ -4,7 +4,7 @@ The concept of 'Operator' is very simple.  Simply press down on 1 of the gray cr
 
 See how many levels you can clear by dodging and hitting the right sliders.  When the timer at the upper left strikes 00:00, you move on to the next level.  Just be wary that as you level up, the sliders speed up and begin to generate at a faster pace.  
 
-When your game is over and you run out of lives, you can enter your high score to track your progress Operator wizardry over time.
+When your game is over and you run out of lives, you can enter your high score to track your Operator wizardry over time.
 
 Thanks for downloading and enjoy the operation!!
 

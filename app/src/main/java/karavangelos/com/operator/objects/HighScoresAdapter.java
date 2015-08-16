@@ -1,6 +1,7 @@
 package karavangelos.com.operator.objects;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,13 @@ public class HighScoresAdapter extends ArrayAdapter {
            viewHolder.levelTextView = (TextView) convertView.findViewById(R.id.levelTextView);
            viewHolder.dateTextView = (TextView) convertView.findViewById(R.id.dateTextView);
            viewHolder.scoreIndexTextView = (TextView) convertView.findViewById(R.id.scoreIndexTextView);
+           Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/hemi.ttf");
+
+           viewHolder.scoreTextView.setTypeface(typeface);
+           viewHolder.levelTextView.setTypeface(typeface);
+           viewHolder.dateTextView.setTypeface(typeface);
+           viewHolder.scoreIndexTextView.setTypeface(typeface);
+
 
            convertView.setTag(viewHolder);
            convertView.setTag(R.id.scoresListItemContainerLayout, viewHolder.scoresListItemContainerLayout);
