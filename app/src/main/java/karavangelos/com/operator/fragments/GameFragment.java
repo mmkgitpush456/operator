@@ -31,6 +31,7 @@ public class GameFragment extends Fragment{
 
     private TextView scoreTitleTextView;
     private TextView livesLeftTitleTextView;
+    private int betweenGameInt;
 
     private static GameFragment sGameFragment;
 
@@ -89,7 +90,11 @@ public class GameFragment extends Fragment{
     public void onPause() {
         super.onPause();
 
-        canvasView.pauseTheGame();
+        if(!isBetweenLevels()){
+            canvasView.pauseTheGame();
+        }
+
+
     }
 
     @Override
@@ -148,13 +153,21 @@ public class GameFragment extends Fragment{
 
     public void pauseTheGameFromActivityBackPress(){
 
-        canvasView.pauseTheGame();
+        if(!canvasView.isInBetweenLevels() ){
 
+            canvasView.pauseTheGame();
+
+        }
     }
 
     public boolean gameIsCurrentlyPausedForActivityBackPress(){
 
         return canvasView.isPaused();
+    }
+
+    public boolean isBetweenLevels(){
+
+        return canvasView.isInBetweenLevels();
 
     }
 

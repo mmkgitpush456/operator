@@ -46,6 +46,7 @@ public class CanvasView extends View implements View.OnClickListener{
     private boolean defaultsAreSet;                                                                 //checks whether the original defaults prior to a game/level start.
     private boolean paused;                                                                         //member flag for checking game active state.  Used for drawing of the player bars.
     private boolean enterIntoDB;                                                                    //sets eligibility for the player to enter a high score into the SQLite database.
+    private boolean inBetweenLevels;
 
 
     //constructor.  Assigns member context variable from inherited parent
@@ -67,6 +68,7 @@ public class CanvasView extends View implements View.OnClickListener{
         defaultsAreSet = true;
         paused = false;
         enterIntoDB = false;
+        inBetweenLevels = true;
 
     }
 
@@ -88,6 +90,8 @@ public class CanvasView extends View implements View.OnClickListener{
         runLifeLostSequenceWhenMismatchedHit(canvas, playerBars);
         displayLifeLostMessageWhenMismatchedHit(canvas);
         runLevelClearedSequenceWhenTimeLeftAtZero(canvas, playerBars);
+
+        //Log.d(TAG, "in between level status: " + inBetweenLevels);
     }
 
 
@@ -169,11 +173,7 @@ public class CanvasView extends View implements View.OnClickListener{
                     player.setLivesLeft(3);
 
                 }
-
             }
-
-
-
         }
 
 
@@ -287,6 +287,14 @@ public class CanvasView extends View implements View.OnClickListener{
 
     public void setPaused(boolean paused) {
         this.paused = paused;
+    }
+
+    public boolean isInBetweenLevels() {
+        return inBetweenLevels;
+    }
+
+    public void setInBetweenLevels(boolean inBetweenLevels) {
+        this.inBetweenLevels = inBetweenLevels;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -589,6 +597,7 @@ public class CanvasView extends View implements View.OnClickListener{
             defaultsAreSet = false;
             playerBars.setBlackRectBackToZero();
             mismatchedHit = false;
+            inBetweenLevels = false;
 
             player.setBaseDefaultsOnLevelStart();
             setButtonAppearanceAndClickableForInGame();
@@ -646,6 +655,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
             changeColorButton.setClickable(false);
             changeColorButton.setTextColor(getResources().getColor(R.color.light_gray));
+            inBetweenLevels = true;
 
             if(!defaultsAreSet){
 
@@ -677,6 +687,7 @@ public class CanvasView extends View implements View.OnClickListener{
             changeColorButton.setTextColor(getResources().getColor(R.color.light_gray));
 
             timerTextView.setText("CLEAR!!");
+            inBetweenLevels = true;
 
             if(!defaultsAreSet){
 
@@ -713,7 +724,7 @@ public class CanvasView extends View implements View.OnClickListener{
             textPaint.setColor(getResources().getColor(R.color.white));
             int textSize = canvas.getWidth() / 20;
             int textIndent = (int) (canvas.getWidth() * .02);
-
+           // inBetweenLevels = true;
 
             textPaint.setTextSize(textSize);
 
@@ -724,10 +735,12 @@ public class CanvasView extends View implements View.OnClickListener{
                 canvas.drawText("Push start to play again", textIndent, ( canvas.getHeight() /2 ) + (textSize * 2), textPaint);
 
 
+
             } else if(player.getLivesLeft() >= 0) {
 
                 canvas.drawText("Oops, you hit the wrong slider!", textIndent, canvas.getHeight() / 2, textPaint);
                 canvas.drawText("Push start to continue", textIndent, ( canvas.getHeight() /2 ) + (textSize * 2), textPaint);
+
 
             } else if(player.getLivesLeft() < 0) {
 
@@ -760,6 +773,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
             canvas.drawText("Level Cleared!", textIndent, canvas.getHeight() / 2, textPaint);
             canvas.drawText("Push start to continue", textIndent, ( canvas.getHeight() /2 ) + (textSize * 2), textPaint);
+            inBetweenLevels = true;
 
 
 
@@ -856,6 +870,7 @@ public class CanvasView extends View implements View.OnClickListener{
             levelTextView.setText("Level: " + player.getLevel() );
             scoreTextView.setText("" + player.getScore());
             enterIntoDB = false;
+            inBetweenLevels = false;
 
         }
     }

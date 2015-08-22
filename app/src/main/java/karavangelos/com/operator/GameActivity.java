@@ -23,10 +23,6 @@ public class GameActivity extends ActionBarActivity{
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-
-
-
-
         establishTheGameFragment();
 
 
@@ -37,8 +33,6 @@ public class GameActivity extends ActionBarActivity{
 
       //  super.onBackPressed();
 
-     //   establishTheGameFragment();
-
         if(!GameFragment.newInstance().gameIsCurrentlyPausedForActivityBackPress()){
 
             GameFragment.newInstance().pauseTheGameFromActivityBackPress();
@@ -48,9 +42,11 @@ public class GameActivity extends ActionBarActivity{
             finish();
         }
 
+        if(GameFragment.newInstance().isBetweenLevels()) {
 
+            finish();
 
-     //   finish();
+        }
 
     }
 
