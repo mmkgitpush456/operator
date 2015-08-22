@@ -848,6 +848,37 @@ public class PlayerBars extends View {
 
     }
 
+    protected void setChangeButtonColor(Button button){
+
+        int buttonColor = operator.getPaintKey() + 1;
+        if(buttonColor > 4){
+            buttonColor = 1;
+        }
+
+        switch (buttonColor){
+            case 1:
+
+                button.setTextColor(context.getResources().getColor(R.color.red));
+                break;
+
+            case 2:
+
+                button.setTextColor(context.getResources().getColor(R.color.beige));
+                break;
+
+            case 3:
+                button.setTextColor(context.getResources().getColor(R.color.aqua));
+                break;
+
+            case 4:
+
+                button.setTextColor(context.getResources().getColor(R.color.pink));
+                break;
+
+        }
+
+    }
+
 
 
 }

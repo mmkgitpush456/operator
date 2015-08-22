@@ -605,6 +605,8 @@ public class CanvasView extends View implements View.OnClickListener{
             setPaused(false);
             resetPlayerDefaultsAndTextViewsIfGameIsBeingRestarted();
 
+            playerBars.setChangeButtonColor(changeColorButton);
+
         }
 
     }
@@ -822,6 +824,7 @@ public class CanvasView extends View implements View.OnClickListener{
             pauseButton.setText(context.getString(R.string.pause));
             changeColorButton.setClickable(true);
             changeColorButton.setTextColor(getResources().getColor(R.color.black));
+            playerBars.setChangeButtonColor(changeColorButton);
 
         } else {
 
