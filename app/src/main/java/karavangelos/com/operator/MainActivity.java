@@ -33,7 +33,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
 
-     //   Log.d(TAG,"stack count: " + stackCount + " from ONRESUME");
     }
 
     @Override

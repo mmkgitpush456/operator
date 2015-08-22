@@ -48,9 +48,6 @@ public class CanvasView extends View implements View.OnClickListener{
     private boolean enterIntoDB;                                                                    //sets eligibility for the player to enter a high score into the SQLite database.
 
 
-
-
-
     //constructor.  Assigns member context variable from inherited parent
     public CanvasView(Context c, AttributeSet attrs) {
         super(c, attrs);
@@ -150,7 +147,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
             if(!enterIntoDB){
 
-                playerBars.changeOperatorColorOnButtonPress();
+                playerBars.changeOperatorColorOnButtonPress(changeColorButton);
 
             } else {
 
@@ -394,6 +391,8 @@ public class CanvasView extends View implements View.OnClickListener{
         int width = canvas.getWidth();
         int strokewidth = (int) (width * .01);
 
+       // Log.d(TAG, "Stroke width occurs here");
+
         return strokewidth;
     }
 
@@ -493,6 +492,8 @@ public class CanvasView extends View implements View.OnClickListener{
             drawTheLines(canvas);
 
         } else {
+
+
 
             Paint textPaint = new Paint();
             textPaint.setColor(getResources().getColor(R.color.black));
@@ -615,10 +616,11 @@ public class CanvasView extends View implements View.OnClickListener{
         } else if(!player.isLevelRebooted() && !mismatchedHit && player.getTimeLeft() > -1) {
 
             Paint textPaint = new Paint();
-
+            int textSize = canvas.getWidth() / 20;
+            int textIndent = (int) (canvas.getWidth() * .02);
             textPaint.setColor(getResources().getColor(R.color.black));
-            textPaint.setTextSize(40);
-            canvas.drawText("Push the start button to begin the game.", 100, canvas.getHeight() / 2, textPaint);
+            textPaint.setTextSize(textSize);
+            canvas.drawText("Push the start button to begin the game.", textIndent, canvas.getHeight() / 2, textPaint);
             invalidate();
         }
 
@@ -709,24 +711,28 @@ public class CanvasView extends View implements View.OnClickListener{
             playerBars.setStarterBarsAreSet(false);
             Paint textPaint = new Paint();
             textPaint.setColor(getResources().getColor(R.color.white));
-            textPaint.setTextSize(40);
+            int textSize = canvas.getWidth() / 20;
+            int textIndent = (int) (canvas.getWidth() * .02);
+
+
+            textPaint.setTextSize(textSize);
 
 
              if(player.getLivesLeft() == 3) {
 
-                canvas.drawText("GAME OVER", 100, canvas.getHeight() / 2, textPaint);
-                canvas.drawText("Push start to play again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+                canvas.drawText("GAME OVER", textIndent, canvas.getHeight() / 2, textPaint);
+                canvas.drawText("Push start to play again", textIndent, ( canvas.getHeight() /2 ) + (textSize * 2), textPaint);
 
 
             } else if(player.getLivesLeft() >= 0) {
 
-                canvas.drawText("Oops, you hit the wrong slider!", 100, canvas.getHeight() / 2, textPaint);
-                canvas.drawText("Push start to continue", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+                canvas.drawText("Oops, you hit the wrong slider!", textIndent, canvas.getHeight() / 2, textPaint);
+                canvas.drawText("Push start to continue", textIndent, ( canvas.getHeight() /2 ) + (textSize * 2), textPaint);
 
             } else if(player.getLivesLeft() < 0) {
 
-                canvas.drawText("GAME OVER", 100, canvas.getHeight() / 2, textPaint);
-                canvas.drawText("Push start to play again", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+                canvas.drawText("GAME OVER", textIndent, canvas.getHeight() / 2, textPaint);
+                canvas.drawText("Push start to play again", textIndent, ( canvas.getHeight() /2 ) + (textSize * 2), textPaint);
                  player.setLevel(1);
                  player.setScore(0);
                 enterIntoDB = true;
@@ -748,10 +754,12 @@ public class CanvasView extends View implements View.OnClickListener{
             playerBars.setStarterBarsAreSet(false);
             Paint textPaint = new Paint();
             textPaint.setColor(getResources().getColor(R.color.white));
-            textPaint.setTextSize(40);
+            int textSize = canvas.getWidth() / 20;
+            int textIndent = (int) (canvas.getWidth() * .02);
+            textPaint.setTextSize(textSize);
 
-            canvas.drawText("Level Cleared!", 100, canvas.getHeight() / 2, textPaint);
-            canvas.drawText("Push start to continue", 100, ( canvas.getHeight() /2 ) + 60, textPaint);
+            canvas.drawText("Level Cleared!", textIndent, canvas.getHeight() / 2, textPaint);
+            canvas.drawText("Push start to continue", textIndent, ( canvas.getHeight() /2 ) + (textSize * 2), textPaint);
 
 
 
@@ -844,9 +852,7 @@ public class CanvasView extends View implements View.OnClickListener{
             scoreTextView.setText(player.getScore());
 
         }
-
     }
-
 }
 
 

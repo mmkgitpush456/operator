@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import karavangelos.com.operator.R;
 import karavangelos.com.operator.objects.Player;
@@ -796,8 +797,11 @@ public class PlayerBars extends View {
 
     //changes the color of the operator and the associated key values that assist
     //with color collision detection.  This method is called whenever the player pushes the
-    //Change Color button on the screen.  Used within the OnClick override of the canvas view.
-    protected void changeOperatorColorOnButtonPress(){
+    //Change Color button on the screen.
+    //This method also updates the text color of the button argument that passes through it
+    //to represent what the next color will be upon the player pushing the button.
+    // Used within the OnClick override of the canvas view.
+    protected void changeOperatorColorOnButtonPress(Button button){
 
         operator.setPaintKey(operator.getPaintKey() + 1);
 
@@ -811,6 +815,35 @@ public class PlayerBars extends View {
         operator.setOperatorPaintColor(operator.getPaintKey() );
         setColorKey(operator.getPaintKey());
 
+        int buttonColor = operator.getPaintKey() + 1;
+        if(buttonColor > 4){
+            buttonColor = 1;
+        }
+
+        switch (buttonColor){
+            case 1:
+
+                button.setTextColor(context.getResources().getColor(R.color.red));
+                break;
+
+            case 2:
+
+                button.setTextColor(context.getResources().getColor(R.color.beige));
+                break;
+
+            case 3:
+                button.setTextColor(context.getResources().getColor(R.color.aqua));
+                break;
+
+            case 4:
+
+                button.setTextColor(context.getResources().getColor(R.color.pink));
+                break;
+
+        }
+
     }
+
+
 
 }
