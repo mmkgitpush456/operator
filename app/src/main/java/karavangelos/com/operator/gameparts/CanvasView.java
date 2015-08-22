@@ -842,6 +842,11 @@ public class CanvasView extends View implements View.OnClickListener{
 
     }
 
+    //reset the important pieces of the game back to their default values prior to the start
+    //of a new game.  The score is set back to 0, the lives left are set to their default of 3
+    //The corresponding text views are refreshed, and the enterIntoDB flag is returned to false
+    //in case the player decided not to enter their high score into the database.
+    //Used within the startGameOrLevel method.
     private void resetPlayerDefaultsAndTextViewsIfGameIsBeingRestarted(){
 
         if(player.getLivesLeft() < 0){
@@ -849,7 +854,8 @@ public class CanvasView extends View implements View.OnClickListener{
             player.setScore(0);
             player.setLivesLeft(3);
             levelTextView.setText("Level: " + player.getLevel() );
-            scoreTextView.setText(player.getScore());
+            scoreTextView.setText("" + player.getScore());
+            enterIntoDB = false;
 
         }
     }

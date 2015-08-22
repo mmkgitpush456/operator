@@ -196,7 +196,6 @@ public class PlayerBars extends View {
         operator.setOperatorWidth(vertBarWidth);
         operator.setOperatorLeft(operator.getStarterPosition(3, vertBarWidth) );
         operator.setOperatorRight( (operator.getOperatorLeft() + vertBarWidth) );
-
     }
 
 
@@ -428,9 +427,11 @@ public class PlayerBars extends View {
     //if the user has touched within the boundaries of the vertical bar,
     //the member variables that assist with drawing update movements on the
     //vertical bar are assembled.
+    //touch buffer variable is put in place to assist with easier onTouch recognition of player bars.
     public void touchedTheVerticalBar (int xPos){
 
-        boolean touchedVerticalCrossing = touchedTheCrossing(xPos, vertBarLeft, vertBarRight);
+        int touchBuffer = (vertBarWidth / 4);
+        boolean touchedVerticalCrossing = touchedTheCrossing(xPos, (vertBarLeft - touchBuffer  ), (vertBarRight + touchBuffer ) );
 
         if(touchedVerticalCrossing){
 
@@ -444,9 +445,12 @@ public class PlayerBars extends View {
     //if the user has touched within the boundaries of the horizontal bar,
     //the member variables that assist with drawing update movements on the
     //horizontal bar are assembled.
+    //touch buffer variable is put in place to assist with easier onTouch recognition of player bars.
     public void touchedTheHorizontalBar(int yPos){
 
-        boolean touchedHorizontalCrossing = touchedTheCrossing(yPos, horzBarTop, horzBarBottom);
+        int touchBuffer = horzBarWidth / 4;
+
+        boolean touchedHorizontalCrossing = touchedTheCrossing(yPos, (horzBarTop - touchBuffer), (horzBarBottom + touchBuffer) );
 
         if ( touchedHorizontalCrossing  ) {
 
