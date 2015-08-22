@@ -390,7 +390,6 @@ public class PlayerBars extends View {
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
     //helper method that returns a flag if the player has touched within the boundaries
     //of one of the player bars.  Used within numerous methods across the player bars class.
     private boolean touchedTheCrossing(int position, int leftOrTop, int rightOrBottom){
@@ -802,9 +801,7 @@ public class PlayerBars extends View {
     //changes the color of the operator and the associated key values that assist
     //with color collision detection.  This method is called whenever the player pushes the
     //Change Color button on the screen.
-    //This method also updates the text color of the button argument that passes through it
-    //to represent what the next color will be upon the player pushing the button.
-    // Used within the OnClick override of the canvas view.
+    //updates the text color of the button argument to the next color in line.
     protected void changeOperatorColorOnButtonPress(Button button){
 
         operator.setPaintKey(operator.getPaintKey() + 1);
@@ -814,40 +811,15 @@ public class PlayerBars extends View {
             operator.setPaintKey(1);
         }
 
-
-      //  operator.setPaintKey(operator.getRandomNumber(1, 4));
         operator.setOperatorPaintColor(operator.getPaintKey() );
         setColorKey(operator.getPaintKey());
-
-        int buttonColor = operator.getPaintKey() + 1;
-        if(buttonColor > 4){
-            buttonColor = 1;
-        }
-
-        switch (buttonColor){
-            case 1:
-
-                button.setTextColor(context.getResources().getColor(R.color.red));
-                break;
-
-            case 2:
-
-                button.setTextColor(context.getResources().getColor(R.color.beige));
-                break;
-
-            case 3:
-                button.setTextColor(context.getResources().getColor(R.color.aqua));
-                break;
-
-            case 4:
-
-                button.setTextColor(context.getResources().getColor(R.color.pink));
-                break;
-
-        }
-
+        setChangeButtonColor(button);
     }
 
+    //This method also updates the text color of the button argument that passes through it
+    //to represent what the next color will be upon the player pushing the button.
+    // Used within the changeOperatorColorOnButtonPress of this class as well as
+    //on the canvasView.
     protected void setChangeButtonColor(Button button){
 
         int buttonColor = operator.getPaintKey() + 1;

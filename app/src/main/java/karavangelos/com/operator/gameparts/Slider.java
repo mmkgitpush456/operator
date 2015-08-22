@@ -221,6 +221,7 @@ public class Slider extends View{
 
                     hasIncrementedScore = true;
                     player.incrementScore(2);
+                    player.addLifeIfElligible();
 
                 }
 

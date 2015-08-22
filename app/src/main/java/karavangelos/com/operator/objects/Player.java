@@ -389,14 +389,11 @@ public class Player {
     public void incrementMinimumOrMaximumSliderSpeed(){
 
         int increment = (level % 7);
-
-
         if(increment == 3){
 
             if(minimumSliderSpeed != 12) {
 
                 setMinimumSliderSpeed(minimumSliderSpeed + 1);
-               // Log.d(TAG, "minimum slider speed is now " + minimumSliderSpeed);
 
             }
 
@@ -406,10 +403,7 @@ public class Player {
             if(maximumSliderSpeed != 16) {
 
                 setMaximumSliderSpeed(maximumSliderSpeed + 1);
-             //    Log.d(TAG, "maximum slider speed is now " + maximumSliderSpeed);
             }
-
-
         }
 
 
@@ -417,7 +411,6 @@ public class Player {
 
             if (minimumQuadrantTimeOut != 2) {
                 setMinimumQuadrantTimeOut(minimumQuadrantTimeOut - 1);
-              //  Log.d(TAG, "minimum quadrant timeout is now " + minimumQuadrantTimeOut);
             }
 
 
@@ -427,12 +420,14 @@ public class Player {
             if(maximumQuadrantTimeOut != 3) {
 
                 setMaximumQuadrantTimeOut(maximumQuadrantTimeOut -1);
-             //   Log.d(TAG, "maximum quadrant timeout is now " + maximumQuadrantTimeOut);
 
             }
         }
     }
 
+    //returns today's date in MM/DD/YY format.
+    //this method is used to show when a score was
+    //entered into the high scores database table.
     public String getTodaysDate(){
 
         Date date = new Date();
@@ -444,6 +439,10 @@ public class Player {
     }
 
 
+    //refreshes all player variables to their default state
+    //prior to the launch of a new game.  This method is used
+    //in the event that a player leaves a game that is not completed
+    //so that the next time they start a game, it is brand new.
     public void setBaseDefaultsOnLevelStart(){
         setLevelRebooted(true);
         setTimeInLevel();
@@ -452,6 +451,32 @@ public class Player {
         setOperatorCounter(0);
     }
 
+    //checks to see if the current score is elligible for adding
+    //an extra life to the player's lives count.  If the score is
+    //divisible by 100, then another life is added.
+    private boolean scoreIsElligibleForExtraLife(){
+
+        boolean isElligible = false;
+
+        if( (score % 100) == 0 ){
+
+            isElligible = true;
+        }
+
+        return isElligible;
+    }
+
+    //adds an extra life to the player's lives count when elligible.
+    //used within the runTheCollisionLogic method of the slider class
+    //since every slider reacts with the operator.
+    public void addLifeIfElligible(){
+
+        if(scoreIsElligibleForExtraLife()){
+
+            livesLeft++;
+        }
+
+    }
 
 
 

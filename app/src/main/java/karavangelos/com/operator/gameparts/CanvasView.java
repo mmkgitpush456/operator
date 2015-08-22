@@ -147,52 +147,20 @@ public class CanvasView extends View implements View.OnClickListener{
 
         if(v == changeColorButton){
 
-            //Log.d(TAG, "pushed the power up button");
-
-            if(!enterIntoDB){
-
-                playerBars.changeOperatorColorOnButtonPress(changeColorButton);
-
-            } else {
-
-                if(player.getLivesLeft() < 0) {
-
-
-                    changeColorButton.setText(context.getString(R.string.change_color));
-                    changeColorButton.setClickable(false);
-                    changeColorButton.setTextColor(context.getResources().getColor(R.color.light_gray));
-
-                    DBHandler dbHandler = new DBHandler(context);
-                    dbHandler.insertRowIntoDB(  Integer.parseInt(scoreTextView.getText().toString()), Integer.parseInt( levelTextView.getText().toString().replace("Level:", "").trim() ) );
-                    dbHandler.getStatsFromSelectedDate();
-
-                    Toast.makeText(context, "HIGH SCORE ENTERED!!", Toast.LENGTH_SHORT).show();
-
-
-                    enterIntoDB = false;
-                    player.setLivesLeft(3);
-
-                }
-            }
+            changeButtonColorOrEnterHighScore();
         }
 
 
         if(v == pauseButton){
 
-           // Log.d(TAG, "pushed the pause button");
             pauseTheGame();
 
-
         }
-
 
         if(v == gameButton){
 
             startGameOrLevel();
-
         }
-
-
     }
 
 
@@ -434,11 +402,8 @@ public class CanvasView extends View implements View.OnClickListener{
     //if that's the case, then the touch movements are completely ignored
     private void checkIfTheBarsGotTouched(int x, int y){
 
-      //  if(!playerBars.touchedTheExactCenter(x, y) ) {
-
             playerBars.touchedTheVerticalBar(x);
             playerBars.touchedTheHorizontalBar(y);
-     //   }
     }
 
 
@@ -492,7 +457,6 @@ public class CanvasView extends View implements View.OnClickListener{
 
         playerBars.setUserBarStartingCoordinates(canvas, horizontalGridBreaks, verticalGridBreaks);
 
-
         if(!isPaused()){
 
             playerBars.drawTheBars(canvas);
@@ -500,8 +464,6 @@ public class CanvasView extends View implements View.OnClickListener{
             drawTheLines(canvas);
 
         } else {
-
-
 
             Paint textPaint = new Paint();
             textPaint.setColor(getResources().getColor(R.color.black));
@@ -511,8 +473,6 @@ public class CanvasView extends View implements View.OnClickListener{
             canvas.drawText("Push the back button to quit..", 100, ( canvas.getHeight() /2 ) + 120, textPaint);
 
         }
-
-
 
         invalidate();
         setTheScore();
@@ -726,7 +686,6 @@ public class CanvasView extends View implements View.OnClickListener{
             textPaint.setColor(getResources().getColor(R.color.white));
             int textSize = canvas.getWidth() / 20;
             int textIndent = (int) (canvas.getWidth() * .02);
-           // inBetweenLevels = true;
 
             textPaint.setTextSize(textSize);
 
@@ -846,6 +805,26 @@ public class CanvasView extends View implements View.OnClickListener{
         }
     }
 
+
+    private void changeButtonColorOrEnterHighScore(){
+
+        if(!enterIntoDB){
+
+            playerBars.changeOperatorColorOnButtonPress(changeColorButton);
+
+        } else {
+
+            if(player.getLivesLeft() < 0) {
+
+                enterHighScoreIntoDB();
+
+            }
+        }
+    }
+
+
+
+
     private void setButtonAppearanceAndClickableForInGame(){
 
         pauseButton.setClickable(true);
@@ -877,6 +856,27 @@ public class CanvasView extends View implements View.OnClickListener{
 
         }
     }
+
+
+
+    private void enterHighScoreIntoDB(){
+
+        changeColorButton.setText(context.getString(R.string.change_color));
+        changeColorButton.setClickable(false);
+        changeColorButton.setTextColor(context.getResources().getColor(R.color.light_gray));
+
+        DBHandler dbHandler = new DBHandler(context);
+        dbHandler.insertRowIntoDB(  Integer.parseInt(scoreTextView.getText().toString()), Integer.parseInt( levelTextView.getText().toString().replace("Level:", "").trim() ) );
+        dbHandler.getStatsFromSelectedDate();
+
+        Toast.makeText(context, "HIGH SCORE ENTERED!!", Toast.LENGTH_SHORT).show();
+
+
+        enterIntoDB = false;
+        player.setLivesLeft(3);
+
+    }
+
 }
 
 
