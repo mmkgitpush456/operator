@@ -25,11 +25,10 @@ public class HighScoresListFragment extends ListFragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        HighScoresModel.newInstance(getActivity()).setTheScoresFromTheDB();
         theScores = HighScoresModel.newInstance(getActivity()).getTheScores();
         adapter = new HighScoresAdapter(theScores, getActivity());
         setListAdapter(adapter);
-
-
     }
 
 

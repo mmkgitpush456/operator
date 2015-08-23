@@ -91,7 +91,6 @@ public class CanvasView extends View implements View.OnClickListener{
         displayLifeLostMessageWhenMismatchedHit(canvas);
         runLevelClearedSequenceWhenTimeLeftAtZero(canvas, playerBars);
 
-        //Log.d(TAG, "in between level status: " + inBetweenLevels);
     }
 
 
@@ -137,8 +136,6 @@ public class CanvasView extends View implements View.OnClickListener{
 
         }
 
-        alignPlayerBarsAndDisableMovements();
-      //  Log.d(TAG, "dropped down on touch, pointer count is " + pointerCount);
         return false;
     }
 

@@ -21,7 +21,6 @@ public class HighScoresModel {
 
         scoresList = new ArrayList<>();
         this.context = context;
-        //setDummyScores();
         setTheScoresFromTheDB();
     }
 
