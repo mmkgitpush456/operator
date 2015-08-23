@@ -201,7 +201,7 @@ public class Player {
         setTimeInLevel();
       //  timeLeftRunnable = null;
 
-        Log.d(TAG, "setting attributes to default");
+      //  Log.d(TAG, "setting attributes to default");
 
     }
 

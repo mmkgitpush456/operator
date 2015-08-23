@@ -34,7 +34,7 @@ public class InstructionsFragment extends Fragment{
 
         if(sIntructionsFragment == null) {
 
-            Log.d(TAG, "Instructions Fragment created once");
+           // Log.d(TAG, "Instructions Fragment created once");
             sIntructionsFragment = new InstructionsFragment();
 
         }

@@ -110,7 +110,7 @@ public class GameFragment extends Fragment{
 
         Player.newInstance().setAttributesToDefault();
         Player.newInstance().setPaused(true);
-        Log.d(TAG, "destroying the fragment");
+      //  Log.d(TAG, "destroying the fragment");
     }
 
 

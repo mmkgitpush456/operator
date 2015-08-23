@@ -77,7 +77,7 @@ public class DBHandler extends SQLiteOpenHelper {
             values.put(COLUMN_DATE, player.getTodaysDate() );
             db.insert(TABLE_SCORES, null, values);
 
-            Log.d(TAG, "successfully made entry into the database");
+            //Log.d(TAG, "successfully made entry into the database");
 
         } catch (Exception e) {
 
@@ -122,7 +122,7 @@ public class DBHandler extends SQLiteOpenHelper {
                 scores[i] = highScore;
 
 
-                Log.d(TAG, "Row " + i +": SCORE : " + cursor.getString(0) + ", LEVEL: " + cursor.getString(1) + ", DATE: " + cursor.getString(2) );
+               // Log.d(TAG, "Row " + i +": SCORE : " + cursor.getString(0) + ", LEVEL: " + cursor.getString(1) + ", DATE: " + cursor.getString(2) );
                 i++;
                 cursor.moveToNext();
             }
