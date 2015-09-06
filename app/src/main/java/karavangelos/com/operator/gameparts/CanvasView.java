@@ -653,13 +653,13 @@ public class CanvasView extends View implements View.OnClickListener{
                 player.setLevelRebooted(false);
                 player.levelUp();
                 player.killTheTimerProcess();
+                player.playTheSound(R.raw.level_clear);
                 rebootTheSlidersAndQuadrants();
                 gameButton.setClickable(true);
                 gameButton.setTextColor(getResources().getColor(R.color.black));
                 defaultsAreSet = true;
                 player.incrementMinimumOrMaximumSliderSpeed();
                 setPaused(false);
-
 
             }
 

@@ -511,11 +511,13 @@ public class Player {
     }
 
 
-    public void playTheSound(){
+    //public method used for playing a certain sound across the game.
+    //It uses the soundpool instance which has been deprecated as of Android
+    //API 20.  However, since the game supports API 15, soundpool is ok to use in this case.
+    public void playTheSound(int soundFile){
 
         sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-
-        sound = sp.load(context, R.raw.kill_slider, 2);
+        sound = sp.load(context, soundFile, 2);
         sp.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
             @Override
             public void onLoadComplete(SoundPool soundPool, int sampleId,
@@ -524,10 +526,6 @@ public class Player {
             }
         });
 
-        /** soundId for Later handling of sound pool **/
-        //int soundId = sp.load(context, R.raw.windows_8_notify, 1); // in 2nd param u have to pass your desire ringtone
-
-        //sp.play(soundId, 1, 1, 0, 0, 1);
     }
 
 ///////////////////////////////

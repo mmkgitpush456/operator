@@ -222,7 +222,7 @@ public class Slider extends View{
                     hasIncrementedScore = true;
                     player.incrementScore(2);
                     player.addLifeIfElligible();
-                    player.playTheSound();
+                    player.playTheSound(R.raw.kill_slider);
 
                 }
 
@@ -235,6 +235,7 @@ public class Slider extends View{
 
                     player.setHitWrongSlider(true);
                     setIsMismatch(true);
+                    player.playTheSound(R.raw.mismatch_hit);
                 }
             }
         }
