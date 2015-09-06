@@ -62,7 +62,7 @@ public class CanvasView extends View implements View.OnClickListener{
 
         setUpTheQuadrants(c, attrs);
 
-        player = Player.newInstance();
+        player = Player.newInstance(context);
 
         mismatchedHit = false;
         defaultsAreSet = true;

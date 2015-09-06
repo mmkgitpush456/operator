@@ -1,10 +1,17 @@
 package karavangelos.com.operator.objects;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import karavangelos.com.operator.R;
 
 /**
  * Created by karavangelos on 6/19/15.
@@ -33,25 +40,31 @@ public class Player {
     private Handler timeLeftHandler;                                                                //handler that handles the level countdown.
     private Runnable timeLeftRunnable;                                                              //runnable that handles the level countdown.
 
+    private Context context;
+    private SharedPreferences preferences;
+    private SoundPool sp;
+    private int sound;
 
     private static Player sPlayer;                                                                  //static player instance.  Ensures only one player object will be created throughout the app
 
     //constructor.  When a player object is created,
     //the default attributes will be set so a new game is
     //ready to begin.
-    private Player(){
+    private Player(Context context){
 
+        this.context = context;
+        preferences = PreferenceManager.getDefaultSharedPreferences(context);
         setAttributesToDefault();
 
     }
 
 
     //Singleton instance of the player object
-    public static Player newInstance(){
+    public static Player newInstance(Context context){
 
         if(sPlayer == null){
 
-            sPlayer = new Player();
+            sPlayer = new Player(context);
         }
 
         return sPlayer;
@@ -478,6 +491,46 @@ public class Player {
 
     }
 
+///////////////////////////////
+//saves a new preference based on the user input.  Utilized on the settings fragments
+
+    public void saveInPreferences(String attribute, String value){
+
+        SharedPreferences.Editor spe = preferences.edit();
+        spe.putString(attribute, value);
+        spe.commit();
+        //  Log.d(TAG, "saved " + attribute + " with value " + value);
+    }
+
+
+    //retrieves a previously saved user value to the requested view
+    public String retrieveSavedPreference(String attribute){
+
+        String value = preferences.getString(attribute, "0");
+        return value;
+    }
+
+
+    public void playTheSound(){
+
+        sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+
+        sound = sp.load(context, R.raw.kill_slider, 2);
+        sp.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+            @Override
+            public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                       int status) {
+                soundPool.play(sound, 20, 20, 1, 0, 1f);
+            }
+        });
+
+        /** soundId for Later handling of sound pool **/
+        //int soundId = sp.load(context, R.raw.windows_8_notify, 1); // in 2nd param u have to pass your desire ringtone
+
+        //sp.play(soundId, 1, 1, 0, 0, 1);
+    }
+
+///////////////////////////////
 
 
 

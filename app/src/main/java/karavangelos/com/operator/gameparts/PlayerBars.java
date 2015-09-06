@@ -86,7 +86,7 @@ public class PlayerBars extends View {
 
         blackRect = new Rect();
         operatorRect = new Rect();
-        player = Player.newInstance();
+        player = Player.newInstance(context);
 
     }
 

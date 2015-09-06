@@ -64,7 +64,7 @@ public class DBHandler extends SQLiteOpenHelper {
        // String score = String.valueOf(player.getScore() );
        // String level = String.valueOf(player.getLevel() );
 
-        Player player = Player.newInstance();
+        Player player = Player.newInstance(this.context);
 
         ContentValues values = new ContentValues();
         SQLiteDatabase db = this.getWritableDatabase();

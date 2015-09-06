@@ -65,7 +65,7 @@ public class Quadrant {
         sliderReleaseAfterPause = 0;
         paused = false;
 
-        player = Player.newInstance();
+        player = Player.newInstance(this.context);
 
     }
 

@@ -108,8 +108,8 @@ public class GameFragment extends Fragment{
     public void onDestroy() {
         super.onDestroy();
 
-        Player.newInstance().setAttributesToDefault();
-        Player.newInstance().setPaused(true);
+        Player.newInstance(getActivity()).setAttributesToDefault();
+        Player.newInstance(getActivity()).setPaused(true);
       //  Log.d(TAG, "destroying the fragment");
     }
 

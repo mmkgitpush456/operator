@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -73,7 +75,7 @@ public class Slider extends View{
             setVectorKey(getRandomNumber(1, 7));
         }
 
-        player = Player.newInstance();
+        player = Player.newInstance(context);
         setConstructorProtocol(quadrantKey);
 
     }
@@ -198,13 +200,11 @@ public class Slider extends View{
     //public method that updates and draws the slider object on the canvas.
     public void drawTheSlider(Canvas canvas){
 
-
         theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
         canvas.drawRect(theSlider, sliderPaint);
         switchCollisionFlagIfCollides();
         moveTheSliderBasedOnQuadrant();
         runTheCollisionLogic();
-
     }
 
     //checks to see whether or not a collision has occured between the slider and
@@ -222,6 +222,7 @@ public class Slider extends View{
                     hasIncrementedScore = true;
                     player.incrementScore(2);
                     player.addLifeIfElligible();
+                    player.playTheSound();
 
                 }
 
@@ -803,6 +804,15 @@ public class Slider extends View{
         theSlider.set(sliderLeft, sliderTop, sliderRight, sliderBottom);
     }
 
+
+    private void playSound(int soundFile){
+
+        SoundPool sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+        /** soundId for Later handling of sound pool **/
+        int soundId = sp.load(context, soundFile, 1); // in 2nd param u have to pass your desire ringtone
+        sp.play(soundId, 1, 1, 0, 0, 1);
+
+    }
 
 
 

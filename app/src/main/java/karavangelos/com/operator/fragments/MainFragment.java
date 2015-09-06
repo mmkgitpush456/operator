@@ -2,6 +2,8 @@ package karavangelos.com.operator.fragments;
 
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -177,5 +179,9 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         MainActivity.stackCount++;
 
     }
+
+
+
+
 
 }
