@@ -525,7 +525,6 @@ public class Player {
                 soundPool.play(sound, 20, 20, 1, 0, 1f);
             }
         });
-
     }
 
 ///////////////////////////////

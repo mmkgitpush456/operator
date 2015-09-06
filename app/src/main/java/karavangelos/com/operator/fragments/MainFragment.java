@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import karavangelos.com.operator.GameActivity;
 import karavangelos.com.operator.MainActivity;
 import karavangelos.com.operator.R;
+import karavangelos.com.operator.dialogs.OptionsDialog;
 import karavangelos.com.operator.objects.DBHandler;
 
 /**
@@ -31,6 +33,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
     private Button newGameButton;
     private Button highScoresButton;
     private Button instructionsButton;
+    private Button optionsButton;
 
 
 
@@ -125,6 +128,16 @@ public class MainFragment extends Fragment implements View.OnClickListener{
 
                 break;
 
+            case R.id.optionsButton:
+
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+
+                OptionsDialog dialog = OptionsDialog.newInstance();
+                dialog.show(fm, "OPTIONS_DIALOG");
+
+
+                break;
 
         }
     }
@@ -138,11 +151,13 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         newGameButton = (Button) v.findViewById(R.id.newGameButton);
         highScoresButton = (Button) v.findViewById(R.id.highScoresButton);
         instructionsButton = (Button) v.findViewById(R.id.instructionsButton);
+        optionsButton = (Button) v.findViewById(R.id.optionsButton);
 
         Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/hemi.ttf");
         newGameButton.setTypeface(typeface);
         highScoresButton.setTypeface(typeface);
         instructionsButton.setTypeface(typeface);
+        optionsButton.setTypeface(typeface);
 
 
 
@@ -155,6 +170,7 @@ public class MainFragment extends Fragment implements View.OnClickListener{
         newGameButton.setOnClickListener(this);
         highScoresButton.setOnClickListener(this);
         instructionsButton.setOnClickListener(this);
+        optionsButton.setOnClickListener(this);
 
     }
 

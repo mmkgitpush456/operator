@@ -40,7 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/new_game"
-
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
@@ -52,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/newGameButton"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="35dp"
             android:text="@string/high_scores"
             />
 
@@ -60,11 +59,23 @@
             android:id="@+id/instructionsButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="35dp"
             android:layout_below="@+id/highScoresButton"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:text="@string/instructions"
+
+            />
+
+        <Button
+            android:id="@+id/optionsButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_below="@+id/instructionsButton"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="@string/options"
 
             />
 
