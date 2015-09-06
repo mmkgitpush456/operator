@@ -62,7 +62,7 @@ public class HighScoresModel {
         DBHandler dbHandler = new DBHandler(context);
 
         HighScore[] scores = dbHandler.getStatsFromSelectedDate();
-        int[] gameColors = context.getResources().getIntArray(R.array.colors_array);
+        int[] gameColors = context.getResources().getIntArray(R.array.easy_colors_array);
         int numberOfColors = gameColors.length;
         int colorIterator = 0;
 

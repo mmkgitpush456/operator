@@ -1,13 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <array name="colors_array">
-
+    <array name="easy_colors_array">
         <item>@color/red</item>
         <item>@color/beige</item>
         <item>@color/aqua</item>
         <item>@color/pink</item>
+    </array>
 
+    <array name="medium_colors_array">
+        <item>@color/red</item>
+        <item>@color/beige</item>
+        <item>@color/aqua</item>
+        <item>@color/pink</item>
+        <item>@color/dark_green</item>
+        <item>@color/orange</item>
+    </array>
+
+    <array name="hard_colors_array">
+        <item>@color/red</item>
+        <item>@color/beige</item>
+        <item>@color/aqua</item>
+        <item>@color/pink</item>
+        <item>@color/dark_green</item>
+        <item>@color/orange</item>
+        <item>@color/purple</item>
+        <item>@color/sand</item>
     </array>
 
 
