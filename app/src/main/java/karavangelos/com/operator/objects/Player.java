@@ -548,6 +548,12 @@ public class Player {
         return soundIsOn;
     }
 
+    public String getDifficulty(){
+
+        return retrieveSavedPreference( context.getString(R.string.difficulty_status) );
+
+    }
+
 ///////////////////////////////
 
 

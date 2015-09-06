@@ -57,6 +57,8 @@ public class Slider extends View{
     private int killCollide;
 
     private Player player;                                                                          //player singleton instance.
+    private String difficultyStatus;
+    private int totalPaintNumber;
 
 
     public Slider(Context c, AttributeSet attrs, int quadrantKey) {
@@ -76,6 +78,8 @@ public class Slider extends View{
         }
 
         player = Player.newInstance(context);
+        difficultyStatus = player.getDifficulty();
+        totalPaintNumber = getTotalPaintNumber();
         setConstructorProtocol(quadrantKey);
 
     }
@@ -426,6 +430,28 @@ public class Slider extends View{
         }
     }
 
+    private int getTotalPaintNumber(){
+
+        int totalPaintNumber = 0;
+
+        if(difficultyStatus.equals(context.getString(R.string.difficulty_easy))){
+
+            totalPaintNumber = 4;
+        }
+
+        if(difficultyStatus.equals(context.getString(R.string.difficulty_medium))){
+
+            totalPaintNumber = 6;
+        }
+
+        if(difficultyStatus.equals(context.getString(R.string.difficulty_hard))){
+
+            totalPaintNumber = 8;
+        }
+
+
+        return totalPaintNumber;
+    }
 
 
     //sets the color of the slider object through the assistance of the key encoder.
@@ -434,10 +460,11 @@ public class Slider extends View{
 
         sliderPaint = new Paint();
 
-        paintKey = getRandomNumber(1, 4);
+        paintKey = getRandomNumber(1, totalPaintNumber);
+
+
         setSliderPaintColor(paintKey);
 
-     //   Log.d(TAG, "The paint's color code is " + paintColorCode);
 
     }
 
@@ -458,14 +485,11 @@ public class Slider extends View{
                 sliderPaint.setStyle(Paint.Style.FILL);
                 break;
 
-
             case 2:
 
                 sliderPaint.setColor(getResources().getColor(R.color.beige));
                 sliderPaint.setStyle(Paint.Style.FILL);
                 break;
-
-
 
             case 3:
 
@@ -480,6 +504,29 @@ public class Slider extends View{
                 sliderPaint.setStyle(Paint.Style.FILL);
                 break;
 
+            case 5:
+
+                sliderPaint.setColor(getResources().getColor(R.color.dark_green));
+                sliderPaint.setStyle(Paint.Style.FILL);
+                break;
+
+            case 6:
+
+                sliderPaint.setColor(getResources().getColor(R.color.orange));
+                sliderPaint.setStyle(Paint.Style.FILL);
+                break;
+
+            case 7:
+
+                sliderPaint.setColor(getResources().getColor(R.color.purple));
+                sliderPaint.setStyle(Paint.Style.FILL);
+                break;
+
+            case 8:
+
+                sliderPaint.setColor(getResources().getColor(R.color.sand));
+                sliderPaint.setStyle(Paint.Style.FILL);
+                break;
         }
     }
 

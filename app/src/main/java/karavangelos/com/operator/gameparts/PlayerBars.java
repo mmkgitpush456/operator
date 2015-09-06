@@ -495,7 +495,7 @@ public class PlayerBars extends View {
           }
 
             operator.setOperatorTop(horzBarTop);
-            operator.setOperatorBottom( (operator.getOperatorTop() + operator.getOperatorHeight()) );
+            operator.setOperatorBottom((operator.getOperatorTop() + operator.getOperatorHeight()));
 
         }
     }
@@ -806,7 +806,7 @@ public class PlayerBars extends View {
 
         operator.setPaintKey(operator.getPaintKey() + 1);
 
-        if(operator.getPaintKey() > 4){
+        if(operator.getPaintKey() > operator.getTotalNumberColors()){
 
             operator.setPaintKey(1);
         }
@@ -823,7 +823,7 @@ public class PlayerBars extends View {
     protected void setChangeButtonColor(Button button){
 
         int buttonColor = operator.getPaintKey() + 1;
-        if(buttonColor > 4){
+        if(buttonColor > operator.getTotalNumberColors()){
             buttonColor = 1;
         }
 
@@ -845,6 +845,26 @@ public class PlayerBars extends View {
             case 4:
 
                 button.setTextColor(context.getResources().getColor(R.color.pink));
+                break;
+
+            case 5:
+
+                button.setTextColor(context.getResources().getColor(R.color.dark_green));
+                break;
+
+            case 6:
+
+                button.setTextColor(context.getResources().getColor(R.color.orange));
+                break;
+
+            case 7:
+
+                button.setTextColor(context.getResources().getColor(R.color.purple));
+                break;
+
+            case 8:
+
+                button.setTextColor(context.getResources().getColor(R.color.sand));
                 break;
 
         }

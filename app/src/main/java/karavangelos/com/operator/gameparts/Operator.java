@@ -10,6 +10,7 @@ import android.view.View;
 import java.util.Random;
 
 import karavangelos.com.operator.R;
+import karavangelos.com.operator.objects.Player;
 
 /**
  * Created by karavangelos on 3/7/15.
@@ -32,12 +33,21 @@ public class Operator extends View{
     private int operatorHeight;                                                                     //height of the operator
     private int paintKey;                                                                           //key that tells what color the operator object will be.
 
+    private Context context;
+    private Player player;
+    private String difficultyStatus;
+    private int totalNumberColors;
 
     //constructor sets the color of the operator and declares the operator rectangle
     public Operator(Context c, AttributeSet attrs){
         super (c, attrs);
 
-        paintKey = getRandomNumber(1, 4);
+        context = c;
+        player = Player.newInstance(context);
+        difficultyStatus = player.getDifficulty();
+        totalNumberColors = getTotalPaintNumber();
+
+        paintKey = getRandomNumber(1, totalNumberColors);
 
         operatorPaint = new Paint();
         setOperatorPaintColor(paintKey);
@@ -112,6 +122,14 @@ public class Operator extends View{
         this.operatorPaint = operatorPaint;
     }
 
+    public int getTotalNumberColors() {
+        return totalNumberColors;
+    }
+
+    public void setTotalNumberColors(int totalNumberColors) {
+        this.totalNumberColors = totalNumberColors;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -146,6 +164,30 @@ public class Operator extends View{
         //   Log.d(TAG, "The Random number between " + min + " and " + max + " is " + randomNumber);
 
         return randomNumber;
+    }
+
+
+    public int getTotalPaintNumber(){
+
+        int totalPaintNumber = 0;
+
+        if(difficultyStatus.equals(context.getString(R.string.difficulty_easy))){
+
+            totalPaintNumber = 4;
+        }
+
+        if(difficultyStatus.equals(context.getString(R.string.difficulty_medium))){
+
+            totalPaintNumber = 6;
+        }
+
+        if(difficultyStatus.equals(context.getString(R.string.difficulty_hard))){
+
+            totalPaintNumber = 8;
+        }
+
+
+        return totalPaintNumber;
     }
 
     //convenience method that sets the paint color of the operator object based on the number key
@@ -183,6 +225,30 @@ public class Operator extends View{
             case 4:
 
                 operatorPaint.setColor(getResources().getColor(R.color.pink));
+                operatorPaint.setStyle(Paint.Style.FILL);
+                break;
+
+            case 5:
+
+                operatorPaint.setColor(getResources().getColor(R.color.dark_green));
+                operatorPaint.setStyle(Paint.Style.FILL);
+                break;
+
+            case 6:
+
+                operatorPaint.setColor(getResources().getColor(R.color.orange));
+                operatorPaint.setStyle(Paint.Style.FILL);
+                break;
+
+            case 7:
+
+                operatorPaint.setColor(getResources().getColor(R.color.purple));
+                operatorPaint.setStyle(Paint.Style.FILL);
+                break;
+
+            case 8:
+
+                operatorPaint.setColor(getResources().getColor(R.color.sand));
                 operatorPaint.setStyle(Paint.Style.FILL);
                 break;
 

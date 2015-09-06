@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -147,7 +146,7 @@ public class OptionsDialog extends DialogFragment{
 
                     case R.id.easyRadioButton:
 
-                        player.saveInPreferences(getString(R.string.difficulty_status), getString(R.string.diffiiculty_easy));
+                        player.saveInPreferences(getString(R.string.difficulty_status), getString(R.string.difficulty_easy));
                         break;
 
                     case R.id.mediumRadioButton:
@@ -197,7 +196,7 @@ public class OptionsDialog extends DialogFragment{
 
     private void setDifficultyRadio(String difficultyStatus){
 
-        if(difficultyStatus.equals(getActivity().getString(R.string.diffiiculty_easy) ) ){
+        if(difficultyStatus.equals(getActivity().getString(R.string.difficulty_easy) ) ){
             easyRadioButton.setChecked(true);
             mediumRadioButton.setChecked(false);
             hardRadioButton.setChecked(false);
