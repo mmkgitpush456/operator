@@ -516,15 +516,36 @@ public class Player {
     //API 20.  However, since the game supports API 15, soundpool is ok to use in this case.
     public void playTheSound(int soundFile){
 
-        sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
-        sound = sp.load(context, soundFile, 2);
-        sp.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
-            @Override
-            public void onLoadComplete(SoundPool soundPool, int sampleId,
-                                       int status) {
-                soundPool.play(sound, 20, 20, 1, 0, 1f);
-            }
-        });
+        boolean soundIsOn = soundIsOn();
+
+        if(soundIsOn) {
+
+            sp = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
+            sound = sp.load(context, soundFile, 2);
+            sp.setOnLoadCompleteListener(new SoundPool.OnLoadCompleteListener() {
+                @Override
+                public void onLoadComplete(SoundPool soundPool, int sampleId,
+                                           int status) {
+                    soundPool.play(sound, 20, 20, 1, 0, 1f);
+                }
+            });
+        }
+    }
+
+
+    private boolean soundIsOn(){
+
+        boolean soundIsOn = true;
+
+        String soundStatus = retrieveSavedPreference(context.getString(R.string.sound_status) ) ;
+
+
+        if(soundStatus.equals(context.getString(R.string.sound_off) ) ){
+
+            soundIsOn = false;
+        }
+
+        return soundIsOn;
     }
 
 ///////////////////////////////

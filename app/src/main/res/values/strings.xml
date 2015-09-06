@@ -23,12 +23,18 @@
     <string name="change_color">CHANGE COLOR</string>
     <string name="options">Options</string>
 
-    <!-- Color String Keys -->
 
+
+    <!-- Preferences Strings -->
+    <string name="sound_status">SOUND_STATUS</string>
+    <string name="sound_on">SOUND_ON</string>
+    <string name="sound_off">SOUND_OFF</string>
+    <!-- -->
+
+    <!-- Color String Keys -->
     <string name="red">RED</string>
     <string name="green">GREEN</string>
     <string name="blue">BLUE</string>
     <string name="pink">PINK</string>
-
     <!-- -->
 </resources>
