@@ -15,6 +15,7 @@ public class HighScore {
     private String score;                                                                           //score from the particular game
     private String level;                                                                           //level reached when game is over
     private String dateOfScore;                                                                     //date that the player played the game
+    private String difficultyLevel;
     private int color;
 
 
@@ -52,6 +53,13 @@ public class HighScore {
         this.color = color;
     }
 
+    public String getDifficultyLevel() {
+        return difficultyLevel;
+    }
+
+    public void setDifficultyLevel(String difficultyLevel) {
+        this.difficultyLevel = difficultyLevel;
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
 }

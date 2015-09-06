@@ -24,6 +24,7 @@ public class HighScoresFragment extends Fragment{
     private TextView scoreTextView;
     private TextView levelTextView;
     private TextView dateTextView;
+    private TextView difficultyTextView;
 
     public HighScoresFragment(){
 
@@ -53,6 +54,7 @@ public class HighScoresFragment extends Fragment{
         scoreTextView = (TextView) v.findViewById(R.id.scoreTextView);
         levelTextView = (TextView) v.findViewById(R.id.levelTextView);
         dateTextView = (TextView) v.findViewById(R.id.dateTextView);
+        difficultyTextView = (TextView) v.findViewById(R.id.difficultyTextView);
 
         Typeface typeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/hemi.ttf");
         highScoresTitleTextView.setTypeface(typeface);
@@ -60,6 +62,7 @@ public class HighScoresFragment extends Fragment{
         scoreTextView.setTypeface(typeface);
         levelTextView.setTypeface(typeface);
         dateTextView.setTypeface(typeface);
+        difficultyTextView.setTypeface(typeface);
 
         return v;
     }

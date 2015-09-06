@@ -537,7 +537,7 @@ public class Player {
 
         boolean soundIsOn = true;
 
-        String soundStatus = retrieveSavedPreference(context.getString(R.string.sound_status) ) ;
+        String soundStatus = retrieveSavedPreference(context.getString(R.string.sound_status)) ;
 
 
         if(soundStatus.equals(context.getString(R.string.sound_off) ) ){
@@ -548,10 +548,34 @@ public class Player {
         return soundIsOn;
     }
 
-    public String getDifficulty(){
+    public String getDifficultyStatus(){
 
         return retrieveSavedPreference( context.getString(R.string.difficulty_status) );
 
+    }
+
+    public String getDifficultyString(){
+
+        String difficultyStatus = getDifficultyStatus();
+        String difficulty = null;
+
+        if(difficultyStatus.equals(context.getString(R.string.difficulty_easy) ) ){
+
+            difficulty = "Easy";
+        }
+
+        if(difficultyStatus.equals(context.getString(R.string.difficulty_medium) ) ){
+
+            difficulty = "Medium";
+        }
+
+        if(difficultyStatus.equals( context.getString(R.string.difficulty_hard) ) ){
+
+            difficulty = "Hard";
+        }
+
+
+        return difficulty;
     }
 
 ///////////////////////////////

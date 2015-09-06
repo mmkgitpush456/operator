@@ -6,6 +6,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import karavangelos.com.operator.objects.Player;
+
 /**
  * Created by karavangelos on 8/15/15.
  */
@@ -23,11 +25,29 @@ public class SplashActivity extends Activity{
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/hemi.ttf");
         splashTextView.setTypeface(typeface);
 
-
+        checkPlayerPreferences();
         runSplashSequence();
     }
 
 
+
+    private void checkPlayerPreferences(){
+
+        String soundPrefs = Player.newInstance(this).retrieveSavedPreference(getString(R.string.sound_status));
+        String difficultyPrefs = Player.newInstance(this).retrieveSavedPreference(getString(R.string.difficulty_status));
+
+        if(soundPrefs.equals("0")){
+
+            Player.newInstance(this).saveInPreferences(getString(R.string.sound_status), getString(R.string.sound_on));
+        }
+
+        if(difficultyPrefs.equals("0") ){
+
+            Player.newInstance(this).saveInPreferences(getString(R.string.difficulty_status), getString(R.string.difficulty_easy));
+        }
+
+
+    }
 
 
 

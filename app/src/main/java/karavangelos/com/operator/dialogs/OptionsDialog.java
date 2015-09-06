@@ -39,8 +39,6 @@ public class OptionsDialog extends DialogFragment{
 
     public OptionsDialog(){
 
-
-
     }
 
     public static OptionsDialog newInstance(){

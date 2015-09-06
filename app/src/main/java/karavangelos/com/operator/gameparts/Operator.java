@@ -44,7 +44,7 @@ public class Operator extends View{
 
         context = c;
         player = Player.newInstance(context);
-        difficultyStatus = player.getDifficulty();
+        difficultyStatus = player.getDifficultyStatus();
         totalNumberColors = getTotalPaintNumber();
 
         paintKey = getRandomNumber(1, totalNumberColors);

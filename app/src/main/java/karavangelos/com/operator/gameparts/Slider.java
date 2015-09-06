@@ -78,7 +78,7 @@ public class Slider extends View{
         }
 
         player = Player.newInstance(context);
-        difficultyStatus = player.getDifficulty();
+        difficultyStatus = player.getDifficultyStatus();
         totalPaintNumber = getTotalPaintNumber();
         setConstructorProtocol(quadrantKey);
 

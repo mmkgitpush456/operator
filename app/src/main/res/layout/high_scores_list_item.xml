@@ -3,7 +3,7 @@
     android:id="@+id/scoresListItemContainerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="4"
+    android:weightSum="5"
     android:orientation="horizontal"
     >
 
@@ -54,6 +54,19 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Date"
         android:id="@+id/dateTextView"
+        android:textColor="@color/white"
+        android:layout_alignTop="@+id/scoreTextView"
+        android:layout_marginTop="26dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Difficulty"
+        android:id="@+id/difficultyListItemTextView"
         android:textColor="@color/white"
         android:layout_alignTop="@+id/scoreTextView"
         android:layout_marginTop="26dp"

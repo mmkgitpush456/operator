@@ -17,7 +17,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private Context context;
 
     //set up Database attributes
-    private static final int DATABASE_VERSION = 1;                                                  //db version
+    private static final int DATABASE_VERSION = 2;                                                  //db version
     private static final String DATABASE_NAME = "scores.db";                                        //db name
     private static final String TABLE_SCORES = "SCORES";                                            //table name
 
@@ -25,6 +25,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String COLUMN_SCORE = "SCORE";                                             //column score
     private static final String COLUMN_LEVEL = "LEVEL";                                             //column level
     private static final String COLUMN_DATE = "DATE";                                               //column date
+    private static final String COLUMN_DIFFICULTY = "DIFFICULTY";                                   //column for difficulty
 
     //constructor sets the context into play.
     public DBHandler(Context context) {
@@ -42,7 +43,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "
                 + COLUMN_SCORE + " INTEGER NOT NULL, "
                 + COLUMN_LEVEL + " INTEGER NOT NULL, "
-                + COLUMN_DATE + " VARCHAR(25) NOT NULL);";
+                + COLUMN_DATE + " VARCHAR(25) NOT NULL, "
+                + COLUMN_DIFFICULTY + " VARCHAR(25) NOT NULL);";
 
         db.execSQL(CREATE_REPORTS_TABLE);
     }
@@ -52,8 +54,16 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCORES);
-        onCreate(db);
+       // db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCORES);
+       // onCreate(db);
+
+        Log.d(TAG, "Current version of the DB: " + oldVersion);
+        if (oldVersion < 2) {
+            final String ALTER_TBL =
+                    "ALTER TABLE " + TABLE_SCORES +
+                            " ADD COLUMN "+ COLUMN_DIFFICULTY +" VARCHAR(25) NULL;";
+            db.execSQL(ALTER_TBL);
+        }
 
     }
 
@@ -75,6 +85,7 @@ public class DBHandler extends SQLiteOpenHelper {
             values.put(COLUMN_SCORE, score);
             values.put(COLUMN_LEVEL, level);
             values.put(COLUMN_DATE, player.getTodaysDate() );
+            values.put(COLUMN_DIFFICULTY, player.getDifficultyString());
             db.insert(TABLE_SCORES, null, values);
 
             //Log.d(TAG, "successfully made entry into the database");
@@ -97,7 +108,7 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
 
 
-        Cursor cursor = db.query(TABLE_SCORES, new String[]{"SCORE, LEVEL, DATE"}, null, null, null, null, "SCORE DESC", "15");
+        Cursor cursor = db.query(TABLE_SCORES, new String[]{"SCORE, LEVEL, DATE, DIFFICULTY"}, null, null, null, null, "SCORE DESC", "15");
 
 
         if(cursor != null){
@@ -119,8 +130,18 @@ public class DBHandler extends SQLiteOpenHelper {
                 highScore.setLevel(cursor.getString(1));
                 highScore.setDateOfScore(cursor.getString(2));
 
+                if(cursor.getString(3)!= null && !cursor.getString(3).isEmpty() ){
+
+                    highScore.setDifficultyLevel(cursor.getString(3));
+
+                } else {
+                    highScore.setDifficultyLevel("Easy");
+                }
+
+
                 scores[i] = highScore;
 
+                Log.d(TAG, "DIFFICULTY # " + (i + 1) + ": " + cursor.getString(3));
 
                // Log.d(TAG, "Row " + i +": SCORE : " + cursor.getString(0) + ", LEVEL: " + cursor.getString(1) + ", DATE: " + cursor.getString(2) );
                 i++;

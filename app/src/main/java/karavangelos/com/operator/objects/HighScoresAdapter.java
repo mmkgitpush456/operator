@@ -37,6 +37,7 @@ public class HighScoresAdapter extends ArrayAdapter {
         TextView levelTextView;
         TextView dateTextView;
         TextView scoreIndexTextView;
+        TextView difficultyListItemTextView;
 
     }
 
@@ -58,12 +59,14 @@ public class HighScoresAdapter extends ArrayAdapter {
            viewHolder.levelTextView = (TextView) convertView.findViewById(R.id.levelTextView);
            viewHolder.dateTextView = (TextView) convertView.findViewById(R.id.dateTextView);
            viewHolder.scoreIndexTextView = (TextView) convertView.findViewById(R.id.scoreIndexTextView);
+           viewHolder.difficultyListItemTextView = (TextView) convertView.findViewById(R.id.difficultyListItemTextView);
            Typeface typeface = Typeface.createFromAsset(activity.getAssets(), "fonts/hemi.ttf");
 
            viewHolder.scoreTextView.setTypeface(typeface);
            viewHolder.levelTextView.setTypeface(typeface);
            viewHolder.dateTextView.setTypeface(typeface);
            viewHolder.scoreIndexTextView.setTypeface(typeface);
+           viewHolder.difficultyListItemTextView.setTypeface(typeface);
 
 
            convertView.setTag(viewHolder);
@@ -72,6 +75,7 @@ public class HighScoresAdapter extends ArrayAdapter {
            convertView.setTag(R.id.levelTextView, viewHolder.levelTextView);
            convertView.setTag(R.id.dateTextView, viewHolder.dateTextView);
            convertView.setTag(R.id.scoreIndexTextView, viewHolder.scoreIndexTextView);
+           convertView.setTag(R.id.difficultyListItemTextView, viewHolder.difficultyListItemTextView);
 
 
        } else {
@@ -88,6 +92,7 @@ public class HighScoresAdapter extends ArrayAdapter {
         viewHolder.scoreIndexTextView.setText(((position + 1) + ":" ));
         viewHolder.levelTextView.setText(highScores.get(position).getLevel());
         viewHolder.dateTextView.setText(highScores.get(position).getDateOfScore());
+        viewHolder.difficultyListItemTextView.setText(highScores.get(position).getDifficultyLevel());
 
         return convertView;
     }
