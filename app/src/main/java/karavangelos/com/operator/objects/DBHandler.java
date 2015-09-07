@@ -56,13 +56,17 @@ public class DBHandler extends SQLiteOpenHelper {
 
        // db.execSQL("DROP TABLE IF EXISTS " + TABLE_SCORES);
        // onCreate(db);
-
-        Log.d(TAG, "Current version of the DB: " + oldVersion);
+        //Log.d(TAG, "Current version of the DB: " + oldVersion);
         if (oldVersion < 2) {
             final String ALTER_TBL =
                     "ALTER TABLE " + TABLE_SCORES +
                             " ADD COLUMN "+ COLUMN_DIFFICULTY +" VARCHAR(25) NULL;";
             db.execSQL(ALTER_TBL);
+        }
+
+        if(oldVersion < 3){
+
+            
         }
 
     }
